@@ -1,5 +1,5 @@
 {
-  "name": "chatchat",
+  "name": "chitchat_ui",
   "version": "1.0.0",
   "description": "Chatting Web App",
   "private": true,
@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/InveterateCoder/chatchat/issues"
   },
-  "homepage": "https://github.com/InveterateCoder/chatchat#readme"
+  "homepage": "https://github.com/InveterateCoder/chatchat#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
 }

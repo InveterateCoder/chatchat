@@ -1,0 +1,20 @@
+{
+  "name": "chitchat_api",
+  "version": "1.0.0",
+  "description": "Chatting Web App",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InveterateCoder/chatchat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/InveterateCoder/chatchat/issues"
+  },
+  "homepage": "https://github.com/InveterateCoder/chatchat#readme"
+}
