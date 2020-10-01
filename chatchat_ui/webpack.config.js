@@ -1,3 +1,5 @@
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 
@@ -81,6 +83,14 @@ const serverConfig = {
       },
     ],
   },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public', to: 'public' },
+      ],
+    }),
+  ],
 }
 
 module.exports = [clientConfig, serverConfig]
