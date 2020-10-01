@@ -1,11 +1,15 @@
-import React, { useMemo, useState } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { ThemeProvider, CssBaseline } from '@material-ui/core'
+import { connect } from 'react-redux'
 import Main from './Main.jsx'
 import getTheme from './theme'
 
-export default function App() {
-  const [dark, setDark] = useState(localStorage.getItem('dark'))
-  const theme = useMemo(() => getTheme(dark), [dark])
+const mapStateToProps = ({ dark }) => ({
+  theme: getTheme(dark),
+})
+
+function App({ theme }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -13,3 +17,9 @@ export default function App() {
     </ThemeProvider>
   )
 }
+
+App.propTypes = {
+  theme: PropTypes.isRequired,
+}
+
+export default connect(mapStateToProps)(App)
