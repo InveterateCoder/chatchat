@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/InveterateCoder/chatchat#readme",
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
