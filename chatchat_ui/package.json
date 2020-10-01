@@ -4,6 +4,9 @@
   "description": "Chatting Web App",
   "private": true,
   "scripts": {
+    "start": "nodemon --watch server --exec \"npm run dev-server && node dist/server.js\"",
+    "dev-server": "webpack --config webpack.config.server.dev.js",
+    "compile": "rm -r dist && webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,9 +21,12 @@
   },
   "homepage": "https://github.com/InveterateCoder/chatchat#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "source-map-support": "^0.5.19"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
