@@ -76,7 +76,6 @@ const serverConfig = {
                   },
                 },
               ],
-              '@babel/preset-react',
             ],
           },
         },

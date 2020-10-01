@@ -1,11 +1,10 @@
 require('dotenv').config()
 const path = require('path')
 const express = require('express')
-const render = require('./render.jsx').default
+const render = require('./render')
 
 function server(val) {
   const app = val || express()
-  app.set('view engine', 'ejs')
 
   app.use(express.static(path.resolve(__dirname, 'public')))
   app.get('*', render)
