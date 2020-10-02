@@ -1,25 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { ThemeProvider, CssBaseline } from '@material-ui/core'
-import { connect } from 'react-redux'
-import Main from './Main.jsx'
+import { useSelector } from 'react-redux'
+import Home from './Home.jsx'
 import getTheme from './theme'
 
-const mapStateToProps = ({ dark }) => ({
-  theme: getTheme(dark),
-})
-
-function App({ theme }) {
+// eslint-disable-next-line react/prop-types
+function App() {
+  const theme = useSelector(({ dark }) => getTheme(dark))
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Main />
+      <Home />
     </ThemeProvider>
   )
 }
 
-App.propTypes = {
-  theme: PropTypes.isRequired,
-}
-
-export default connect(mapStateToProps)(App)
+export default App

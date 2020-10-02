@@ -8,6 +8,8 @@ function getTheme(dark) {
     palette: {
       type: dark ? 'dark' : 'light',
     },
+    drawerWidth: 270,
+    baseShiftTop: 55,
   })
 }
 
