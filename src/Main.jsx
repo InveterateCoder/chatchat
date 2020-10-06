@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   contentOpen: {
     marginLeft: theme.drawerWidth,
     transition: theme.transitions.create(['margin'], {
-      easing: theme.transitions.easing.easeOut,
+      easing: theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { Drawer, useMediaQuery, useTheme } from '@material-ui/core'
+import { useMediaQuery, useTheme, SwipeableDrawer } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { setDrawerType, setDrawerOpen } from './store/actions'
-import Users from './Users.jsx'
+import DrawerContent from './DrawerContent.jsx'
 
 function AppDrawer() {
   const dtype = useSelector((state) => state.dtype)
@@ -15,14 +15,16 @@ function AppDrawer() {
     dispatch(setDrawerType(sm, md))
   }, [sm, md])
   return (
-    <Drawer
+    <SwipeableDrawer
       anchor="left"
+      swipeAreaWidth={70}
       open={dopen}
       variant={dtype}
       onClose={() => dispatch(setDrawerOpen(false))}
+      onOpen={() => dispatch(setDrawerOpen(true))}
     >
-      <Users />
-    </Drawer>
+      <DrawerContent />
+    </SwipeableDrawer>
   )
 }
 

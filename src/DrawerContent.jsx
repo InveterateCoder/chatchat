@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  List, ListItem, ListItemText, makeStyles
+  List, ListItem, ListItemText, makeStyles,
 } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import clsx from 'clsx'
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Users() {
+function DrawerContent() {
   const dtype = useSelector((state) => state.dtype)
   const classes = useStyles()
   return (
@@ -27,4 +27,4 @@ function Users() {
   )
 }
 
-export default Users
+export default DrawerContent

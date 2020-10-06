@@ -1,10 +1,11 @@
 import React from 'react'
 import {
   AppBar, Toolbar, IconButton,
-  Typography, Button, makeStyles, Switch, Grow
+  Typography, Button, makeStyles, Grow,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import CloseIcon from '@material-ui/icons/Close'
+import { Brightness2 as DarkIcon, Brightness7 as LightIcon } from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import clsx from 'clsx'
 import { setDark, setDrawerOpen, dType } from './store/actions'
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   titleOpen: {
     marginLeft: theme.spacing(-4),
   },
-  switch: {
+  brighness: {
     marginRight: theme.spacing(1),
   },
   aboveDrawer: {
@@ -37,7 +38,7 @@ function ChatAppBar() {
   const classes = useStyles()
 
   return (
-    <AppBar position="fixed" className={classes.aboveDrawer}>
+    <AppBar position="fixed" className={classes.aboveDrawer} color="default">
       <Toolbar variant="dense">
         <Grow in={dtype !== dType.permanent}>
           <IconButton
@@ -53,13 +54,17 @@ function ChatAppBar() {
         <Typography variant="h6" className={clsx(classes.title, { [classes.titleOpen]: dtype === dType.permanent })}>
           Chat-Chat
         </Typography>
-        <Switch
+        <IconButton
           color="default"
-          checked={dark}
-          onChange={({ target: { checked } }) => dispatch(setDark(checked))}
-          size="small"
-          className={classes.switch}
-        />
+          onClick={() => dispatch(setDark(!dark))}
+          className={classes.brighness}
+        >
+          {
+            dark
+              ? <LightIcon />
+              : <DarkIcon />
+          }
+        </IconButton>
         <Button color="inherit">Logout</Button>
       </Toolbar>
     </AppBar>

@@ -13,7 +13,7 @@ config.mode = 'development'
 config.devtool = 'source-map'
 config.entry.app.push('webpack-hot-middleware/client')
 config.plugins = config.plugins || []
-config.plugins.push(new webpack.HotModuleReplacementPlugin())
+config.plugins.unshift(new webpack.HotModuleReplacementPlugin())
 const compiler = webpack(config)
 app.use(wpDevMiddleware(compiler))
 app.use(wpHotMiddleware(compiler))
