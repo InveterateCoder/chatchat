@@ -2,7 +2,8 @@ import React from 'react'
 import AppBar from './AppBar.jsx'
 import Drawer from './Drawer.jsx'
 import Main from './Main.jsx'
-import Login from './Login.jsx'
+import SignIn from './SignIn.jsx'
+import SignUp from './SignUp.jsx'
 import keys from './keys'
 
 export default function Home() {
@@ -15,5 +16,5 @@ export default function Home() {
       </>
     )
   }
-  return <Login />
+  return <SignUp />
 }
