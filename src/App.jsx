@@ -1,7 +1,8 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider, CssBaseline } from '@material-ui/core'
 import { useSelector } from 'react-redux'
-import Home from './Home.jsx'
+import Routes from './Routes.jsx'
 import getTheme from './theme'
 
 // eslint-disable-next-line react/prop-types
@@ -10,7 +11,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Home />
+      <Router>
+        <Routes />
+      </Router>
     </ThemeProvider>
   )
 }

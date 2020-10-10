@@ -6,7 +6,7 @@ import DrawerContent from './DrawerContent.jsx'
 
 function AppDrawer() {
   const dtype = useSelector((state) => state.dtype)
-  const dopen = useSelector((state) => state.dopen || false)
+  const dopen = useSelector((state) => state.dopen)
   const dispatch = useDispatch()
   const theme = useTheme()
   const sm = useMediaQuery(theme.breakpoints.down('sm'))

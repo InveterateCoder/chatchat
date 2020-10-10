@@ -1,9 +1,10 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react'
 import {
-  Container, Avatar, TextField, FormControl, makeStyles, Typography, Button, Grid,
+  Container, Avatar, TextField, FormControl,
+  makeStyles, Typography, Button, Grid, Link
 } from '@material-ui/core'
 import { Lock } from '@material-ui/icons'
+import { Link as LinkDOM } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -12,31 +13,23 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     padding: theme.spacing(3),
     background: theme.palette.background.paper,
-    rowGap: '1.5em',
+    rowGap: '1.7em',
     marginTop: '5em',
     boxShadow: theme.shadows[8],
-  },
-  avatar: {
-    backgroundColor: 'transparent',
-  },
-  btnLink: {
-    '&:hover': {
-      backgroundColor: 'transparent',
-      textDecoration: 'underline',
-    },
-    '&:active': {
-      color: theme.palette.secondary.main,
-    },
   },
 }))
 
 function SignIn() {
   const classes = useStyles()
+
+  const onSubmit = (ev) => {
+    ev.preventDefault()
+  }
   return (
     <Container maxWidth="sm">
-      <FormControl component="form" className={classes.form}>
-        <Avatar className={classes.avatar}>
-          <Lock color="action" style={{ fontSize: '1.3em' }} />
+      <FormControl component="form" className={classes.form} onSubmit={onSubmit}>
+        <Avatar>
+          <Lock />
         </Avatar>
         <Typography variant="h5" style={{ marginTop: '-.7em' }}>
           Sign In
@@ -45,8 +38,8 @@ function SignIn() {
           variant="outlined"
           size="small"
           fullWidth
-          label="Code"
-          placeholder="4 digit number"
+          label="Nickname"
+          placeholder="Your nickname"
         />
         <TextField
           variant="outlined"
@@ -56,13 +49,17 @@ function SignIn() {
           placeholder="Your password"
           type="password"
         />
-        <Button size="small" fullWidth variant="contained" color="primary" style={{ marginTop: '1em' }}>Sign In</Button>
+        <Button type="submit" size="small" fullWidth variant="contained" color="primary" style={{ marginTop: '1em' }}>Sign In</Button>
         <Grid container justify="space-between" style={{ marginTop: '-.7em' }}>
           <Grid item>
-            <Button disableRipple className={classes.btnLink} variant="text" size="small" color="primary">Forgot password?</Button>
+            <Link component={LinkDOM} to="/restore">
+              Forgot password?
+            </Link>
           </Grid>
           <Grid item>
-            <Button disableRipple className={classes.btnLink} variant="text" size="small" color="primary">Sign Up</Button>
+            <Link component={LinkDOM} to="/signup">
+              Sign Up
+            </Link>
           </Grid>
         </Grid>
       </FormControl>
