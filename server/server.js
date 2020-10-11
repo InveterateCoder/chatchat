@@ -1,32 +1,20 @@
 require('dotenv').config()
 const path = require('path')
 const express = require('express')
-const { ApolloServer } = require('apollo-server-express')
+const apiRouter = require('./apiRouter')
 const render = require('./render')
-const schema = require('./schema')
+const { connectDb } = require('./db')
 
-function server(val) {
-  const resolvers = {
-    Query: {
-      users: () => [{ name: 'Arthur', url: 'https://lol.lo' }],
-    },
-    Mutation: {
-      signup(_, { creds }) {
-        console.log(creds)
-        return { name: 'Arthur', url: 'https://lol.lo' }
-      },
-    },
-  }
-
+async function server(val) {
   const app = val || express()
-  app.use(express.static(path.resolve(__dirname, 'public')))
+  await connectDb()
+  app
+    .use(express.static(path.resolve(__dirname, 'public')))
+    .use(express.json())
+    .use(express.urlencoded({ extended: true }))
+    .use(apiRouter)
+    .use(render)
 
-  const apolloServer = new ApolloServer({
-    typeDefs: schema,
-    resolvers,
-  })
-  apolloServer.applyMiddleware({ app })
-  app.use(render)
   const port = process.env.PORT || 8000
   app.listen(port, console.log(`server started on port ${port}`))
 }
