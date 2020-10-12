@@ -24,10 +24,7 @@ const clientConfig = {
                 '@babel/preset-env',
                 {
                   targets: {
-                    chrome: 55,
-                    firefox: 50,
-                    safari: 10,
-                    edge: 38,
+                    chrome: 65,
                   },
                 },
               ],

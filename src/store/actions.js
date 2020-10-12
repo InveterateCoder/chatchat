@@ -31,3 +31,9 @@ export const setSignType = (type) => ({
   type: SET_SIGN_TYPE,
   payload: type,
 })
+
+export const SET_JWT_TOKEN = 'set_jwt_token'
+export const setJWTToken = (token) => ({
+  type: SET_JWT_TOKEN,
+  payload: token,
+})

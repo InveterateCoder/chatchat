@@ -6,7 +6,10 @@ import {
 } from '@material-ui/core'
 import { Photo } from '@material-ui/icons'
 import { Link as LinkDOM } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { signup } from '../shared/apiRoutes'
+import { validateSignUpForm } from '../shared/validators'
+import { setJWTToken } from './store/actions'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -29,64 +32,52 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUp() {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
   const [errors, setErrors] = useState({
     nick: '',
     password: '',
     confirm: '',
-    image: true,
+    image: '',
   })
   const onFileChange = (ev) => {
     const file = ev.target.files[0]
     URL.revokeObjectURL(imageUrl)
     setImageUrl(URL.createObjectURL(file))
-    setErrors({ ...errors, image: true })
-  }
-  const validateForm = (form) => {
-    const newErrors = {
-      nick: '',
-      password: '',
-      confirm: '',
-      image: true,
-    }
-    if (form.nick.length < 3 || form.nick.length > 40) {
-      newErrors.nick = 'nickname must be from 3 to 40 characters long'
-    }
-    if (form.password.length < 6) {
-      newErrors.password = 'password must be minimum 6 characters long'
-    }
-    if (form.password.length > 128) {
-      newErrors.password = 'password\'s length exceeds 128 characters'
-    }
-    if (!newErrors.password && form.password !== form.confirm) {
-      newErrors.confirm = 'failed to confirm, passwords do not match'
-    }
-    if (!imageUrl) {
-      newErrors.image = false
-    }
-    setErrors(newErrors)
-    if (newErrors.nick || newErrors.password || newErrors.confirm || !newErrors.image) {
-      return false
-    }
-    return true
+    setErrors({ ...errors, image: '' })
   }
   const onChange = ({ target: { name } }) => {
     if (errors[name]) {
       setErrors({ ...errors, [name]: '' })
     }
   }
-  const onSubmit = (ev) => {
+  const onSubmit = async (ev) => {
     ev.preventDefault()
     const form = new FormData(ev.target)
     const variables = {}
     Array.from(form.entries()).forEach(([key, val]) => {
       variables[key] = val
     })
-    if (validateForm(variables)) {
-      fetch(signup, {
-        method: 'POST',
-        body: form,
-      }).then((res) => console.log(res.statusText))
+    const validity = validateSignUpForm(variables)
+    validity.valid = true
+    if (validity.valid) {
+      try {
+        const res = await fetch(signup, { method: 'POST', body: form })
+        if (res.status === 200) {
+          const token = await res.text()
+          if (token) {
+            dispatch(setJWTToken(token))
+          } else {
+            throw new Error('Something went wrong, please try again.')
+          }
+        } else {
+          throw new Error(await res.text())
+        }
+      } catch (err) {
+        alert(err.message)
+      }
+    } else {
+      setErrors(validity.errors)
     }
   }
   return (
@@ -94,7 +85,7 @@ function SignUp() {
       <FormControl component="form" className={classes.form} onSubmit={onSubmit} encType="multipart/form-data">
         <input accept="image/*" type="file" id="image" name="image" className={classes.fileInput} onChange={onFileChange} />
         <ButtonBase component="label" htmlFor="image" className={classes.fileBtnRadius}>
-          <Badge badgeContent="Required" color="error" className={classes.fileBtnRadius} invisible={errors.image}>
+          <Badge badgeContent="Required" color="error" className={classes.fileBtnRadius} invisible={!errors.image}>
             <Avatar src={imageUrl}>
               <Photo />
             </Avatar>

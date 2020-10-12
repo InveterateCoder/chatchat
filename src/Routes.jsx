@@ -13,16 +13,11 @@ export default function Routes() {
   const token = useSelector((state) => state.token)
   if (token) {
     return (
-      <Route render={
-        (routeProps) => {
-          <>
-            <AppBar {...routeProps} />
-            <Drawer {...routeProps} />
-            <Body {...routeProps} />
-          </>
-        }
-      }
-      />
+      <>
+        <AppBar />
+        <Drawer />
+        <Body />
+      </>
     )
   }
   return (
