@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid')
 const bcrypt = require('bcrypt')
 const { extension } = require('mime-types')
 const jwt = require('jsonwebtoken')
-const { signup } = require('../shared/apiRoutes')
+const { signup, signin } = require('../shared/apiRoutes')
 const { getDb } = require('./db')
 const codes = require('./errorCode')
 const { validateSignUpForm } = require('../shared/validators')
@@ -58,6 +58,11 @@ api.post(signup, (req, res) => {
     }
     return res.status(500).send(codes[500])
   })
+})
+
+api.post(signin, (req, res) => {
+  console.log(req.body)
+  res.end()
 })
 
 module.exports = api

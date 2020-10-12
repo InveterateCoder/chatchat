@@ -1,4 +1,23 @@
-/* eslint-disable import/prefer-default-export */
+function validateNick(nick) {
+  if (nick.length < 3) {
+    return 'Nickname must be minimum 3 characters long.'
+  }
+  if (nick.length > 40) {
+    return 'Nickname must not be more than 40 characters long.'
+  }
+  return ''
+}
+
+function validatePassword(password) {
+  if (password.length < 6) {
+    return 'Password must be minimum 6 characters long.'
+  }
+  if (password.length > 128) {
+    return 'Password\'s length exceeds 128 characters.'
+  }
+  return ''
+}
+
 export const validateSignUpForm = ({
   nick, password, confirm, image,
 }) => {
@@ -8,22 +27,35 @@ export const validateSignUpForm = ({
     confirm: '',
     image: '',
   }
-  if (nick.length < 3 || nick.length > 40) {
-    errors.nick = 'Nickname must be from 3 to 40 characters long'
-  }
-  if (password.length < 6) {
-    errors.password = 'Password must be minimum 6 characters long'
-  }
-  if (password.length > 128) {
-    errors.password = 'Password\'s length exceeds 128 characters'
-  }
+  errors.nick = validateNick(nick)
+  errors.password = validatePassword(password)
+
   if (!errors.password && password !== confirm) {
-    errors.confirm = 'Failed to confirm, passwords do not match'
+    errors.confirm = 'Failed to confirm, passwords do not match.'
   }
   if (!image || !image.size) {
     errors.image = 'Avatar is required. Please select a picture.'
   }
   if (errors.nick || errors.password || errors.confirm || errors.image) {
+    return {
+      valid: false,
+      errors,
+    }
+  }
+  return {
+    valid: true,
+  }
+}
+
+export const validateSignInForm = ({ nick, password }) => {
+  const errors = {
+    nick: '',
+    password: '',
+  }
+  errors.nick = validateNick(nick)
+  errors.password = validatePassword(password)
+
+  if (errors.nick || errors.password) {
     return {
       valid: false,
       errors,

@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Container, Avatar, TextField, FormControl,
-  makeStyles, Typography, Button, Grid, Link
+  makeStyles, Typography, Button, Grid, Link,
+  IconButton, Snackbar, Slide,
 } from '@material-ui/core'
-import { Lock } from '@material-ui/icons'
+import { Lock, Close } from '@material-ui/icons'
 import { Link as LinkDOM } from 'react-router-dom'
+import { validateSignInForm } from '../shared/validators'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -21,9 +23,41 @@ const useStyles = makeStyles((theme) => ({
 
 function SignIn() {
   const classes = useStyles()
+  const [errors, setErrors] = useState({
+    nick: '',
+    password: '',
+  })
+  const [error, setError] = useState({
+    message: '',
+    open: false,
+  })
 
-  const onSubmit = (ev) => {
+  const onChange = ({ target: { name } }) => {
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: '' })
+    }
+  }
+
+  const onSubmit = async (ev) => {
     ev.preventDefault()
+    const form = new FormData(ev.target)
+    const variables = {}
+    Array.from(form.entries()).forEach(([key, val]) => {
+      variables[key] = val
+    })
+    const validity = validateSignInForm(variables)
+    if (validity.valid) {
+      try {
+
+      } catch (err) {
+        setError({
+          message: err.message,
+          open: true,
+        })
+      }
+    } else {
+      setErrors(validity.errors)
+    }
   }
   return (
     <Container maxWidth="sm">
@@ -40,6 +74,10 @@ function SignIn() {
           fullWidth
           label="Nickname"
           placeholder="Your nickname"
+          name="nick"
+          error={Boolean(errors.nick)}
+          helperText={errors.nick}
+          onChange={onChange}
         />
         <TextField
           variant="outlined"
@@ -48,6 +86,10 @@ function SignIn() {
           label="Password"
           placeholder="Your password"
           type="password"
+          name="password"
+          error={Boolean(errors.password)}
+          helperText={errors.password}
+          onChange={onChange}
         />
         <Button type="submit" size="small" fullWidth variant="contained" color="primary" style={{ marginTop: '1em' }}>Sign In</Button>
         <Grid container justify="space-between" style={{ marginTop: '-.7em' }}>
@@ -63,6 +105,22 @@ function SignIn() {
           </Grid>
         </Grid>
       </FormControl>
+      <Snackbar
+        className={classes.snack}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        open={error.open}
+        onClose={() => setError({ ...error, open: false })}
+        message={error.message}
+        TransitionComponent={Slide}
+        action={(
+          <IconButton color="inherit" onClick={() => setError({ ...error, open: false })}>
+            <Close />
+          </IconButton>
+        )}
+      />
     </Container>
   )
 }

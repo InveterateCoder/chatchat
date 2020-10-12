@@ -2,9 +2,10 @@
 import React, { useState } from 'react'
 import {
   Container, Avatar, TextField, FormControl, Link,
-  makeStyles, Typography, Button, Grid, Badge, ButtonBase,
+  makeStyles, Typography, Button, Grid, Badge,
+  ButtonBase, Snackbar, IconButton, Slide
 } from '@material-ui/core'
-import { Photo } from '@material-ui/icons'
+import { Photo, Close } from '@material-ui/icons'
 import { Link as LinkDOM } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { signup } from '../shared/apiRoutes'
@@ -28,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
   fileBtnRadius: {
     borderRadius: 35,
   },
+  snack: {
+    whiteSpace: 'pre-line',
+    '& > .MuiPaper-root': {
+      backgroundColor: theme.palette.error.main,
+    },
+  },
 }))
 
 function SignUp() {
@@ -39,6 +46,10 @@ function SignUp() {
     password: '',
     confirm: '',
     image: '',
+  })
+  const [error, setError] = useState({
+    message: '',
+    open: false,
   })
   const onFileChange = (ev) => {
     const file = ev.target.files[0]
@@ -59,7 +70,6 @@ function SignUp() {
       variables[key] = val
     })
     const validity = validateSignUpForm(variables)
-    validity.valid = true
     if (validity.valid) {
       try {
         const res = await fetch(signup, { method: 'POST', body: form })
@@ -74,7 +84,10 @@ function SignUp() {
           throw new Error(await res.text())
         }
       } catch (err) {
-        alert(err.message)
+        setError({
+          message: err.message,
+          open: true,
+        })
       }
     } else {
       setErrors(validity.errors)
@@ -139,6 +152,22 @@ function SignUp() {
           </Grid>
         </Grid>
       </FormControl>
+      <Snackbar
+        className={classes.snack}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        open={error.open}
+        onClose={() => setError({ ...error, open: false })}
+        message={error.message}
+        TransitionComponent={Slide}
+        action={(
+          <IconButton color="inherit" onClick={() => setError({ ...error, open: false })}>
+            <Close />
+          </IconButton>
+        )}
+      />
     </Container>
   )
 }
