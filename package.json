@@ -4,7 +4,7 @@
   "description": "Chatting Web App",
   "private": true,
   "scripts": {
-    "start": "nodemon --watch server --exec \"npm run dev-server && node dist/server.js\"",
+    "start": "nodemon --watch server --ignore server/dbscripts --exec \"npm run dev-server && node dist/server.js\"",
     "dev-server": "webpack --config webpack.config.server.dev.js",
     "compile": "rm -r dist && webpack",
     "test": "echo \"Error: no test specified\" && exit 1"

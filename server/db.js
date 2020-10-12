@@ -3,7 +3,7 @@ const { MongoClient } = require('mongodb')
 let db
 
 async function connectDb() {
-  const url = 'mongodb://localhost/chatchat'
+  const url = process.env.dbURL
   const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
   await client.connect()
   console.log('connected to MongoDB at', url)
