@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   Container, Avatar, TextField, FormControl,
   makeStyles, Typography, Button, Grid, Link,
@@ -10,6 +11,7 @@ import { useDispatch } from 'react-redux'
 import { validateSignInForm } from '../shared/validators'
 import { signin } from '../shared/apiRoutes'
 import { login } from './store/actions'
+import withWait from './withWait.jsx'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -30,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function SignIn() {
+function SignIn({ load }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [errors, setErrors] = useState({
@@ -58,6 +60,7 @@ function SignIn() {
     const validity = validateSignInForm(variables)
     if (validity.valid) {
       try {
+        load(true)
         const res = await fetch(signin, {
           method: 'POST',
           headers: {
@@ -76,6 +79,7 @@ function SignIn() {
           throw new Error(await res.text())
         }
       } catch (err) {
+        load(false)
         setError({
           message: err.message,
           open: true,
@@ -121,7 +125,7 @@ function SignIn() {
         <Grid container justify="space-between" style={{ marginTop: '-.7em' }}>
           <Grid item />
           <Grid item>
-            <Link component={LinkDOM} to="/signup">
+            <Link component={LinkDOM} to="/signup" color="inherit">
               Sign Up
             </Link>
           </Grid>
@@ -146,4 +150,7 @@ function SignIn() {
     </Container>
   )
 }
-export default SignIn
+SignIn.propTypes = {
+  load: PropTypes.func.isRequired,
+}
+export default withWait(SignIn)

@@ -1,13 +1,15 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   Container, Avatar, TextField, FormControl, Link,
   makeStyles, Typography, Button, Grid, Badge,
-  ButtonBase, Snackbar, IconButton, Slide
+  ButtonBase, Snackbar, IconButton, Slide,
 } from '@material-ui/core'
 import { Photo, Close } from '@material-ui/icons'
 import { Link as LinkDOM } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import withWait from './withWait.jsx'
 import { signup } from '../shared/apiRoutes'
 import { validateSignUpForm } from '../shared/validators'
 import { login } from './store/actions'
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function SignUp() {
+function SignUp({ load }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
@@ -72,6 +74,7 @@ function SignUp() {
     const validity = validateSignUpForm(variables)
     if (validity.valid) {
       try {
+        load(true)
         const res = await fetch(signup, { method: 'POST', body: form })
         if (res.status === 200) {
           const token = await res.text()
@@ -84,6 +87,7 @@ function SignUp() {
           throw new Error(await res.text())
         }
       } catch (err) {
+        load(false)
         setError({
           message: err.message,
           open: true,
@@ -146,7 +150,7 @@ function SignUp() {
         <Grid container justify="space-between" style={{ marginTop: '-.7em' }}>
           <Grid item />
           <Grid item>
-            <Link component={LinkDOM} to="/signin">
+            <Link component={LinkDOM} to="/signin" color="inherit">
               Sign In
             </Link>
           </Grid>
@@ -171,4 +175,7 @@ function SignUp() {
     </Container>
   )
 }
-export default SignUp
+SignUp.propTypes = {
+  load: PropTypes.func.isRequired,
+}
+export default withWait(SignUp)

@@ -30,6 +30,7 @@ const clientConfig = {
               ],
               '@babel/preset-react',
             ],
+            plugins: ['emotion'],
           },
         },
       },

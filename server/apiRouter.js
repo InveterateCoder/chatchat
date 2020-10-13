@@ -1,6 +1,6 @@
-const { readFile } = require('fs/promises')
 const api = require('express').Router()
 const formidable = require('formidable')
+const Jimp = require('jimp')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { signup, signin } = require('../shared/apiRoutes')
@@ -23,14 +23,15 @@ api.post(signup, (req, res) => {
     if (!validity.valid) {
       return res.status(400).send(Object.values(validity.errors).filter((val) => val).join('\n'))
     }
-    if (!['image/png', 'image/jpeg', 'image/gif'].includes(files.image.type)) {
+    if (!['image/png', 'image/jpeg'].includes(files.image.type)) {
       return res.status(400).send(codes.image)
     }
     const user = {
       nick: fields.nick,
       password: await bcrypt.hash(fields.password, Number(process.env.saltRounds)),
       imageType: files.image.type,
-      image: await readFile(files.image.path),
+      image: await Jimp.read(files.image.path)
+        .then((image) => image.cover(500, 500).getBufferAsync(files.image.type)),
     }
     const db = getDb()
     try {
