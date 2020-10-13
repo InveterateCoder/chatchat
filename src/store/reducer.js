@@ -1,7 +1,7 @@
 import initialData from './initialData'
 import {
   SET_DARK, SET_DRAWER_TYPE, SET_DRAWER_OPEN,
-  SET_SIGN_TYPE, SET_JWT_TOKEN,
+  SET_SIGN_TYPE, LOGIN, LOGOUT,
 } from './actions'
 import memory from './memory'
 
@@ -16,9 +16,18 @@ export default function reducer(state = initialData, action) {
       return { ...state, dopen: action.payload }
     case SET_SIGN_TYPE:
       return { ...state, sign: action.payload }
-    case SET_JWT_TOKEN:
+    case LOGIN:
       memory.token = action.payload
       return { ...state, token: action.payload, sign: 'in' }
+    case LOGOUT:
+      memory.token = ''
+      memory.dark = ''
+      return {
+        ...state,
+        token: '',
+        dark: '',
+        sign: 'in',
+      }
     default:
       return state
   }

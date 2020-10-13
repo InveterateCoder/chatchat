@@ -6,7 +6,10 @@ import {
 } from '@material-ui/core'
 import { Lock, Close } from '@material-ui/icons'
 import { Link as LinkDOM } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { validateSignInForm } from '../shared/validators'
+import { signin } from '../shared/apiRoutes'
+import { login } from './store/actions'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -19,10 +22,17 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '5em',
     boxShadow: theme.shadows[8],
   },
+  snack: {
+    whiteSpace: 'pre-line',
+    '& > .MuiPaper-root': {
+      backgroundColor: theme.palette.error.main,
+    },
+  },
 }))
 
 function SignIn() {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const [errors, setErrors] = useState({
     nick: '',
     password: '',
@@ -48,7 +58,23 @@ function SignIn() {
     const validity = validateSignInForm(variables)
     if (validity.valid) {
       try {
-
+        const res = await fetch(signin, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(variables),
+        })
+        if (res.status === 200) {
+          const token = await res.text()
+          if (token) {
+            dispatch(login(token))
+          } else {
+            throw new Error('Something went wrong, please try again.')
+          }
+        } else {
+          throw new Error(await res.text())
+        }
       } catch (err) {
         setError({
           message: err.message,
@@ -93,11 +119,7 @@ function SignIn() {
         />
         <Button type="submit" size="small" fullWidth variant="contained" color="primary" style={{ marginTop: '1em' }}>Sign In</Button>
         <Grid container justify="space-between" style={{ marginTop: '-.7em' }}>
-          <Grid item>
-            <Link component={LinkDOM} to="/restore">
-              Forgot password?
-            </Link>
-          </Grid>
+          <Grid item />
           <Grid item>
             <Link component={LinkDOM} to="/signup">
               Sign Up

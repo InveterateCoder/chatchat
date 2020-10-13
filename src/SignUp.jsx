@@ -10,7 +10,7 @@ import { Link as LinkDOM } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { signup } from '../shared/apiRoutes'
 import { validateSignUpForm } from '../shared/validators'
-import { setJWTToken } from './store/actions'
+import { login } from './store/actions'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -76,7 +76,7 @@ function SignUp() {
         if (res.status === 200) {
           const token = await res.text()
           if (token) {
-            dispatch(setJWTToken(token))
+            dispatch(login(token))
           } else {
             throw new Error('Something went wrong, please try again.')
           }
@@ -96,7 +96,7 @@ function SignUp() {
   return (
     <Container maxWidth="sm">
       <FormControl component="form" className={classes.form} onSubmit={onSubmit} encType="multipart/form-data">
-        <input accept="image/*" type="file" id="image" name="image" className={classes.fileInput} onChange={onFileChange} />
+        <input accept=".jpg,.png,.gif" type="file" id="image" name="image" className={classes.fileInput} onChange={onFileChange} />
         <ButtonBase component="label" htmlFor="image" className={classes.fileBtnRadius}>
           <Badge badgeContent="Required" color="error" className={classes.fileBtnRadius} invisible={!errors.image}>
             <Avatar src={imageUrl}>

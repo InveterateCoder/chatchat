@@ -1,6 +1,6 @@
 function validateNick(nick) {
   if (nick.length < 3) {
-    return 'Nickname must be minimum 3 characters long.'
+    return 'Nickname must be at least 3 characters long.'
   }
   if (nick.length > 40) {
     return 'Nickname must not be more than 40 characters long.'
@@ -10,7 +10,7 @@ function validateNick(nick) {
 
 function validatePassword(password) {
   if (password.length < 6) {
-    return 'Password must be minimum 6 characters long.'
+    return 'Password must be at least 6 characters long.'
   }
   if (password.length > 128) {
     return 'Password\'s length exceeds 128 characters.'

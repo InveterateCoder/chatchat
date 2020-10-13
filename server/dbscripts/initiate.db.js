@@ -5,7 +5,7 @@ db.users.remove({})
 const admin = {
   nick: 'admin',
   password: '$2b$10$F0fB1F4xrRz7ezEfUDy7U.1reBsdj0oObEBvtlYHzmV17qGGcd0iC',
-  imageName: '',
+  imageType: '',
 }
 
 db.users.insertOne(admin)

@@ -7,7 +7,6 @@ import Drawer from './Drawer.jsx'
 import Body from './Body.jsx'
 import SignIn from './SignIn.jsx'
 import SignUp from './SignUp.jsx'
-import Restore from './Restore.jsx'
 
 export default function Routes() {
   const token = useSelector((state) => state.token)
@@ -24,7 +23,6 @@ export default function Routes() {
     <Switch>
       <Route exact path="/signin" component={SignIn} />
       <Route exact path="/signup" component={SignUp} />
-      <Route exact path="/restore" component={Restore} />
       <Redirect to="/signin" />
     </Switch>
   )

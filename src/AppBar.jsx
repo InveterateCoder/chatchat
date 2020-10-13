@@ -8,7 +8,9 @@ import CloseIcon from '@material-ui/icons/Close'
 import { Brightness2 as DarkIcon, Brightness7 as LightIcon } from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import clsx from 'clsx'
-import { setDark, setDrawerOpen, dType } from './store/actions'
+import {
+  setDark, setDrawerOpen, dType, logout,
+} from './store/actions'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -65,7 +67,12 @@ function ChatAppBar() {
               : <DarkIcon />
           }
         </IconButton>
-        <Button color="inherit">Logout</Button>
+        <Button
+          color="inherit"
+          onClick={() => dispatch(logout())}
+        >
+          Logout
+        </Button>
       </Toolbar>
     </AppBar>
   )

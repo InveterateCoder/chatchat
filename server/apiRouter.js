@@ -1,16 +1,12 @@
 const { readFile } = require('fs/promises')
-const express = require('express')
+const api = require('express').Router()
 const formidable = require('formidable')
-const { v4: uuidv4 } = require('uuid')
 const bcrypt = require('bcrypt')
-const { extension } = require('mime-types')
 const jwt = require('jsonwebtoken')
 const { signup, signin } = require('../shared/apiRoutes')
 const { getDb } = require('./db')
 const codes = require('./errorCode')
-const { validateSignUpForm } = require('../shared/validators')
-
-const api = express.Router()
+const { validateSignUpForm, validateSignInForm } = require('../shared/validators')
 
 api.post(signup, (req, res) => {
   const form = formidable({ multiples: false })
@@ -27,10 +23,13 @@ api.post(signup, (req, res) => {
     if (!validity.valid) {
       return res.status(400).send(Object.values(validity.errors).filter((val) => val).join('\n'))
     }
+    if (!['image/png', 'image/jpeg', 'image/gif'].includes(files.image.type)) {
+      return res.status(400).send(codes.image)
+    }
     const user = {
       nick: fields.nick,
       password: await bcrypt.hash(fields.password, Number(process.env.saltRounds)),
-      imageName: `${uuidv4() + Date.now()}.${extension(files.image.type)}`,
+      imageType: files.image.type,
       image: await readFile(files.image.path),
     }
     const db = getDb()
@@ -60,9 +59,37 @@ api.post(signup, (req, res) => {
   })
 })
 
-api.post(signin, (req, res) => {
-  console.log(req.body)
-  res.end()
+api.post(signin, async (req, res) => {
+  const validity = validateSignInForm(req.body)
+  if (!validity.valid) {
+    return res.status(400).send(Object.values(validity.errors).filter((val) => val).join('\n'))
+  }
+  const db = getDb()
+  try {
+    const user = await db.collection('users').findOne({ nick: req.body.nick })
+    if (user) {
+      if (await bcrypt.compare(req.body.password, user.password)) {
+        const token = jwt.sign(
+          {
+            data: {
+              // eslint-disable-next-line no-underscore-dangle
+              _id: user._id,
+            },
+          },
+          process.env.jwtSecret,
+          { expiresIn: 60 * 60 * 24 * 30 },
+        )
+        if (token) return res.send(token)
+      } else {
+        return res.status(400).send(codes.password)
+      }
+    } else {
+      return res.status(400).send(codes.user)
+    }
+  } catch (error) {
+    // return res.status(500).send(codes[500])
+  }
+  return res.status(500).send(codes[500])
 })
 
 module.exports = api
