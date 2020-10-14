@@ -9,14 +9,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.baseShiftTop,
   },
   contentOpen: {
-    marginLeft: theme.drawerWidth,
+    marginLeft: theme.drawerMaxWidth,
     transition: theme.transitions.create(['margin'], {
       easing: theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   contentOpenNoTrans: {
-    marginLeft: theme.drawerWidth,
+    marginLeft: theme.drawerMaxWidth,
   },
 }))
 

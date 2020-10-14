@@ -69,9 +69,9 @@ function SignIn({ load }) {
           body: JSON.stringify(variables),
         })
         if (res.status === 200) {
-          const token = await res.text()
-          if (token) {
-            dispatch(login(token))
+          const creds = await res.json()
+          if (creds) {
+            dispatch(login(creds))
           } else {
             throw new Error('Something went wrong, please try again.')
           }

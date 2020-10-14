@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const api = require('express').Router()
 const formidable = require('formidable')
 const Jimp = require('jimp')
@@ -46,7 +47,13 @@ api.post(signup, (req, res) => {
           process.env.jwtSecret,
           { expiresIn: 60 * 60 * 24 * 30 },
         )
-        if (token) return res.send(token)
+        if (token) {
+          return res.json({
+            token,
+            id: result.insertedId,
+            nick: user.nick,
+          })
+        }
       }
     } catch (error) {
       if (error.code) {
@@ -73,14 +80,19 @@ api.post(signin, async (req, res) => {
         const token = jwt.sign(
           {
             data: {
-              // eslint-disable-next-line no-underscore-dangle
               _id: user._id,
             },
           },
           process.env.jwtSecret,
           { expiresIn: 60 * 60 * 24 * 30 },
         )
-        if (token) return res.send(token)
+        if (token) {
+          return res.send({
+            token,
+            id: user._id,
+            nick: user.nick,
+          })
+        }
       } else {
         return res.status(400).send(codes.password)
       }

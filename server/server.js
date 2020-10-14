@@ -4,6 +4,7 @@ const express = require('express')
 const apiRouter = require('./apiRouter')
 const render = require('./render')
 const { connectDb } = require('./db')
+const authenticate = require('./middleware/authenticateMiddleware')
 
 async function server(val) {
   const app = val || express()
@@ -12,6 +13,7 @@ async function server(val) {
     .use(express.static(path.resolve(__dirname, 'public')))
     .use(express.json())
     .use(express.urlencoded({ extended: true }))
+    .use(authenticate)
     .use(apiRouter)
     .use(render)
 

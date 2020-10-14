@@ -26,16 +26,10 @@ export const setDrawerOpen = (open) => ({
   payload: open,
 })
 
-export const SET_SIGN_TYPE = 'set_sign_type'
-export const setSignType = (type) => ({
-  type: SET_SIGN_TYPE,
-  payload: type,
-})
-
 export const LOGIN = 'login'
-export const login = (token) => ({
+export const login = (creds) => ({
   type: LOGIN,
-  payload: token,
+  payload: creds,
 })
 
 export const LOGOUT = 'logout'

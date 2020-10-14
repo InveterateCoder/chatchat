@@ -8,6 +8,7 @@ import { dType } from './store/actions'
 
 const useStyles = makeStyles((theme) => ({
   list: {
+    maxWidth: theme.drawerMaxWidth,
     width: theme.drawerWidth,
   },
   listPad: {

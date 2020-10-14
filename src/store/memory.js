@@ -1,17 +1,21 @@
 /* eslint-disable no-underscore-dangle */
 class Memory {
   constructor() {
-    this.__token = localStorage.getItem(Memory.names.token)
+    this.__creds = JSON.parse(localStorage.getItem(Memory.names.creds))
     this.__dark = localStorage.getItem(Memory.names.dark)
   }
 
-  get token() {
-    return this.__token
+  get creds() {
+    return this.__creds
   }
 
-  set token(token) {
-    localStorage.setItem(Memory.names.token, token)
-    this.__token = token
+  set creds(creds) {
+    if (!creds) {
+      localStorage.removeItem(Memory.names.creds)
+    } else {
+      localStorage.setItem(Memory.names.creds, JSON.stringify(creds))
+    }
+    this.__creds = creds
   }
 
   get dark() {
@@ -19,13 +23,17 @@ class Memory {
   }
 
   set dark(dark) {
-    localStorage.setItem(Memory.names.dark, dark)
+    if (!dark) {
+      localStorage.removeItem(Memory.names.dark)
+    } else {
+      localStorage.setItem(Memory.names.dark, dark)
+    }
     this.__dark = dark
   }
 }
 
 Memory.names = {
-  token: 'api_token',
+  creds: 'creds',
   dark: 'dark',
 }
 
