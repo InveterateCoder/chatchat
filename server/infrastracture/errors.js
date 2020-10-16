@@ -1,4 +1,4 @@
-const codes = {
+const errors = {
   user: 'User not found.',
   password: 'Wrong password.',
   image: 'Wrong image type.',
@@ -6,4 +6,4 @@ const codes = {
   11000: 'This nick has been taken, try another one.',
 }
 
-module.exports = codes
+module.exports = errors
