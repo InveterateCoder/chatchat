@@ -3,8 +3,8 @@ const { signup: signupRoute, signin: signinRoute } = require('../../shared/apiRo
 const signinController = require('../controllers/signinController')
 const signupController = require('../controllers/signupController')
 
-api.post(signupRoute, signinController)
+api.post(signupRoute, signupController)
 
-api.post(signinRoute, signupController)
+api.post(signinRoute, signinController)
 
 module.exports = api

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { getDb } = require('../infrastracture/db')
+const User = require('../models/UserModel')
 const errors = require('../infrastracture/errors')
 const { validateSignInForm } = require('../../shared/validators')
 
@@ -10,9 +10,8 @@ async function signinController(req, res) {
   if (!validity.valid) {
     return res.status(400).send(Object.values(validity.errors).filter((val) => val).join('\n'))
   }
-  const db = getDb()
   try {
-    const user = await db.collection('users').findOne({ nick: req.body.nick })
+    const user = await User.findByNick(req.body.nick)
     if (user) {
       if (await bcrypt.compare(req.body.password, user.password)) {
         const token = jwt.sign(

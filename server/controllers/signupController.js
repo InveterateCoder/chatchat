@@ -2,7 +2,7 @@ const formidable = require('formidable')
 const Jimp = require('jimp')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { getDb } = require('../infrastracture/db')
+const User = require('../models/UserModel')
 const errors = require('../infrastracture/errors')
 const { validateSignUpForm } = require('../../shared/validators')
 
@@ -31,14 +31,13 @@ async function signupController(req, res) {
       image: await Jimp.read(files.image.path)
         .then((image) => image.cover(500, 500).getBufferAsync(files.image.type)),
     }
-    const db = getDb()
     try {
-      const result = await db.collection('users').insertOne(user)
-      if (result.insertedId) {
+      const insertedId = await User.add(user)
+      if (insertedId) {
         const token = jwt.sign(
           {
             data: {
-              _id: result.insertedId,
+              _id: insertedId,
             },
           },
           process.env.jwtSecret,
@@ -47,7 +46,7 @@ async function signupController(req, res) {
         if (token) {
           return res.json({
             token,
-            id: result.insertedId,
+            id: insertedId,
             nick: user.nick,
           })
         }

@@ -1,10 +1,18 @@
 require('dotenv').config()
 const path = require('path')
 const express = require('express')
+const { MongoClient } = require('mongodb')
 const apiRoutes = require('./infrastracture/apiRoutes')
 const serverRoutes = require('./infrastracture/serverRoutes')
-const { connectDb } = require('./infrastracture/db')
 const authenticate = require('./middleware/authenticateMiddleware')
+
+async function connectDb() {
+  const url = process.env.dbURL
+  const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  await client.connect()
+  global.db = client.db()
+  console.log('connected to MongoDB at', url)
+}
 
 async function server(val) {
   const app = val || express()
