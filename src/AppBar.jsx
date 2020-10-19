@@ -1,10 +1,12 @@
 import React from 'react'
 import {
   AppBar, Toolbar, IconButton, Box,
-  Typography, Button, makeStyles, Grow, Avatar,
+  Typography, Tooltip, makeStyles, Grow, Avatar,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import CloseIcon from '@material-ui/icons/Close'
+import SettingsIcon from '@material-ui/icons/Settings'
+import SignoutIcon from '@material-ui/icons/ExitToApp'
 import { Brightness2 as DarkIcon, Brightness7 as LightIcon } from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import clsx from 'clsx'
@@ -32,9 +34,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-  },
-  brighness: {
-    marginRight: theme.spacing(1),
   },
   aboveDrawer: {
     zIndex: theme.zIndex.drawer + 1,
@@ -69,23 +68,25 @@ function ChatAppBar() {
             {creds.nick}
           </Typography>
         </Box>
-        <IconButton
-          color="default"
-          onClick={() => dispatch(setDark(!dark))}
-          className={classes.brighness}
-        >
-          {
-            dark
-              ? <LightIcon />
-              : <DarkIcon />
-          }
-        </IconButton>
-        <Button
-          color="inherit"
-          onClick={() => dispatch(logout())}
-        >
-          Logout
-        </Button>
+        <Tooltip title="Theme">
+          <IconButton onClick={() => dispatch(setDark(!dark))}>
+            {
+              dark
+                ? <LightIcon />
+                : <DarkIcon />
+            }
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Settings">
+          <IconButton>
+            <SettingsIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Signout">
+          <IconButton onClick={() => dispatch(logout())}>
+            <SignoutIcon />
+          </IconButton>
+        </Tooltip>
       </Toolbar>
     </AppBar>
   )

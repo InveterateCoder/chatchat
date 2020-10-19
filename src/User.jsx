@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
   Avatar, makeStyles, ListItem, ListItemAvatar,
   ListItemText, ListItemSecondaryAction, IconButton,
-  ButtonBase
+  ButtonBase,
 } from '@material-ui/core'
 import { Message } from '@material-ui/icons'
 

@@ -6,6 +6,7 @@ const initialData = {
   dtype: dType.temporary,
   dopen: false,
   creds: memory.creds,
+  sopen: true,
 }
 
 export default initialData

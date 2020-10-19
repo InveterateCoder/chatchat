@@ -53,11 +53,18 @@ function SignUp({ load }) {
     message: '',
     open: false,
   })
-  const onFileChange = (ev) => {
-    const file = ev.target.files[0]
-    URL.revokeObjectURL(imageUrl)
-    setImageUrl(URL.createObjectURL(file))
-    setErrors({ ...errors, image: '' })
+  const onFileChange = ({ target: { files } }) => {
+    const file = files[0]
+    if (['image/png', 'image/jpeg'].includes(file.type)) {
+      URL.revokeObjectURL(imageUrl)
+      setImageUrl(URL.createObjectURL(file))
+      setErrors({ ...errors, image: '' })
+    } else {
+      setError({
+        message: 'File type is not supported.',
+        open: true,
+      })
+    }
   }
   const onChange = ({ target: { name } }) => {
     if (errors[name]) {
@@ -99,8 +106,8 @@ function SignUp({ load }) {
   }
   return (
     <Container maxWidth="sm">
-      <FormControl component="form" className={classes.form} onSubmit={onSubmit} encType="multipart/form-data">
-        <input accept=".jpg,.png,.gif" type="file" id="image" name="image" className={classes.fileInput} onChange={onFileChange} />
+      <FormControl component="form" className={classes.form} onSubmit={onSubmit}>
+        <input accept=".jpg,.png" type="file" id="image" name="image" className={classes.fileInput} onChange={onFileChange} />
         <ButtonBase component="label" htmlFor="image" className={classes.fileBtnRadius}>
           <Badge badgeContent="Required" color="error" className={classes.fileBtnRadius} invisible={!errors.image}>
             <Avatar src={imageUrl}>
