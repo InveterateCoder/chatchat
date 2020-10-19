@@ -1,4 +1,4 @@
-function validateNick(nick) {
+export function validateNick(nick) {
   if (nick.length < 3) {
     return 'Nickname must be at least 3 characters long.'
   }
@@ -8,7 +8,7 @@ function validateNick(nick) {
   return ''
 }
 
-function validatePassword(password) {
+export function validatePassword(password) {
   if (password.length < 6) {
     return 'Password must be at least 6 characters long.'
   }

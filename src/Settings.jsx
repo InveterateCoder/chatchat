@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   Dialog, DialogContent, DialogTitle, Grid, TextField,
-  Avatar, makeStyles, ButtonBase, DialogActions,
+  Avatar, makeStyles, ButtonBase, DialogActions, Button,
 } from '@material-ui/core'
+import { Save as SaveIcon, Cancel as CancelIcon } from '@material-ui/icons'
+import { openSettings } from './store/actions'
 
 const useStyles = makeStyles(() => ({
   fileInput: {
@@ -18,9 +20,10 @@ const useStyles = makeStyles(() => ({
 }))
 
 function Settings() {
-  const sopen = useSelector((state) => state.sopen)
   const creds = useSelector((state) => state.creds)
+  const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
+  const [error, setError] = useState('')
   const classes = useStyles()
 
   const onFileChange = ({ target: { files } }) => {
@@ -33,12 +36,24 @@ function Settings() {
     }
   }
 
+  const cancel = () => {
+    URL.revokeObjectURL(imageUrl)
+    dispatch(openSettings(false))
+  }
+
   const avaUrl = `/avatar/${creds.id}`
   return (
-    <Dialog fullWidth maxWidth="sm" open={sopen}>
+    <Dialog fullWidth maxWidth="sm" open>
       <DialogTitle>User settings</DialogTitle>
       <DialogContent>
-        <input accept=".jpg,.png" type="file" id="image" name="image" className={classes.fileInput} onChange={onFileChange} />
+        <input
+          accept=".jpg,.png"
+          type="file"
+          id="image"
+          name="image"
+          className={classes.fileInput}
+          onChange={onFileChange}
+        />
         <Grid container spacing={2} alignItems="flex-end">
           <Grid item>
             <ButtonBase component="label" htmlFor="image" className={classes.avaBtn}>
@@ -50,12 +65,28 @@ function Settings() {
               fullWidth
               label="Nickname"
               defaultValue={creds.nick}
+              helperText={error}
+              error={Boolean(error)}
             />
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-
+        <Button
+          variant="contained"
+          color="secondary"
+          startIcon={<CancelIcon />}
+          onClick={cancel}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<SaveIcon />}
+        >
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   )

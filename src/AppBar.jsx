@@ -11,7 +11,7 @@ import { Brightness2 as DarkIcon, Brightness7 as LightIcon } from '@material-ui/
 import { useDispatch, useSelector } from 'react-redux'
 import clsx from 'clsx'
 import {
-  setDark, setDrawerOpen, dType, logout,
+  setDark, setDrawerOpen, dType, logout, openSettings,
 } from './store/actions'
 
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +78,7 @@ function ChatAppBar() {
           </IconButton>
         </Tooltip>
         <Tooltip title="Settings">
-          <IconButton>
+          <IconButton onClick={() => dispatch(openSettings(true))}>
             <SettingsIcon />
           </IconButton>
         </Tooltip>

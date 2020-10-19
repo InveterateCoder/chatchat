@@ -36,3 +36,9 @@ export const LOGOUT = 'logout'
 export const logout = () => ({
   type: LOGOUT,
 })
+
+export const OPEN_SETTINGS = 'open_settings'
+export const openSettings = (state) => ({
+  type: OPEN_SETTINGS,
+  payload: state,
+})
