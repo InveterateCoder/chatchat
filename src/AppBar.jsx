@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   AppBar, Toolbar, IconButton, Box,
-  Typography, Button, makeStyles, Grow, Avatar
+  Typography, Button, makeStyles, Grow, Avatar,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import CloseIcon from '@material-ui/icons/Close'
