@@ -53,13 +53,16 @@ function SignUp({ load }) {
     message: '',
     open: false,
   })
-  const onFileChange = ({ target: { files } }) => {
-    const file = files[0]
+  const onFileChange = ({ target }) => {
+    const file = target.files[0]
+    URL.revokeObjectURL(imageUrl)
     if (['image/png', 'image/jpeg'].includes(file.type)) {
-      URL.revokeObjectURL(imageUrl)
       setImageUrl(URL.createObjectURL(file))
       setErrors({ ...errors, image: '' })
     } else {
+      // eslint-disable-next-line no-param-reassign
+      target.value = ''
+      setImageUrl('')
       setError({
         message: 'File type is not supported.',
         open: true,

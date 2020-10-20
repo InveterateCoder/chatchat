@@ -6,7 +6,7 @@ const User = require('../models/UserModel')
 const errors = require('../infrastracture/errors')
 const { validateSignUpForm } = require('../../shared/validators')
 
-async function signupController(req, res) {
+function signupController(req, res) {
   const form = formidable({ multiples: false })
   form.parse(req, async (err, fields, files) => {
     if (err) {
@@ -20,9 +20,6 @@ async function signupController(req, res) {
     })
     if (!validity.valid) {
       return res.status(400).send(Object.values(validity.errors).filter((val) => val).join('\n'))
-    }
-    if (!['image/png', 'image/jpeg'].includes(files.image.type)) {
-      return res.status(400).send(errors.image)
     }
     const user = {
       nick: fields.nick,

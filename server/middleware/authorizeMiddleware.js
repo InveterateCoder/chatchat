@@ -7,7 +7,7 @@ async function authorizeMiddleware(req, res, next) {
     if (!user) {
       return res.status(401).end()
     }
-    req.user.info = user
+    req.user.doc = user
     return next()
   } catch (err) {
     return next(err)
