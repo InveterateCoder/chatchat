@@ -45,6 +45,7 @@ function ChatAppBar() {
   const dopen = useSelector((state) => state.dopen)
   const dtype = useSelector((state) => state.dtype)
   const creds = useSelector((state) => state.creds)
+  const refava = useSelector((state) => state.refava)
   const dispatch = useDispatch()
   const classes = useStyles()
 
@@ -63,7 +64,7 @@ function ChatAppBar() {
           </IconButton>
         </Grow>
         <Box className={clsx(classes.box, { [classes.boxOpen]: dtype === dType.permanent })}>
-          <Avatar src={`/avatar/${creds.id}`} />
+          <Avatar src={`/avatar/${creds.id}?refava=${refava}`} />
           <Typography variant="h6" className={classes.nick}>
             {creds.nick}
           </Typography>

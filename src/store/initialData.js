@@ -7,6 +7,7 @@ const initialData = {
   dopen: false,
   creds: memory.creds,
   sopen: false,
+  refava: Math.random().toString(),
 }
 
 export default initialData

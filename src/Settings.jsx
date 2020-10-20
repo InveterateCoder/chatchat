@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core'
 import { Save as SaveIcon, Cancel as CancelIcon } from '@material-ui/icons'
 import Error from './Error.jsx'
-import { openSettings } from './store/actions'
+import { openSettings, login, refreshAvatar } from './store/actions'
 import { validateChangeUserForm } from '../shared/validators'
 import { changeUser } from '../shared/apiRoutes'
 
@@ -25,6 +25,7 @@ const useStyles = makeStyles(() => ({
 
 function Settings() {
   const creds = useSelector((state) => state.creds)
+  const refava = useSelector((state) => state.refava)
   const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
   const [nickErr, setNickErr] = useState('')
@@ -32,6 +33,7 @@ function Settings() {
     message: '',
     open: false,
   })
+  const [disabled, setDisabled] = useState(false)
   const classes = useStyles()
 
   const onFileChange = ({ target }) => {
@@ -69,13 +71,16 @@ function Settings() {
     const validity = validateChangeUserForm(variables)
     if (validity.valid) {
       if (!variables.image.size) {
+        delete variables.image
         form.delete('image')
       }
       if (variables.nick === creds.nick) {
+        delete variables.nick
         form.delete('nick')
       }
       if (Array.from(form.keys()).length > 0) {
         try {
+          setDisabled(true)
           const res = await fetch(changeUser, {
             method: 'POST',
             headers: {
@@ -86,7 +91,14 @@ function Settings() {
           if (res.status !== 200) {
             throw new Error(await res.text())
           }
+          if (variables.nick) {
+            dispatch(login({ ...creds, nick: variables.nick }))
+          }
+          if (variables.image) {
+            dispatch(refreshAvatar())
+          }
         } catch (err) {
+          setDisabled(false)
           setError({
             message: err.message,
             open: true,
@@ -108,7 +120,7 @@ function Settings() {
     }
   }
 
-  const avaUrl = `/avatar/${creds.id}`
+  const avaUrl = `/avatar/${creds.id}?refava=${refava}`
   return (
     <Dialog fullWidth maxWidth="sm" open>
       <DialogTitle>User settings</DialogTitle>
@@ -121,6 +133,7 @@ function Settings() {
             name="image"
             className={classes.fileInput}
             onChange={onFileChange}
+            disabled={disabled}
           />
           <Grid container spacing={2} alignItems="flex-end">
             <Grid item>
@@ -137,6 +150,7 @@ function Settings() {
                 error={Boolean(nickErr)}
                 name="nick"
                 onChange={onChange}
+                disabled={disabled}
               />
             </Grid>
           </Grid>
@@ -147,6 +161,7 @@ function Settings() {
             color="secondary"
             startIcon={<CancelIcon />}
             onClick={cancel}
+            disabled={disabled}
           >
             Cancel
           </Button>
@@ -155,6 +170,7 @@ function Settings() {
             color="primary"
             startIcon={<SaveIcon />}
             type="submit"
+            disabled={disabled}
           >
             Save
           </Button>

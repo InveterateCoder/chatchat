@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { Dialog, DialogContent } from '@material-ui/core'
+import { useSelector } from 'react-redux'
 import User from './User.jsx'
 
 function Users() {
   const [avatarOpen, setAvatarOpen] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState('')
+  const refava = useSelector((state) => state.refava)
   const openAvatar = (id) => {
-    setAvatarUrl(`/avatar/${id}`)
+    setAvatarUrl(`/avatar/${id}?refava=${refava}`)
     setAvatarOpen(true)
   }
   return (

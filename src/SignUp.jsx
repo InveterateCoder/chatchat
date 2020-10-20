@@ -3,16 +3,16 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   Container, Avatar, TextField, FormControl, Link,
-  makeStyles, Typography, Button, Grid, Badge,
-  ButtonBase, Snackbar, IconButton, Slide,
+  makeStyles, Typography, Button, Grid, Badge, ButtonBase,
 } from '@material-ui/core'
-import { Photo, Close } from '@material-ui/icons'
+import { Photo } from '@material-ui/icons'
 import { Link as LinkDOM } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import withWait from './withWait.jsx'
 import { signup } from '../shared/apiRoutes'
 import { validateSignUpForm } from '../shared/validators'
 import { login } from './store/actions'
+import Error from './Error.jsx'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -30,12 +30,6 @@ const useStyles = makeStyles((theme) => ({
   },
   fileBtnRadius: {
     borderRadius: 35,
-  },
-  snack: {
-    whiteSpace: 'pre-line',
-    '& > .MuiPaper-root': {
-      backgroundColor: theme.palette.error.main,
-    },
   },
 }))
 
@@ -166,21 +160,10 @@ function SignUp({ load }) {
           </Grid>
         </Grid>
       </FormControl>
-      <Snackbar
-        className={classes.snack}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
+      <Error
         open={error.open}
-        onClose={() => setError({ ...error, open: false })}
         message={error.message}
-        TransitionComponent={Slide}
-        action={(
-          <IconButton color="inherit" onClick={() => setError({ ...error, open: false })}>
-            <Close />
-          </IconButton>
-        )}
+        onOpenClose={(state) => setError({ ...error, open: state })}
       />
     </Container>
   )

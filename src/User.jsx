@@ -6,6 +6,7 @@ import {
   ButtonBase,
 } from '@material-ui/core'
 import { Message } from '@material-ui/icons'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
   name: {
@@ -18,7 +19,8 @@ const useStyles = makeStyles(() => ({
 
 function User({ id, name, openAvatar }) {
   const classes = useStyles()
-  const avatarUrl = `/avatar/${id}`
+  const refava = useSelector((state) => state.refava)
+  const avatarUrl = `/avatar/${id}?refava=${refava}`
   return (
     <ListItem>
       <ListItemAvatar>

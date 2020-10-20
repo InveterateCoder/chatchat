@@ -42,3 +42,9 @@ export const openSettings = (state) => ({
   type: OPEN_SETTINGS,
   payload: state,
 })
+
+export const REFRESH_AVATAR = 'refresh_avatar'
+export const refreshAvatar = () => ({
+  type: REFRESH_AVATAR,
+  payload: Math.random().toString(),
+})
