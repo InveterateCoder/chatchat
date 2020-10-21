@@ -7,11 +7,9 @@ import {
 } from '@material-ui/core'
 import { Photo } from '@material-ui/icons'
 import { Link as LinkDOM } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import withWait from './withWait.jsx'
-import { signup } from '../shared/apiRoutes'
-import { validateSignUpForm } from '../shared/validators'
-import { login } from './store/actions'
+import signup from './api/signup'
+import { validateSignUpForm, validateImageType } from '../shared/validators'
 import Error from './Error.jsx'
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUp({ load }) {
   const classes = useStyles()
-  const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
   const [errors, setErrors] = useState({
     nick: '',
@@ -50,7 +47,7 @@ function SignUp({ load }) {
   const onFileChange = ({ target }) => {
     const file = target.files[0]
     URL.revokeObjectURL(imageUrl)
-    if (['image/png', 'image/jpeg'].includes(file.type)) {
+    if (!validateImageType(file)) {
       setImageUrl(URL.createObjectURL(file))
       setErrors({ ...errors, image: '' })
     } else {
@@ -79,17 +76,7 @@ function SignUp({ load }) {
     if (validity.valid) {
       try {
         load(true)
-        const res = await fetch(signup, { method: 'POST', body: form })
-        if (res.status === 200) {
-          const creds = await res.json()
-          if (creds) {
-            dispatch(login(creds))
-          } else {
-            throw new Error('Something went wrong, please try again.')
-          }
-        } else {
-          throw new Error(await res.text())
-        }
+        await signup(form)
       } catch (err) {
         load(false)
         setError({

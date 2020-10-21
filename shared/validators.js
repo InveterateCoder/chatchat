@@ -18,10 +18,14 @@ function validatePassword(password) {
   return ''
 }
 
-function validateImage(image, required = true) {
-  if (required && (!image || !image.size)) {
+function validateImageExist(image) {
+  if (!image || !image.size) {
     return 'Avatar is required. Please select a picture.'
   }
+  return ''
+}
+
+export function validateImageType(image) {
   if (image && image.size && !['image/png', 'image/jpeg'].includes(image.type)) {
     return 'Wrong image type.'
   }
@@ -43,7 +47,8 @@ export const validateSignUpForm = ({
   if (!errors.password && password !== confirm) {
     errors.confirm = 'Failed to confirm, passwords do not match.'
   }
-  errors.image = validateImage(image)
+  errors.image = validateImageExist(image)
+  if (!errors.image) errors.image = validateImageType(image)
 
   if (errors.nick || errors.password || errors.confirm || errors.image) {
     return {
@@ -81,7 +86,7 @@ export const validateChangeUserForm = ({ nick, image }) => {
     image: '',
   }
   errors.nick = validateNick(nick)
-  errors.image = validateImage(image, false)
+  errors.image = validateImageType(image)
 
   if (errors.nick || errors.image) {
     return {

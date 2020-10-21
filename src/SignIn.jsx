@@ -7,10 +7,8 @@ import {
 } from '@material-ui/core'
 import { Lock, Close } from '@material-ui/icons'
 import { Link as LinkDOM } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { validateSignInForm } from '../shared/validators'
-import { signin } from '../shared/apiRoutes'
-import { login } from './store/actions'
+import signin from './api/signin'
 import withWait from './withWait.jsx'
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 function SignIn({ load }) {
   const classes = useStyles()
-  const dispatch = useDispatch()
   const [errors, setErrors] = useState({
     nick: '',
     password: '',
@@ -61,23 +58,7 @@ function SignIn({ load }) {
     if (validity.valid) {
       try {
         load(true)
-        const res = await fetch(signin, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(variables),
-        })
-        if (res.status === 200) {
-          const creds = await res.json()
-          if (creds) {
-            dispatch(login(creds))
-          } else {
-            throw new Error('Something went wrong, please try again.')
-          }
-        } else {
-          throw new Error(await res.text())
-        }
+        await signin(variables)
       } catch (err) {
         load(false)
         setError({

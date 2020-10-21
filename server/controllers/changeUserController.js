@@ -34,7 +34,12 @@ function changeUserController(req, res) {
       await User.update(user._id, update)
       return res.end()
     } catch (error) {
-      // return res.status(500).send(errors[500])
+      if (error.code) {
+        const text = errors[error.code]
+        if (text) {
+          return res.status(400).send(text)
+        }
+      }
     }
     return res.status(500).send(errors[500])
   })

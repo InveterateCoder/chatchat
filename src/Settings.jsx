@@ -8,8 +8,8 @@ import {
 import { Save as SaveIcon, Cancel as CancelIcon } from '@material-ui/icons'
 import Error from './Error.jsx'
 import { openSettings, login, refreshAvatar } from './store/actions'
-import { validateChangeUserForm } from '../shared/validators'
-import { changeUser } from '../shared/apiRoutes'
+import { validateChangeUserForm, validateImageType } from '../shared/validators'
+import changeUser from './api/changeUser'
 
 const useStyles = makeStyles(() => ({
   fileInput: {
@@ -39,7 +39,7 @@ function Settings() {
   const onFileChange = ({ target }) => {
     const file = target.files[0]
     URL.revokeObjectURL(imageUrl)
-    if (['image/png', 'image/jpeg'].includes(file.type)) {
+    if (!validateImageType(file)) {
       setImageUrl(URL.createObjectURL(file))
     } else {
       // eslint-disable-next-line no-param-reassign
@@ -71,38 +71,22 @@ function Settings() {
     const validity = validateChangeUserForm(variables)
     if (validity.valid) {
       if (!variables.image.size) {
-        delete variables.image
         form.delete('image')
       }
       if (variables.nick === creds.nick) {
-        delete variables.nick
         form.delete('nick')
       }
       if (Array.from(form.keys()).length > 0) {
         try {
           setDisabled(true)
-          const res = await fetch(changeUser, {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${creds.token}`,
-            },
-            body: form,
-          })
-          if (res.status !== 200) {
-            throw new Error(await res.text())
-          }
-          if (variables.nick) {
-            dispatch(login({ ...creds, nick: variables.nick }))
-          }
-          if (variables.image) {
-            dispatch(refreshAvatar())
-          }
+          await changeUser(form)
         } catch (err) {
           setDisabled(false)
           setError({
             message: err.message,
             open: true,
           })
+          return
         }
       }
       URL.revokeObjectURL(imageUrl)

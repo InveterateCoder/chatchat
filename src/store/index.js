@@ -1,4 +1,7 @@
 import { createStore } from 'redux'
 import reducer from './reducer'
 
-export default createStore(reducer)
+const store = createStore(reducer)
+export const { dispatch } = store
+export const { getState } = store
+export default store
