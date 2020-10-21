@@ -4,6 +4,7 @@ const express = require('express')
 const wpDevMiddleware = require('webpack-dev-middleware')
 const wpHotMiddleware = require('webpack-hot-middleware')
 const webpack = require('webpack')
+const open = require('open')
 const config = require('../webpack.config')[0]
 const server = require('./server')
 
@@ -17,5 +18,9 @@ config.plugins.unshift(new webpack.HotModuleReplacementPlugin())
 const compiler = webpack(config)
 app.use(wpDevMiddleware(compiler))
 app.use(wpHotMiddleware(compiler))
+
+setTimeout(() => {
+  open('http://localhost:8000')
+}, 2000)
 
 server(app)
