@@ -1,3 +1,5 @@
+const path = require('path')
+const fs = require('fs')
 const formidable = require('formidable')
 const Jimp = require('jimp')
 const bcrypt = require('bcrypt')
@@ -7,7 +9,7 @@ const errors = require('../infrastracture/errors')
 const { validateSignUpForm } = require('../../shared/validators')
 
 function signupController(req, res) {
-  const form = formidable({ multiples: false })
+  const form = formidable({ multiples: false, uploadDir: path.resolve(__dirname, 'tmp') })
   form.parse(req, async (err, fields, files) => {
     if (err) {
       return res.status(500).send(errors[500])
@@ -28,6 +30,7 @@ function signupController(req, res) {
       image: await Jimp.read(files.image.path)
         .then((image) => image.cover(500, 500).getBufferAsync(files.image.type)),
     }
+    fs.unlinkSync(files.image.path)
     try {
       const insertedId = await User.add(user)
       if (insertedId) {

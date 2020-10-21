@@ -85,6 +85,8 @@ const serverConfig = {
     new CopyWebpackPlugin({
       patterns: [
         { from: 'public', to: 'public' },
+        { from: 'tmp', to: 'tmp' },
+        { from: '.env', to: '' },
       ],
     }),
   ],

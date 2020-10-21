@@ -1,4 +1,6 @@
 /* eslint-disable no-underscore-dangle */
+const path = require('path')
+const fs = require('fs')
 const formidable = require('formidable')
 const Jimp = require('jimp')
 const User = require('../models/UserModel')
@@ -7,7 +9,7 @@ const { validateChangeUserForm } = require('../../shared/validators')
 
 function changeUserController(req, res) {
   const user = req.user.doc
-  const form = formidable({ multiples: false })
+  const form = formidable({ multiples: false, uploadDir: path.resolve(__dirname, 'tmp') })
   form.parse(req, async (err, fields, files) => {
     if (err) {
       return res.status(500).send(errors[500])
@@ -24,6 +26,7 @@ function changeUserController(req, res) {
         update.image = await Jimp.read(files.image.path)
           .then((img) => img.cover(500, 500)
             .getBufferAsync(files.image.type))
+        fs.unlinkSync(files.image.path)
       }
       if (nick && nick !== user.nick) {
         update.nick = nick
