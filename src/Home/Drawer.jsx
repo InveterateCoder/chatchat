@@ -5,7 +5,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux'
 import clsx from 'clsx'
 import Users from './Users.jsx'
-import { setDrawerType, setDrawerOpen, dType } from './store/actions'
+import { setDrawerType, setDrawerOpen, dType } from '../store/actions'
 
 const useStyles = makeStyles((theme) => ({
   drawer: {

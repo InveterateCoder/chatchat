@@ -2,7 +2,7 @@
 import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import Home from './Home.jsx'
+import Home from './Home'
 import SignIn from './SignIn.jsx'
 import SignUp from './SignUp.jsx'
 

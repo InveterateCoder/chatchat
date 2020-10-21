@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles, Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import clsx from 'clsx'
-import { dType } from './store/actions'
+import { dType } from '../store/actions'
 
 const useStyles = makeStyles((theme) => ({
   content: {

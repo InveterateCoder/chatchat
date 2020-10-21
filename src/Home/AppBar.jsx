@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import clsx from 'clsx'
 import {
   setDark, setDrawerOpen, dType, logout, openSettings,
-} from './store/actions'
+} from '../store/actions'
 
 const useStyles = makeStyles((theme) => ({
   box: {

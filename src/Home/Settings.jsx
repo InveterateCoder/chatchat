@@ -6,10 +6,10 @@ import {
   FormControl,
 } from '@material-ui/core'
 import { Save as SaveIcon, Cancel as CancelIcon } from '@material-ui/icons'
-import Error from './Error.jsx'
-import { openSettings, login, refreshAvatar } from './store/actions'
-import { validateChangeUserForm, validateImageType } from '../shared/validators'
-import changeUser from './api/changeUser'
+import Error from '../Error.jsx'
+import { openSettings } from '../store/actions'
+import { validateChangeUserForm, validateImageType } from '../../shared/validators'
+import changeUser from '../api/changeUser'
 
 const useStyles = makeStyles(() => ({
   fileInput: {
