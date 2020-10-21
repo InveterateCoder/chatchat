@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 const useStyles = makeStyles(() => ({
   name: {
     overflow: 'hidden',
+    whiteSpace: 'nowrap',
   },
   btn: {
     borderRadius: 20,

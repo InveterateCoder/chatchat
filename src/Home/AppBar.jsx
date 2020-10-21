@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   AppBar, Toolbar, IconButton, Box,
   Typography, Tooltip, makeStyles, Grow, Avatar,
+  Dialog, DialogContent, ButtonBase,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import CloseIcon from '@material-ui/icons/Close'
@@ -47,7 +48,10 @@ function ChatAppBar() {
   const creds = useSelector((state) => state.creds)
   const refava = useSelector((state) => state.refava)
   const dispatch = useDispatch()
+  const [avaOpen, setAvaOpen] = useState(false)
   const classes = useStyles()
+
+  const avaUrl = `/avatar/${creds.id}?refava=${refava}`
 
   return (
     <AppBar position="fixed" className={classes.aboveDrawer} color="default">
@@ -64,7 +68,9 @@ function ChatAppBar() {
           </IconButton>
         </Grow>
         <Box className={clsx(classes.box, { [classes.boxOpen]: dtype === dType.permanent })}>
-          <Avatar src={`/avatar/${creds.id}?refava=${refava}`} />
+          <ButtonBase disableRipple style={{ borderRadius: 20 }} onClick={() => setAvaOpen(true)}>
+            <Avatar src={avaUrl} />
+          </ButtonBase>
           <Typography variant="h6" className={classes.nick}>
             {creds.nick}
           </Typography>
@@ -89,6 +95,11 @@ function ChatAppBar() {
           </IconButton>
         </Tooltip>
       </Toolbar>
+      <Dialog onClose={() => setAvaOpen(false)} open={avaOpen}>
+        <DialogContent>
+          <img width="100%" src={avaUrl} alt="avatar" />
+        </DialogContent>
+      </Dialog>
     </AppBar>
   )
 }
