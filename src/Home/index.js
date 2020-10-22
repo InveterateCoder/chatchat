@@ -5,6 +5,7 @@ import AppBar from './AppBar.jsx'
 import Drawer from './Drawer.jsx'
 import Body from './Body.jsx'
 import Settings from './Settings.jsx'
+import Private from './Private'
 
 function Home() {
   const sopen = useSelector((state) => state.sopen)
@@ -13,6 +14,7 @@ function Home() {
       <AppBar />
       <Drawer />
       <Body />
+      <Private />
       {sopen && <Settings />}
     </>
   )
