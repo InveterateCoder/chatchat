@@ -2,7 +2,8 @@
 import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import Home from './Home'
+import Base from './Base'
+import Main from './Main.jsx'
 import SignIn from './SignIn.jsx'
 import SignUp from './SignUp.jsx'
 
@@ -10,10 +11,13 @@ export default function Routes() {
   const creds = useSelector((state) => state.creds)
   if (creds) {
     return (
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Redirect to="/" />
-      </Switch>
+      <>
+        <Route component={Base} />
+        <Switch>
+          <Route path="/main" exact component={Main} />
+          <Redirect to="/main" />
+        </Switch>
+      </>
     )
   }
   return (

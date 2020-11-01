@@ -1,8 +1,7 @@
 import React from 'react'
 import { makeStyles, Typography } from '@material-ui/core'
-import { useSelector } from 'react-redux'
 import clsx from 'clsx'
-import { dType } from '../store/actions'
+import useAlignRightStyle from './useAlignBodyStyle'
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -22,19 +21,10 @@ const useStyles = makeStyles((theme) => ({
 
 function Main() {
   const classes = useStyles()
-  const dtype = useSelector((state) => state.dtype)
-  const dopen = useSelector((state) => state.dopen || false)
+  const alignRightStyle = useAlignRightStyle()
 
   return (
-    <main
-      className={
-        clsx(classes.content,
-          {
-            [classes.contentOpen]: dopen && dtype !== dType.temporary,
-            [classes.contentOpenNoTrans]: dtype === dType.permanent,
-          })
-      }
-    >
+    <main className={clsx(classes.content, alignRightStyle)}>
       <Typography variant="h1">Hello</Typography>
     </main>
   )
