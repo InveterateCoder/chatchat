@@ -8,17 +8,18 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.baseShiftTop,
   },
   header: {
-    position: 'sticky',
-    top: theme.baseShiftTop - 10,
+    position: 'fixed',
+    top: theme.baseShiftTop - 7,
+    left: 0,
+    right: 0,
     borderRadius: 0,
-    paddingTop: theme.spacing(0.4),
     textAlign: 'center',
     fontWeight: theme.typography.fontWeightMedium,
     backgroundColor: theme.palette.background.paper,
     boxShadow: `0 0 7px 1px ${theme.palette.grey[500]}`,
   },
   content: {
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    padding: `${theme.spacing(3.5)}px ${theme.spacing(2)}px`,
     paddingBottom: theme.baseShiftBottom,
   },
 }))
@@ -29,7 +30,7 @@ function Main() {
 
   return (
     <main className={clsx(classes.root, alignRightStyle)}>
-      <Typography className={classes.header} variant="h6">Main</Typography>
+      <Typography className={clsx(classes.header, alignRightStyle)} variant="h6">Main</Typography>
       <div className={classes.content}>
         <p style={{ paddingBottom: 2000 }}>helo</p>
         <p>Hello</p>

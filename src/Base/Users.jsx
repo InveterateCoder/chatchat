@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import {
-  Avatar, Dialog, DialogContent, ListItem, ListItemAvatar, ListItemText,
+  Avatar, Dialog, DialogContent, ListItem, IconButton,
+  ListItemAvatar, ListItemSecondaryAction, ListItemText,
 } from '@material-ui/core'
-import { HomeSharp as HomeIcon } from '@material-ui/icons'
+import { HomeSharp as HomeIcon, Message } from '@material-ui/icons'
 import { useSelector } from 'react-redux'
 import User from './User.jsx'
 
@@ -23,7 +24,28 @@ function Users() {
           </Avatar>
         </ListItemAvatar>
         <ListItemText style={{ overflow: 'hidden', whiteSpace: 'hidden' }} primary="Main" />
+        <ListItemSecondaryAction>
+          <IconButton edge="end">
+            <Message />
+          </IconButton>
+        </ListItemSecondaryAction>
       </ListItem>
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
       <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
 
       <Dialog onClose={() => setAvatarOpen(false)} open={avatarOpen}>
