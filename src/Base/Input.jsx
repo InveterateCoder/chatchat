@@ -19,8 +19,11 @@ const useStyles = makeStyles((theme) => ({
         border: 'none',
         borderRadius: 0,
       },
-      paddingTop: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
+      paddingTop: 0,
+      paddingBottom: 0,
+      '& .MuiInputBase-input': {
+        padding: `${theme.spacing(1.5)}px 0`,
+      },
     },
   },
 }))
@@ -40,18 +43,19 @@ function Input() {
         InputProps={{
           endAdornment: (
             <>
-              <IconButton>
+              <IconButton style={{ alignSelf: 'flex-end' }}>
                 <EmojiEmotions />
               </IconButton>
               <IconButton
                 edge="end"
+                style={{ alignSelf: 'flex-end' }}
               >
                 <Send />
               </IconButton>
             </>
           ),
           startAdornment: (
-            <IconButton style={{ marginLeft: -10, marginRight: 5 }}>
+            <IconButton style={{ marginLeft: -10, marginRight: 5, alignSelf: 'flex-end' }}>
               <AttachFile />
             </IconButton>
           ),

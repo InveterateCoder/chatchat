@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { Dialog, DialogContent } from '@material-ui/core'
+import {
+  Avatar, Dialog, DialogContent, ListItem, ListItemAvatar, ListItemText,
+} from '@material-ui/core'
+import { HomeSharp as HomeIcon } from '@material-ui/icons'
 import { useSelector } from 'react-redux'
 import User from './User.jsx'
 
@@ -13,7 +16,15 @@ function Users() {
   }
   return (
     <>
-      <User id="5f8ac135e867a50d30237766" name="Setareh Grigoryan" openAvatar={openAvatar} />
+      <ListItem>
+        <ListItemAvatar>
+          <Avatar>
+            <HomeIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText style={{ overflow: 'hidden', whiteSpace: 'hidden' }} primary="Main" />
+      </ListItem>
+      <User id="" name="Setareh Grigoryan" openAvatar={openAvatar} />
 
       <Dialog onClose={() => setAvatarOpen(false)} open={avatarOpen}>
         <DialogContent>
