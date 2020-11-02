@@ -54,7 +54,7 @@ function ChatAppBar() {
   const avaUrl = `/avatar/${creds.id}?refava=${refava}`
 
   return (
-    <AppBar elevation="1" position="fixed" className={classes.aboveDrawer} color="default">
+    <AppBar elevation={1} position="fixed" className={classes.aboveDrawer} color="default">
       <Toolbar variant="dense">
         <Grow in={dtype !== dType.permanent}>
           <IconButton

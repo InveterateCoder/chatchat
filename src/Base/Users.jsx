@@ -16,7 +16,7 @@ function Users() {
   }
   return (
     <>
-      <ListItem>
+      <ListItem selected>
         <ListItemAvatar>
           <Avatar>
             <HomeIcon />
@@ -24,7 +24,7 @@ function Users() {
         </ListItemAvatar>
         <ListItemText style={{ overflow: 'hidden', whiteSpace: 'hidden' }} primary="Main" />
       </ListItem>
-      <User id="" name="Setareh Grigoryan" openAvatar={openAvatar} />
+      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
 
       <Dialog onClose={() => setAvatarOpen(false)} open={avatarOpen}>
         <DialogContent>

@@ -5,13 +5,17 @@ import {
   ListItemText, ListItemSecondaryAction, IconButton,
   ButtonBase,
 } from '@material-ui/core'
-import { Message } from '@material-ui/icons'
+import { Message, VolumeMute } from '@material-ui/icons'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
   name: {
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
+    marginRight: '35px',
+    '& > span': {
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+    },
   },
   btn: {
     borderRadius: 20,
@@ -31,6 +35,9 @@ function User({ id, name, openAvatar }) {
       </ListItemAvatar>
       <ListItemText className={classes.name} primary={name} />
       <ListItemSecondaryAction>
+        <IconButton edge="end">
+          <VolumeMute />
+        </IconButton>
         <IconButton edge="end">
           <Message />
         </IconButton>
