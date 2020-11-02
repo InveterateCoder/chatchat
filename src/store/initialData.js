@@ -4,7 +4,7 @@ import { dType } from './actions'
 const initialData = {
   dark: memory.dark,
   dtype: dType.temporary,
-  dopen: false,
+  dopen: true,
   creds: memory.creds,
   sopen: false,
   refava: Math.random().toString(),

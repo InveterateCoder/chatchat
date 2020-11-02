@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   box: {
     display: 'flex',
     alignItems: 'center',
-    gap: `${theme.spacing(2)}px`,
+    gap: `${theme.spacing(1)}px`,
     flexGrow: 1,
     marginLeft: theme.spacing(2),
     transition: theme.transitions.create(['margin'], {
@@ -54,7 +54,7 @@ function ChatAppBar() {
   const avaUrl = `/avatar/${creds.id}?refava=${refava}`
 
   return (
-    <AppBar position="fixed" className={classes.aboveDrawer} color="default">
+    <AppBar elevation="1" position="fixed" className={classes.aboveDrawer} color="default">
       <Toolbar variant="dense">
         <Grow in={dtype !== dType.permanent}>
           <IconButton

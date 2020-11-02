@@ -1,5 +1,6 @@
 import React from 'react'
-import { makeStyles, TextField } from '@material-ui/core'
+import { IconButton, makeStyles, TextField } from '@material-ui/core'
+import { EmojiEmotions, AttachFile, Send } from '@material-ui/icons'
 import clsx from 'clsx'
 import useAlignBodyStyle from '../useAlignBodyStyle'
 
@@ -18,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
         border: 'none',
         borderRadius: 0,
       },
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
     },
   },
 }))
@@ -32,6 +35,27 @@ function Input() {
         fullWidth
         variant="outlined"
         placeholder="Type a message..."
+        multiline
+        rowsMax={8}
+        InputProps={{
+          endAdornment: (
+            <>
+              <IconButton>
+                <EmojiEmotions />
+              </IconButton>
+              <IconButton
+                edge="end"
+              >
+                <Send />
+              </IconButton>
+            </>
+          ),
+          startAdornment: (
+            <IconButton style={{ marginLeft: -10, marginRight: 5 }}>
+              <AttachFile />
+            </IconButton>
+          ),
+        }}
       />
     </div>
   )
