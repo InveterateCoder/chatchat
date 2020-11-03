@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import {
   Avatar, makeStyles, ListItem, ListItemAvatar,
   ListItemText, ListItemSecondaryAction, IconButton,
-  ButtonBase,
+  ButtonBase, Typography, Tooltip,
 } from '@material-ui/core'
 import { Message, VolumeMute } from '@material-ui/icons'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
   name: {
-    marginRight: '35px',
+    marginRight: '45px',
     '& > span': {
       textOverflow: 'ellipsis',
       overflow: 'hidden',
@@ -33,7 +33,14 @@ function User({ id, name, openAvatar }) {
           <Avatar src={avatarUrl} />
         </ButtonBase>
       </ListItemAvatar>
-      <ListItemText className={classes.name} primary={name} />
+      <ListItemText
+        className={classes.name}
+        primary={(
+          <Tooltip title={name}>
+            <Typography variant="subtitle2">{name}</Typography>
+          </Tooltip>
+        )}
+      />
       <ListItemSecondaryAction>
         <IconButton edge="end">
           <VolumeMute />

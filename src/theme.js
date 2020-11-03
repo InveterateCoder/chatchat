@@ -10,7 +10,7 @@ function getTheme(dark) {
     },
     drawerMaxWidth: 330,
     drawerWidth: '80%',
-    baseShiftTop: 55,
+    baseShiftTop: 50,
     baseShiftBottom: 65,
   })
 }

@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     position: 'fixed',
-    top: theme.baseShiftTop - 7,
+    top: theme.baseShiftTop - 2,
+    paddingTop: 2,
     left: 0,
     right: 0,
     borderRadius: 0,

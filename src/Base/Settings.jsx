@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   Dialog, DialogContent, DialogTitle, Grid, TextField,
-  Avatar, makeStyles, ButtonBase, DialogActions, Button,
-  FormControl,
+  Avatar, makeStyles, ButtonBase, DialogActions,
+  FormControl, Tooltip, IconButton,
 } from '@material-ui/core'
 import { Save as SaveIcon, Cancel as CancelIcon } from '@material-ui/icons'
 import Error from '../Error.jsx'
@@ -140,24 +140,24 @@ function Settings() {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<CancelIcon />}
-            onClick={cancel}
-            disabled={disabled}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<SaveIcon />}
-            type="submit"
-            disabled={disabled}
-          >
-            Save
-          </Button>
+          <Tooltip title="Cancel" placement="top">
+            <IconButton
+              color="secondary"
+              onClick={cancel}
+              disabled={disabled}
+            >
+              <CancelIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Save" placement="top">
+            <IconButton
+              color="primary"
+              type="submit"
+              disabled={disabled}
+            >
+              <SaveIcon />
+            </IconButton>
+          </Tooltip>
         </DialogActions>
       </FormControl>
       <Error
