@@ -6,10 +6,9 @@ import {
   FormControl, Tooltip, IconButton,
 } from '@material-ui/core'
 import { Save as SaveIcon, Cancel as CancelIcon } from '@material-ui/icons'
-import Error from '../Error.jsx'
-import { openSettings } from '../store/actions'
+import { openSettings, setError } from '../store/actions'
+import { changeUser } from '../store/apiActions'
 import { validateChangeUserForm, validateImageType } from '../../shared/validators'
-import changeUser from '../api/changeUser'
 
 const useStyles = makeStyles(() => ({
   fileInput: {
@@ -29,10 +28,6 @@ function Settings() {
   const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
   const [nickErr, setNickErr] = useState('')
-  const [error, setError] = useState({
-    message: '',
-    open: false,
-  })
   const [disabled, setDisabled] = useState(false)
   const classes = useStyles()
 
@@ -45,10 +40,10 @@ function Settings() {
       // eslint-disable-next-line no-param-reassign
       target.value = ''
       setImageUrl('')
-      setError({
+      dispatch(setError({
         message: 'Wrong image type.',
         open: true,
-      })
+      }))
     }
   }
 
@@ -61,7 +56,7 @@ function Settings() {
     dispatch(openSettings(false))
   }
 
-  const submit = async (ev) => {
+  const submit = (ev) => {
     ev.preventDefault()
     const form = new FormData(ev.target)
     const variables = {}
@@ -77,17 +72,7 @@ function Settings() {
         form.delete('nick')
       }
       if (Array.from(form.keys()).length > 0) {
-        try {
-          setDisabled(true)
-          await changeUser(form)
-        } catch (err) {
-          setDisabled(false)
-          setError({
-            message: err.message,
-            open: true,
-          })
-          return
-        }
+        dispatch(changeUser(setDisabled, form))
       }
       URL.revokeObjectURL(imageUrl)
       dispatch(openSettings(false))
@@ -96,10 +81,10 @@ function Settings() {
         setNickErr(validity.errors.nick)
       }
       if (validity.errors.image) {
-        setError({
+        dispatch(setError({
           message: validity.errors.image,
           open: true,
-        })
+        }))
       }
     }
   }
@@ -160,11 +145,6 @@ function Settings() {
           </Tooltip>
         </DialogActions>
       </FormControl>
-      <Error
-        open={error.open}
-        message={error.message}
-        onOpenClose={(state) => setError({ ...error, open: state })}
-      />
     </Dialog>
   )
 }

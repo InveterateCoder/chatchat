@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider, CssBaseline } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import Routes from './Routes.jsx'
+import Error from './Error.jsx'
 import getTheme from './theme'
 
 function App() {
@@ -13,9 +13,8 @@ function App() {
   return (
     <ThemeProvider theme={getTheme(dark)}>
       <CssBaseline />
-      <Router>
-        <Routes />
-      </Router>
+      <Routes />
+      <Error />
     </ThemeProvider>
   )
 }

@@ -2,15 +2,15 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
-  Container, Avatar, TextField, FormControl, Link,
+  Container, Avatar, TextField, FormControl,
   makeStyles, Typography, Button, Grid, Badge, ButtonBase,
 } from '@material-ui/core'
 import { Photo } from '@material-ui/icons'
-import { Link as LinkDOM } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import withWait from './withWait.jsx'
-import signup from './api/signup'
+import { setSignUP, setError } from './store/actions'
+import { signup } from './store/apiActions'
 import { validateSignUpForm, validateImageType } from '../shared/validators'
-import Error from './Error.jsx'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -33,16 +33,13 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUp({ load }) {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
   const [errors, setErrors] = useState({
     nick: '',
     password: '',
     confirm: '',
     image: '',
-  })
-  const [error, setError] = useState({
-    message: '',
-    open: false,
   })
   const onFileChange = ({ target }) => {
     const file = target.files[0]
@@ -54,10 +51,10 @@ function SignUp({ load }) {
       // eslint-disable-next-line no-param-reassign
       target.value = ''
       setImageUrl('')
-      setError({
+      dispatch(setError({
         message: 'File type is not supported.',
         open: true,
-      })
+      }))
     }
   }
   const onChange = ({ target: { name } }) => {
@@ -74,16 +71,7 @@ function SignUp({ load }) {
     })
     const validity = validateSignUpForm(variables)
     if (validity.valid) {
-      try {
-        load(true)
-        await signup(form)
-      } catch (err) {
-        load(false)
-        setError({
-          message: err.message,
-          open: true,
-        })
-      }
+      dispatch(signup(load, form))
     } else {
       setErrors(validity.errors)
     }
@@ -141,17 +129,12 @@ function SignUp({ load }) {
         <Grid container justify="space-between" style={{ marginTop: '-.7em' }}>
           <Grid item />
           <Grid item>
-            <Link component={LinkDOM} to="/signin" color="inherit">
+            <Button onClick={() => dispatch(setSignUP(false))} color="inherit">
               Sign In
-            </Link>
+            </Button>
           </Grid>
         </Grid>
       </FormControl>
-      <Error
-        open={error.open}
-        message={error.message}
-        onOpenClose={(state) => setError({ ...error, open: state })}
-      />
     </Container>
   )
 }

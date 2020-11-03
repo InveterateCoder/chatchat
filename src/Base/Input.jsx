@@ -19,14 +19,19 @@ const useStyles = makeStyles((theme) => ({
         border: 'none',
         borderRadius: 0,
       },
-      paddingTop: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
+      paddingTop: 0,
+      paddingBottom: 0,
       fontSize: '.85rem',
+      '& .MuiInputBase-input': {
+        margin: `${theme.spacing(1.5)}px 0`,
+      },
     },
   },
   action: {
-    height: '30px',
     alignSelf: 'flex-end',
+    height: 40,
+    width: 40,
+    margin: theme.spacing(0.4),
   },
 }))
 
@@ -57,10 +62,7 @@ function Input() {
             </>
           ),
           startAdornment: (
-            <IconButton
-              style={{ marginLeft: -10, marginRight: 5 }}
-              className={classes.action}
-            >
+            <IconButton style={{ marginLeft: -10, marginRight: 5 }} className={classes.action}>
               <AttachFile />
             </IconButton>
           ),

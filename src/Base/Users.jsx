@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
 import {
-  Avatar, Dialog, DialogContent, ListItem, IconButton,
-  ListItemAvatar, ListItemSecondaryAction, ListItemText,
+  Avatar, Dialog, DialogContent, ListItem, IconButton, Badge,
+  ListItemAvatar, ListItemSecondaryAction, ListItemText, makeStyles,
 } from '@material-ui/core'
 import { HomeSharp as HomeIcon, Message } from '@material-ui/icons'
 import { useSelector } from 'react-redux'
 import User from './User.jsx'
 
+const useStyles = makeStyles((theme) => ({
+  avatar: {
+    backgroundColor: theme.palette.warning.main,
+  },
+}))
+
 function Users() {
+  const classes = useStyles()
   const [avatarOpen, setAvatarOpen] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState('')
   const refava = useSelector((state) => state.refava)
@@ -19,14 +26,16 @@ function Users() {
     <>
       <ListItem selected>
         <ListItemAvatar>
-          <Avatar>
+          <Avatar className={classes.avatar}>
             <HomeIcon />
           </Avatar>
         </ListItemAvatar>
         <ListItemText primary="Main" />
         <ListItemSecondaryAction>
           <IconButton edge="end">
-            <Message />
+            <Badge badgeContent={4} color="secondary">
+              <Message />
+            </Badge>
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>

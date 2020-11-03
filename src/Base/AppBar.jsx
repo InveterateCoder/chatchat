@@ -71,7 +71,7 @@ function ChatAppBar() {
           <ButtonBase disableRipple style={{ borderRadius: 20 }} onClick={() => setAvaOpen(true)}>
             <Avatar src={avaUrl} />
           </ButtonBase>
-          <Typography variant="h6" className={classes.nick}>
+          <Typography variant="subtitle1" className={classes.nick}>
             {creds.nick}
           </Typography>
         </Box>

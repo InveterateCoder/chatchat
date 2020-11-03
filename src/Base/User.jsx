@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
   Avatar, makeStyles, ListItem, ListItemAvatar,
   ListItemText, ListItemSecondaryAction, IconButton,
-  ButtonBase, Typography, Tooltip,
+  ButtonBase, Typography, Tooltip, Badge,
 } from '@material-ui/core'
 import { Message, VolumeMute } from '@material-ui/icons'
 import { useSelector } from 'react-redux'
@@ -46,7 +46,9 @@ function User({ id, name, openAvatar }) {
           <VolumeMute />
         </IconButton>
         <IconButton edge="end">
-          <Message />
+          <Badge badgeContent={10} color="secondary">
+            <Message />
+          </Badge>
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>

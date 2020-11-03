@@ -4,6 +4,12 @@ export const dType = {
   temporary: 'temporary',
 }
 
+export const SET_ERROR = 'set_error'
+export const setError = (err) => ({
+  type: SET_ERROR,
+  payload: err,
+})
+
 export const SET_DARK = 'set_dark'
 export const setDark = (dark) => ({
   type: SET_DARK,
@@ -24,6 +30,12 @@ export const SET_DRAWER_OPEN = 'set_drawer_open'
 export const setDrawerOpen = (open) => ({
   type: SET_DRAWER_OPEN,
   payload: open,
+})
+
+export const SET_SIGNUP = 'set_signup'
+export const setSignUP = (signup) => ({
+  type: SET_SIGNUP,
+  payload: signup,
 })
 
 export const LOGIN = 'login'
