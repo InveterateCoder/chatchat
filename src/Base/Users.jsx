@@ -39,7 +39,7 @@ function Users() {
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
-      <User id="5fa01b9ce6cd320447f49b10" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
+      <User id="5fa148ea8665f17abe769d91" name="Setareh Grigoryan Salmani" openAvatar={openAvatar} />
 
       <Dialog onClose={() => setAvatarOpen(false)} open={avatarOpen}>
         <DialogContent>

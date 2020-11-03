@@ -11,13 +11,15 @@ async function signinController(req, res) {
     return res.status(400).send(Object.values(validity.errors).filter((val) => val).join('\n'))
   }
   try {
-    const user = await User.findByNick(req.body.nick)
+    // const user = await User.findByNick(req.body.nick)
+    const user = await User.findOne({ nick: req.body.nick }).exec()
     if (user) {
-      if (await bcrypt.compare(req.body.password, user.password)) {
+      if (user.comparePassword(req.body.password)) {
         const token = jwt.sign(
           {
             data: {
-              _id: user._id,
+              id: user._id,
+              nick: user.nick,
             },
           },
           process.env.jwtSecret,

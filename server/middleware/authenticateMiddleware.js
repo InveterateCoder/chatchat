@@ -6,9 +6,11 @@ async function authenticateMiddleware(req, res, next) {
     let token = req.header('Authorization')
     if (token) token = token.substring(7)
     else return next()
-    const { data: { _id } } = jwt.verify(token, process.env.jwtSecret)
-    req.user.authId = _id
-    req.user.isAuthenticated = true
+    const { data: { id, nick } } = jwt.verify(token, process.env.jwtSecret)
+    req.user = {
+      id,
+      nick,
+    }
   } catch (err) {
     if (err.constructor !== jwt.JsonWebTokenError) {
       return next(err)

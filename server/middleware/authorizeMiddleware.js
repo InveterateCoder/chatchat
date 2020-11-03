@@ -2,13 +2,12 @@ const User = require('../models/UserModel')
 
 async function authorizeMiddleware(req, res, next) {
   try {
-    if (!req.user.isAuthenticated) return res.status(403).end()
-    const user = await User.findById(req.user.authId)
-    if (!user) {
-      return res.status(401).end()
+    if (!req.user) return res.status(403).end()
+
+    if (User.exists({ _id: req.user.id })) {
+      return next()
     }
-    req.user.doc = user
-    return next()
+    return res.status(401).end()
   } catch (err) {
     return next(err)
   }

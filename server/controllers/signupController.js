@@ -1,62 +1,66 @@
+/* eslint-disable no-underscore-dangle */
 const path = require('path')
 const fs = require('fs')
 const formidable = require('formidable')
 const Jimp = require('jimp')
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models/UserModel')
 const errors = require('../infrastracture/errors')
-const { validateSignUpForm } = require('../../shared/validators')
+const { validateImageExist, validateImageType } = require('../../shared/validators')
 
 function signupController(req, res) {
   const form = formidable({ multiples: false, uploadDir: path.resolve(__dirname, 'tmp') })
   form.parse(req, async (err, fields, files) => {
+    let clean = false
     if (err) {
       return res.status(500).send(errors[500])
     }
-    const validity = validateSignUpForm({
-      nick: fields.nick,
-      password: fields.password,
-      confirm: fields.confirm,
-      image: files.image,
-    })
-    if (!validity.valid) {
-      return res.status(400).send(Object.values(validity.errors).filter((val) => val).join('\n'))
+    let valErr = validateImageExist(files.image)
+    if (valErr) {
+      return res.status(400).send(valErr)
     }
-    const user = {
-      nick: fields.nick,
-      password: await bcrypt.hash(fields.password, Number(process.env.saltRounds)),
-      imageType: files.image.type,
-      image: await Jimp.read(files.image.path)
-        .then((image) => image.cover(500, 500).getBufferAsync(files.image.type)),
+    clean = true
+    valErr = validateImageType(files.image)
+    if (valErr) {
+      return res.status(400).send(valErr)
     }
-    fs.unlinkSync(files.image.path)
+    if (fields.password !== fields.confirm) {
+      return res.status(400).send(errors[400])
+    }
+    const img = await Jimp.read(files.image.path)
+      .then((image) => image.cover(500, 500).getBufferAsync(files.image.type))
     try {
-      const insertedId = await User.add(user)
-      if (insertedId) {
-        const token = jwt.sign(
-          {
-            data: {
-              _id: insertedId,
-            },
+      const user = new User({
+        nick: fields.nick,
+        password: fields.password,
+        imageType: files.image.type,
+        image: img,
+      })
+      const doc = await user.save()
+      const token = jwt.sign(
+        {
+          data: {
+            id: doc._id,
+            nick: doc.nick,
           },
-          process.env.jwtSecret,
-          { expiresIn: 60 * 60 * 24 * 30 },
-        )
-        if (token) {
-          return res.json({
-            token,
-            id: insertedId,
-            nick: user.nick,
-          })
-        }
+        },
+        process.env.jwtSecret,
+        { expiresIn: 60 * 60 * 24 * 30 },
+      )
+      if (token) {
+        return res.json({
+          token,
+          id: doc._id,
+          nick: doc.nick,
+        })
       }
     } catch (error) {
-      if (error.code) {
-        const text = errors[error.code]
-        if (text) {
-          return res.status(400).send(text)
-        }
+      if (error.errors) {
+        return res.status(400).send(Object.entries(error.errors).map(([, e]) => e.message).join('\n'))
+      }
+    } finally {
+      if (clean) {
+        fs.unlinkSync(files.image.path)
       }
     }
     return res.status(500).send(errors[500])
