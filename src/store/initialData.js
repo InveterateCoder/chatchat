@@ -12,6 +12,10 @@ const initialData = {
   signup: false, // weather to sign up or in
   creds: memory.creds, // user credentials
   sopen: false, // settings open state
+  avatar: {
+    url: '',
+    open: false,
+  },
   refava: Math.random().toString(), // refresh avatars by appending random data to the URLs
 }
 

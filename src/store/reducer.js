@@ -1,7 +1,8 @@
 import initialData from './initialData'
 import {
   SET_DARK, SET_DRAWER_TYPE, SET_DRAWER_OPEN,
-  LOGIN, LOGOUT, OPEN_SETTINGS, REFRESH_AVATAR, dType, SET_SIGNUP, SET_ERROR,
+  LOGIN, LOGOUT, OPEN_SETTINGS, REFRESH_AVATAR,
+  dType, SET_SIGNUP, SET_ERROR, SET_AVATAR,
 } from './actions'
 import memory from './memory'
 
@@ -38,6 +39,8 @@ export default function reducer(state = initialData, action) {
       }
     case OPEN_SETTINGS:
       return { ...state, sopen: action.payload }
+    case SET_AVATAR:
+      return { ...state, avatar: { ...state.avatar, ...action.payload } }
     case REFRESH_AVATAR:
       return { ...state, refava: action.payload }
     default:

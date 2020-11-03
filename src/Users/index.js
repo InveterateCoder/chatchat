@@ -1,10 +1,11 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { useEffect } from 'react'
 import {
-  useMediaQuery, useTheme, SwipeableDrawer, makeStyles, List,
+  useMediaQuery, useTheme, SwipeableDrawer, makeStyles,
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import clsx from 'clsx'
-import Users from './Users.jsx'
+import UsersList from './UsersList.jsx'
 import { setDrawerType, setDrawerOpen, dType } from '../store/actions'
 
 const useStyles = makeStyles((theme) => ({
@@ -38,14 +39,12 @@ function AppDrawer() {
       anchor="left"
       swipeAreaWidth={70}
       open={dopen}
-      variant={dtype}
+      variant={dtype === dType.temporary ? 'temporary' : 'persistent'}
       onClose={() => dispatch(setDrawerOpen(false))}
       onOpen={() => dispatch(setDrawerOpen(true))}
       classes={{ paper: clsx(classes.drawer, { [classes.pad]: dtype !== dType.temporary }) }}
     >
-      <List>
-        <Users />
-      </List>
+      <UsersList />
     </SwipeableDrawer>
   )
 }

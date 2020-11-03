@@ -1,7 +1,8 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react'
 import { makeStyles, Typography } from '@material-ui/core'
 import clsx from 'clsx'
-import useAlignRightStyle from './useAlignBodyStyle'
+import useAlignRightStyle from '../useAlignBodyStyle'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,13 +26,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Main() {
+function Content() {
   const classes = useStyles()
   const alignRightStyle = useAlignRightStyle()
 
   return (
     <main className={clsx(classes.root, alignRightStyle)}>
-      <Typography className={clsx(classes.header, alignRightStyle)} variant="h6">Main</Typography>
+      <Typography className={clsx(classes.header, alignRightStyle)} variant="h6">Public</Typography>
       <div className={classes.content}>
         <p style={{ paddingBottom: 2000 }}>helo</p>
         <p>Hello</p>
@@ -40,4 +41,4 @@ function Main() {
   )
 }
 
-export default Main
+export default Content

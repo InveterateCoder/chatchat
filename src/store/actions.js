@@ -1,7 +1,7 @@
 export const dType = {
-  permanent: 'permanent',
-  persistent: 'persistent',
-  temporary: 'temporary',
+  permanent: 'm',
+  persistent: 's',
+  temporary: 't',
 }
 
 export const SET_ERROR = 'set_error'
@@ -53,6 +53,12 @@ export const OPEN_SETTINGS = 'open_settings'
 export const openSettings = (state) => ({
   type: OPEN_SETTINGS,
   payload: state,
+})
+
+export const SET_AVATAR = 'set_avatar'
+export const setAvatar = (avatar) => ({
+  type: SET_AVATAR,
+  payload: avatar,
 })
 
 export const REFRESH_AVATAR = 'refresh_avatar'

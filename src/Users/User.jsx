@@ -6,7 +6,8 @@ import {
   ButtonBase, Typography, Tooltip, Badge,
 } from '@material-ui/core'
 import { Message, VolumeMute } from '@material-ui/icons'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setAvatar } from '../store/actions'
 
 const useStyles = makeStyles(() => ({
   name: {
@@ -22,14 +23,20 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-function User({ id, name, openAvatar }) {
+function User({ id, name }) {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const refava = useSelector((state) => state.refava)
   const avatarUrl = `/avatar/${id}?refava=${refava}`
+
   return (
     <ListItem>
       <ListItemAvatar>
-        <ButtonBase disableRipple className={classes.btn} onClick={() => openAvatar(id)}>
+        <ButtonBase
+          disableRipple
+          className={classes.btn}
+          onClick={() => dispatch(setAvatar({ url: avatarUrl, open: true }))}
+        >
           <Avatar src={avatarUrl} />
         </ButtonBase>
       </ListItemAvatar>
@@ -57,7 +64,6 @@ function User({ id, name, openAvatar }) {
 User.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  openAvatar: PropTypes.func.isRequired,
 }
 
 export default User

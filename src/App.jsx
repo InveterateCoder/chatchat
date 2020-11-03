@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { ThemeProvider, CssBaseline } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import Routes from './Routes.jsx'
-import Error from './Error.jsx'
 import getTheme from './theme'
 
 function App() {
@@ -14,7 +13,6 @@ function App() {
     <ThemeProvider theme={getTheme(dark)}>
       <CssBaseline />
       <Routes />
-      <Error />
     </ThemeProvider>
   )
 }

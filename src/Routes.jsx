@@ -2,7 +2,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import Base from './Base'
-import Main from './Main.jsx'
+import Users from './Users'
+import Content from './Content'
 import SignIn from './SignIn.jsx'
 import SignUp from './SignUp.jsx'
 
@@ -13,7 +14,8 @@ export default function Routes() {
     return (
       <>
         <Base />
-        <Main />
+        <Users />
+        <Content />
       </>
     )
   }
