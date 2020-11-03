@@ -11,9 +11,11 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     maxWidth: theme.drawerMaxWidth,
     width: theme.drawerWidth,
+    height: 'auto',
+    bottom: 0,
   },
-  listPad: {
-    paddingTop: theme.baseShiftTop,
+  pad: {
+    top: theme.baseShiftTop,
   },
 }))
 
@@ -39,9 +41,9 @@ function AppDrawer() {
       variant={dtype}
       onClose={() => dispatch(setDrawerOpen(false))}
       onOpen={() => dispatch(setDrawerOpen(true))}
-      classes={{ paper: classes.drawer }}
+      classes={{ paper: clsx(classes.drawer, { [classes.pad]: dtype !== dType.temporary }) }}
     >
-      <List className={clsx({ [classes.listPad]: dtype !== dType.temporary })}>
+      <List>
         <Users />
       </List>
     </SwipeableDrawer>
