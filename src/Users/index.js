@@ -37,7 +37,6 @@ function AppDrawer() {
       disableBackdropTransition={!IOS}
       disableDiscovery={IOS}
       anchor="left"
-      swipeAreaWidth={70}
       open={dopen}
       variant={dtype === dType.temporary ? 'temporary' : 'persistent'}
       onClose={() => dispatch(setDrawerOpen(false))}

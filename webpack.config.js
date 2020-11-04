@@ -1,5 +1,6 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 
@@ -30,12 +31,20 @@ const clientConfig = {
               ],
               '@babel/preset-react',
             ],
-            plugins: ['emotion'],
           },
         },
       },
+      {
+        test: /\.css/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ],
   optimization: {
     splitChunks: {
       chunks: 'all',
@@ -60,7 +69,7 @@ const serverConfig = {
   module: {
     rules: [
       {
-        test: /\.jsx?/,
+        test: /\.js/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -84,7 +93,16 @@ const serverConfig = {
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'public', to: 'public' },
+        {
+          from: 'public',
+          to: 'public',
+          filter: (resPath) => {
+            if (path.parse(resPath).base === 'index.html') {
+              return false
+            }
+            return true
+          },
+        },
         { from: 'tmp', to: 'tmp' },
         { from: '.env', to: '' },
       ],

@@ -1,5 +1,5 @@
-require('source-map-support').install()
 /* eslint-disable import/no-extraneous-dependencies */
+require('source-map-support').install()
 const express = require('express')
 const wpDevMiddleware = require('webpack-dev-middleware')
 const wpHotMiddleware = require('webpack-hot-middleware')

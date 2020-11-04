@@ -1,8 +1,11 @@
-import React from 'react'
-import { IconButton, makeStyles, TextField } from '@material-ui/core'
+import React, { useState } from 'react'
+import {
+  IconButton, makeStyles, TextField,
+} from '@material-ui/core'
 import { EmojiEmotions, AttachFile, Send } from '@material-ui/icons'
 import clsx from 'clsx'
-import useAlignBodyStyle from '../useAlignBodyStyle'
+import useAlignBodyStyle from '../hooks/useAlignBodyStyle'
+import EmojiPicker from './EmojiPicker.jsx'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     left: 0,
     bottom: 0,
+    display: 'flex',
+    flexDirection: 'column',
   },
   textField: {
     backgroundColor: theme.palette.background.paper,
@@ -38,8 +43,14 @@ const useStyles = makeStyles((theme) => ({
 function Input() {
   const classes = useStyles()
   const alignBodyStyle = useAlignBodyStyle()
+  const [emojiOpen, setEmojiOpen] = useState(false)
+
+  const toggleEmojies = () => {
+    setEmojiOpen(!emojiOpen)
+  }
   return (
     <div className={clsx(classes.root, alignBodyStyle)}>
+      <EmojiPicker open={emojiOpen} onFocusLose={() => setEmojiOpen(false)} />
       <TextField
         className={classes.textField}
         fullWidth
@@ -50,7 +61,12 @@ function Input() {
         InputProps={{
           endAdornment: (
             <>
-              <IconButton className={classes.action}>
+              <IconButton
+                id="emojbtn"
+                className={classes.action}
+                onClick={toggleEmojies}
+                style={{ color: emojiOpen && '#fbd043' }}
+              >
                 <EmojiEmotions />
               </IconButton>
               <IconButton

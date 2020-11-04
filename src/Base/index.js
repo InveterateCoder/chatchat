@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import AppBar from './AppBar.jsx'
 import Input from './Input.jsx'
 import Avatar from './Avatar.jsx'
-import Error from './Error.jsx'
 import Settings from './Settings.jsx'
 
 function Home() {
@@ -14,7 +13,6 @@ function Home() {
       <AppBar />
       <Input />
       <Avatar />
-      <Error />
       {sopen && <Settings />}
     </>
   )

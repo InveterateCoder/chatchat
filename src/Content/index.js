@@ -2,7 +2,7 @@
 import React from 'react'
 import { makeStyles, Typography } from '@material-ui/core'
 import clsx from 'clsx'
-import useAlignRightStyle from '../useAlignBodyStyle'
+import useAlignRightStyle from '../hooks/useAlignBodyStyle'
 
 const useStyles = makeStyles((theme) => ({
   root: {
