@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core'
 import clsx from 'clsx'
-import { dType } from '../store/actions'
+import { dType } from '../store/types'
 
 const useStyles = makeStyles((theme) => ({
   contentOpen: {

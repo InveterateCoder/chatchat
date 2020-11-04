@@ -1,13 +1,15 @@
-export const dType = {
-  permanent: 'm',
-  persistent: 's',
-  temporary: 't',
-}
+import { dType } from './types'
 
 export const SET_ERROR = 'set_error'
 export const setError = (err) => ({
   type: SET_ERROR,
   payload: err,
+})
+
+export const SET_THEME = 'set_theme'
+export const setTheme = (theme) => ({
+  type: SET_THEME,
+  payload: theme,
 })
 
 export const SET_DARK = 'set_dark'

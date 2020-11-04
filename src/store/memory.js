@@ -1,8 +1,17 @@
 /* eslint-disable no-underscore-dangle */
+import { themeType } from './types'
+
 class Memory {
   constructor() {
     this.__creds = JSON.parse(localStorage.getItem(Memory.names.creds))
-    this.__dark = localStorage.getItem(Memory.names.dark)
+    let theme = localStorage.getItem(Memory.names.theme)
+    if (theme) {
+      this.__theme = theme
+    } else {
+      theme = themeType.auto
+      localStorage.setItem(Memory.names.theme, theme)
+      this.__theme = theme
+    }
   }
 
   get creds() {
@@ -18,23 +27,19 @@ class Memory {
     this.__creds = creds
   }
 
-  get dark() {
-    return this.__dark
+  get theme() {
+    return this.__theme
   }
 
-  set dark(dark) {
-    if (!dark) {
-      localStorage.removeItem(Memory.names.dark)
-    } else {
-      localStorage.setItem(Memory.names.dark, dark)
-    }
-    this.__dark = dark
+  set theme(theme) {
+    localStorage.setItem(Memory.names.theme, theme)
+    this.__theme = theme
   }
 }
 
 Memory.names = {
   creds: 'creds',
-  dark: 'dark',
+  theme: 'theme',
 }
 
 const memory = new Memory()

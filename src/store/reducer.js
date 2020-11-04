@@ -1,10 +1,18 @@
 import initialData from './initialData'
 import {
-  SET_DARK, SET_DRAWER_TYPE, SET_DRAWER_OPEN,
+  SET_THEME, SET_DRAWER_TYPE, SET_DRAWER_OPEN,
   LOGIN, LOGOUT, OPEN_SETTINGS, REFRESH_AVATAR,
-  dType, SET_SIGNUP, SET_ERROR, SET_AVATAR,
+  SET_SIGNUP, SET_ERROR, SET_AVATAR, SET_DARK,
 } from './actions'
 import memory from './memory'
+import { themeType, dType } from './types'
+
+function getDark() {
+  if (memory.theme === themeType.auto) {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+  }
+  return memory.theme === themeType.dark
+}
 
 export default function reducer(state = initialData, action) {
   switch (action.type) {
@@ -12,8 +20,10 @@ export default function reducer(state = initialData, action) {
       const error = { ...state.error, ...action.payload }
       return { ...state, error }
     }
+    case SET_THEME:
+      memory.theme = action.payload || themeType.auto
+      return { ...state, theme: memory.theme, dark: getDark() }
     case SET_DARK:
-      memory.dark = action.payload || ''
       return { ...state, dark: action.payload }
     case SET_DRAWER_TYPE:
       return {
@@ -30,11 +40,11 @@ export default function reducer(state = initialData, action) {
       return { ...state, creds: action.payload }
     case LOGOUT:
       memory.creds = null
-      memory.dark = null
+      memory.theme = themeType.auto
       return {
         ...state,
         creds: null,
-        dark: null,
+        theme: themeType.auto,
         signup: false,
       }
     case OPEN_SETTINGS:

@@ -8,12 +8,17 @@ import MenuIcon from '@material-ui/icons/Menu'
 import CloseIcon from '@material-ui/icons/Close'
 import SettingsIcon from '@material-ui/icons/Settings'
 import SignoutIcon from '@material-ui/icons/ExitToApp'
-import { Brightness2 as DarkIcon, Brightness7 as LightIcon } from '@material-ui/icons'
+import {
+  Brightness2 as DarkIcon,
+  WbSunny as LightIcon,
+  BrightnessAuto as AutoIcon,
+} from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import clsx from 'clsx'
 import {
-  setDark, setDrawerOpen, dType, logout, openSettings,
+  setTheme, setDrawerOpen, logout, openSettings,
 } from '../store/actions'
+import { dType, themeType } from '../store/types'
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -42,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function ChatAppBar() {
-  const dark = useSelector((state) => state.dark || false)
+  const theme = useSelector((state) => state.theme)
   const dopen = useSelector((state) => state.dopen)
   const dtype = useSelector((state) => state.dtype)
   const creds = useSelector((state) => state.creds)
@@ -52,6 +57,20 @@ function ChatAppBar() {
   const classes = useStyles()
 
   const avaUrl = `/avatar/${creds.id}?refava=${refava}`
+
+  let BrightnessIcon = null
+  let nextBrightnessState
+
+  if (theme === themeType.auto) {
+    BrightnessIcon = AutoIcon
+    nextBrightnessState = themeType.dark
+  } else if (theme === themeType.dark) {
+    BrightnessIcon = DarkIcon
+    nextBrightnessState = themeType.light
+  } else {
+    BrightnessIcon = LightIcon
+    nextBrightnessState = themeType.auto
+  }
 
   return (
     <AppBar elevation={1} position="fixed" className={classes.aboveDrawer} color="default">
@@ -76,12 +95,8 @@ function ChatAppBar() {
           </Typography>
         </Box>
         <Tooltip title="Theme">
-          <IconButton onClick={() => dispatch(setDark(!dark))}>
-            {
-              dark
-                ? <LightIcon />
-                : <DarkIcon />
-            }
+          <IconButton onClick={() => dispatch(setTheme(nextBrightnessState))}>
+            <BrightnessIcon />
           </IconButton>
         </Tooltip>
         <Tooltip title="Settings">
