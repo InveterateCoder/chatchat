@@ -18,7 +18,8 @@ const initialData = {
   dtype: dType.temporary, // drawer type
   dopen: true, // drawer open state
   signup: false, // weather to sign up or in
-  creds: memory.creds, // user credentials
+  token: memory.token, // user credentials
+  auth: memory.auth, // user credentials, retrieved from ther server
   sopen: false, // settings open state
   avatar: {
     url: '',

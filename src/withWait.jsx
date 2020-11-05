@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { css } from '@emotion/core'
 import { DotLoader } from 'react-spinners'
 import { makeStyles } from '@material-ui/core'

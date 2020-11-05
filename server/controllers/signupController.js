@@ -39,20 +39,13 @@ function signupController(req, res) {
       const doc = await user.save()
       const token = jwt.sign(
         {
-          data: {
-            id: doc._id,
-            nick: doc.nick,
-          },
+          data: { id: doc._id },
         },
         process.env.jwtSecret,
         { expiresIn: 60 * 60 * 24 * 30 },
       )
       if (token) {
-        return res.json({
-          token,
-          id: doc._id,
-          nick: doc.nick,
-        })
+        return res.json({ token, auth: { id: doc._id, nick: doc.nick } })
       }
     } catch (error) {
       if (error.errors) {

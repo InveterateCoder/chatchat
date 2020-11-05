@@ -51,6 +51,12 @@ export const logout = () => ({
   type: LOGOUT,
 })
 
+export const SET_AUTH = 'set_auth'
+export const setAuth = (auth) => ({
+  type: SET_AUTH,
+  payload: auth,
+})
+
 export const OPEN_SETTINGS = 'open_settings'
 export const openSettings = (state) => ({
   type: OPEN_SETTINGS,

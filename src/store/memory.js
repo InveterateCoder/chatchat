@@ -3,7 +3,8 @@ import { themeType } from './types'
 
 class Memory {
   constructor() {
-    this.__creds = JSON.parse(localStorage.getItem(Memory.names.creds))
+    this.__token = JSON.parse(localStorage.getItem(Memory.names.token))
+    this.__auth = JSON.parse(sessionStorage.getItem(Memory.names.auth))
     let theme = localStorage.getItem(Memory.names.theme)
     if (theme) {
       this.__theme = theme
@@ -14,17 +15,30 @@ class Memory {
     }
   }
 
-  get creds() {
-    return this.__creds
+  get token() {
+    return this.__token
   }
 
-  set creds(creds) {
-    if (!creds) {
-      localStorage.removeItem(Memory.names.creds)
+  set token(token) {
+    if (!token) {
+      localStorage.removeItem(Memory.names.token)
     } else {
-      localStorage.setItem(Memory.names.creds, JSON.stringify(creds))
+      localStorage.setItem(Memory.names.token, JSON.stringify(token))
     }
-    this.__creds = creds
+    this.__token = token
+  }
+
+  get auth() {
+    return this.__auth
+  }
+
+  set auth(auth) {
+    if (!auth) {
+      sessionStorage.removeItem(Memory.names.auth)
+    } else {
+      sessionStorage.setItem(Memory.names.auth, JSON.stringify(auth))
+    }
+    this.__auth = auth
   }
 
   get theme() {
@@ -38,8 +52,9 @@ class Memory {
 }
 
 Memory.names = {
-  creds: 'creds',
+  token: 'token',
   theme: 'theme',
+  auth: 'auth',
 }
 
 const memory = new Memory()

@@ -6,16 +6,21 @@ import Users from './Users'
 import Content from './Content'
 import SignIn from './SignIn.jsx'
 import SignUp from './SignUp.jsx'
+import Authorize from './Authorize.jsx'
 
 export default function Routes() {
-  const creds = useSelector((state) => state.creds)
+  const token = useSelector((state) => state.token)
+  const auth = useSelector((state) => state.auth)
   const signup = useSelector((state) => state.signup)
-  if (creds) {
+  if (token) {
+    if (!auth) {
+      return <Authorize />
+    }
     return (
       <>
-        <Base />
         <Users />
         <Content />
+        <Base />
       </>
     )
   }

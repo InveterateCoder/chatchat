@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
 }))
 
 function Settings() {
-  const creds = useSelector((state) => state.creds)
+  const auth = useSelector((state) => state.auth)
   const refava = useSelector((state) => state.refava)
   const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
@@ -68,14 +68,13 @@ function Settings() {
       if (!variables.image.size) {
         form.delete('image')
       }
-      if (variables.nick === creds.nick) {
+      if (variables.nick === auth.nick) {
         form.delete('nick')
       }
       if (Array.from(form.keys()).length > 0) {
         dispatch(changeUser(setDisabled, form))
       }
       URL.revokeObjectURL(imageUrl)
-      dispatch(openSettings(false))
     } else {
       if (validity.errors.nick) {
         setNickErr(validity.errors.nick)
@@ -89,7 +88,7 @@ function Settings() {
     }
   }
 
-  const avaUrl = `/avatar/${creds.id}?refava=${refava}`
+  const avaUrl = `/avatar/${auth.id}?refava=${refava}`
   return (
     <Dialog fullWidth maxWidth="sm" open>
       <DialogTitle>User settings</DialogTitle>
@@ -114,7 +113,7 @@ function Settings() {
               <TextField
                 fullWidth
                 label="Nickname"
-                defaultValue={creds.nick}
+                defaultValue={auth.nick}
                 helperText={nickErr}
                 error={Boolean(nickErr)}
                 name="nick"

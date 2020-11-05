@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models/UserModel')
 const errors = require('../infrastracture/errors')
@@ -17,20 +16,13 @@ async function signinController(req, res) {
       if (user.comparePassword(req.body.password)) {
         const token = jwt.sign(
           {
-            data: {
-              id: user._id,
-              nick: user.nick,
-            },
+            data: { id: user._id },
           },
           process.env.jwtSecret,
           { expiresIn: 60 * 60 * 24 * 30 },
         )
         if (token) {
-          return res.send({
-            token,
-            id: user._id,
-            nick: user.nick,
-          })
+          return res.send({ token, auth: { id: user._id, nick: user.nick } })
         }
       } else {
         return res.status(400).send(errors.password)

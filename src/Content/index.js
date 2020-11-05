@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react'
-import { makeStyles, Typography } from '@material-ui/core'
+import { makeStyles, Typography, Container } from '@material-ui/core'
 import clsx from 'clsx'
 import useAlignRightStyle from '../hooks/useAlignBodyStyle'
+import Message from './Message.jsx'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,11 +33,10 @@ function Content() {
 
   return (
     <main className={clsx(classes.root, alignRightStyle)}>
+      <Container maxWidth="md" className={classes.content}>
+        <Message />
+      </Container>
       <Typography className={clsx(classes.header, alignRightStyle)} variant="h6">Public</Typography>
-      <div className={classes.content}>
-        <p style={{ paddingBottom: 2000 }}>helo</p>
-        <p>Hello</p>
-      </div>
     </main>
   )
 }

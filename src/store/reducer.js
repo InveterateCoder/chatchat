@@ -3,6 +3,7 @@ import {
   SET_THEME, SET_DRAWER_TYPE, SET_DRAWER_OPEN,
   LOGIN, LOGOUT, OPEN_SETTINGS, REFRESH_AVATAR,
   SET_SIGNUP, SET_ERROR, SET_AVATAR, SET_DARK,
+  SET_AUTH,
 } from './actions'
 import memory from './memory'
 import { themeType, dType } from './types'
@@ -35,15 +36,23 @@ export default function reducer(state = initialData, action) {
       return { ...state, dopen: action.payload }
     case SET_SIGNUP:
       return { ...state, signup: action.payload }
-    case LOGIN:
-      memory.creds = action.payload
-      return { ...state, creds: action.payload }
+    case LOGIN: {
+      const { token, auth } = action.payload
+      memory.token = token
+      memory.auth = auth
+      return { ...state, token, auth }
+    }
+    case SET_AUTH:
+      memory.auth = action.payload
+      return { ...state, auth: action.payload }
     case LOGOUT:
-      memory.creds = null
+      memory.token = null
+      memory.auth = null
       memory.theme = themeType.auto
       return {
         ...state,
-        creds: null,
+        token: null,
+        auth: null,
         theme: themeType.auto,
         signup: false,
       }

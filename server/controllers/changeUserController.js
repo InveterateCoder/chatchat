@@ -35,8 +35,9 @@ function changeUserController(req, res) {
       if (Object.keys(update).length === 0) {
         return res.status(400).send(errors.noChange)
       }
-      await User.findByIdAndUpdate(req.user.id, update).exec()
-      return res.end()
+      const doc = await User.findByIdAndUpdate(req.user.id, update, { new: true }).exec()
+      req.user.nick = doc.nick
+      return res.json({ auth: { id: doc._id, nick: doc.nick } })
     } catch (error) {
       if (error.code) {
         const text = errors[error.code]
