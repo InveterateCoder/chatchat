@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: `0 0 7px 1px ${theme.palette.grey[500]}`,
   },
   content: {
-    padding: `${theme.spacing(3.5)}px ${theme.spacing(2)}px`,
+    paddingTop: theme.spacing(5.5),
     paddingBottom: theme.baseShiftBottom,
   },
 }))
@@ -34,7 +34,12 @@ function Content() {
   return (
     <main className={clsx(classes.root, alignRightStyle)}>
       <Container maxWidth="md" className={classes.content}>
-        <Message />
+        <Message
+          id="5fa148ea8665f17abe769d91"
+          nick="Setareh Grigoryan Shalmani"
+          time="2020-8-5 / 01:02"
+          text="Hello there"
+        />
       </Container>
       <Typography className={clsx(classes.header, alignRightStyle)} variant="h6">Public</Typography>
     </main>
