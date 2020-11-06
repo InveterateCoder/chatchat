@@ -1,8 +1,8 @@
 require('dotenv-expand')(require('dotenv').config())
-const path = require('path')
-const express = require('express')
-const helmet = require('helmet')
-const { connect } = require('mongoose')
+import path from 'path'
+import express from 'express'
+import helmet from 'helmet'
+import { connect } from 'mongoose'
 const { connectWS } = require('./ws/wsHub')
 const apiRoutes = require('./infrastracture/apiRoutes')
 const serverRoutes = require('./infrastracture/serverRoutes')
@@ -32,4 +32,4 @@ async function server(val) {
   connectWS(servr)
 }
 
-module.exports = server
+export default server

@@ -6,7 +6,7 @@ const wpHotMiddleware = require('webpack-hot-middleware')
 const webpack = require('webpack')
 const open = require('open')
 const config = require('../webpack.config')[0]
-const server = require('./server')
+import server from './server'
 
 const app = express()
 
