@@ -3,21 +3,21 @@ import path from 'path'
 import express from 'express'
 import helmet from 'helmet'
 import { connect } from 'mongoose'
-const { connectWS } = require('./ws/wsHub')
-const apiRoutes = require('./infrastracture/apiRoutes')
-const serverRoutes = require('./infrastracture/serverRoutes')
-const authenticate = require('./middleware/authenticateMiddleware')
+import { connectWS } from './ws/wsHub'
+import apiRoutes from './infrastracture/apiRoutes'
+import serverRoutes from './infrastracture/serverRoutes'
+import authenticate from './middleware/authenticateMiddleware'
 
-async function server(val) {
-  const app = val || express()
-
-  await await connect(process.env.dbURL, {
+async function server(val = express()) {
+  const app = val
+  const dbURL = process.env.dbURL || 'mongodb://localhost/chatchat'
+  await await connect(dbURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
     useFindAndModify: false,
   })
-  console.log('connected to MongoDB at', process.env.dbURL)
+  console.log('connected to MongoDB at', dbURL)
   app
     .use(express.static(path.resolve(__dirname, 'public')))
     .use(express.json())

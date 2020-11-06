@@ -56,7 +56,7 @@ const clientConfig = {
 
 const serverConfig = {
   mode: 'production',
-  entry: './server/server.prod.js',
+  entry: './server/server.prod.ts',
   target: 'node',
   node: {
     __dirname: false,

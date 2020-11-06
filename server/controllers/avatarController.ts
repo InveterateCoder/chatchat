@@ -1,6 +1,7 @@
-const User = require('../models/UserModel')
+import { Request, Response } from 'express'
+import User from '../models/UserModel'
 
-async function avatarController(req, res) {
+async function avatarController(req: Request, res: Response) {
   try {
     const user = await User.findById(req.params.id).exec()
     if (!user) {
@@ -12,4 +13,4 @@ async function avatarController(req, res) {
   }
 }
 
-module.exports = avatarController
+export default avatarController

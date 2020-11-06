@@ -1,7 +1,6 @@
-/* eslint-disable func-names */
-const { Schema, model } = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator')
-const bcrypt = require('bcrypt')
+import { Schema, model, Document } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
+import bcrypt from 'bcrypt'
 
 const SALT_WORK_FACTOR = 10
 
@@ -28,9 +27,17 @@ const UserSchema = new Schema({
   },
 })
 
+export interface iUser extends Document {
+  nick: string,
+  password: string
+  imageType: string,
+  image: Buffer,
+  comparePassword(candidatePassword: string): boolean
+}
+
 UserSchema.plugin(uniqueValidator, { message: 'The name has been taken, try another one.' })
 
-UserSchema.pre('save', async function () {
+UserSchema.pre<iUser>('save', async function () {
   if (this.isModified('password')) {
     if (this.password.length < 6) {
       throw new Error('Password must be at least 6 characters long.')
@@ -42,8 +49,8 @@ UserSchema.pre('save', async function () {
   }
 })
 
-UserSchema.methods.comparePassword = function (candidatePassword) {
+UserSchema.methods.comparePassword = function (candidatePassword: string) {
   return bcrypt.compareSync(candidatePassword, this.password)
 }
 
-module.exports = model('User', UserSchema)
+export default model<iUser>('User', UserSchema)

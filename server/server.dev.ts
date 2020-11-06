@@ -1,15 +1,15 @@
-/* eslint-disable import/no-extraneous-dependencies */
 require('source-map-support').install()
-const express = require('express')
-const wpDevMiddleware = require('webpack-dev-middleware')
-const wpHotMiddleware = require('webpack-hot-middleware')
-const webpack = require('webpack')
-const open = require('open')
-const config = require('../webpack.config')[0]
+const wpconfig = require('../webpack.config')
+import express from 'express'
+import wpDevMiddleware from 'webpack-dev-middleware'
+import wpHotMiddleware from 'webpack-hot-middleware'
+import webpack from 'webpack'
+import open from 'open'
 import server from './server'
 
 const app = express()
 
+const config = wpconfig[0]
 config.mode = 'development'
 config.devtool = 'source-map'
 config.entry.app.push('webpack-hot-middleware/client')

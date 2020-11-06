@@ -1,16 +1,16 @@
-/* eslint-disable no-underscore-dangle */
-const path = require('path')
-const fs = require('fs')
-const formidable = require('formidable')
-const Jimp = require('jimp')
-const jwt = require('jsonwebtoken')
-const User = require('../models/UserModel')
-const errors = require('../infrastracture/errors')
+import path from 'path'
+import { Request, Response } from 'express'
+import fs from 'fs'
+import Jimp from 'jimp'
+import jwt from 'jsonwebtoken'
+import User from '../models/UserModel'
+import errors from '../infrastracture/errors'
 const { validateImageExist, validateImageType } = require('../../shared/validators')
+const formidable = require('formidable')
 
-function signupController(req, res) {
+function signupController(req: Request, res: Response) {
   const form = formidable({ multiples: false, uploadDir: path.resolve(__dirname, 'tmp') })
-  form.parse(req, async (err, fields, files) => {
+  form.parse(req, async (err: any, fields: any, files: any) => {
     let clean = false
     if (err) {
       return res.status(500).send(errors[500])
@@ -37,11 +37,12 @@ function signupController(req, res) {
         image: img,
       })
       const doc = await user.save()
+      const jwtSecret = process.env.jwtSecret || 'a very very hard secret phrase'
       const token = jwt.sign(
         {
           data: { id: doc._id },
         },
-        process.env.jwtSecret,
+        jwtSecret,
         { expiresIn: 60 * 60 * 24 * 30 },
       )
       if (token) {
@@ -49,7 +50,7 @@ function signupController(req, res) {
       }
     } catch (error) {
       if (error.errors) {
-        return res.status(400).send(Object.entries(error.errors).map(([, e]) => e.message).join('\n'))
+        return res.status(400).send(Object.entries(error.errors).map(([k, e]: [k: any, e: any]) => e.message).join('\n'))
       }
     } finally {
       if (clean) {

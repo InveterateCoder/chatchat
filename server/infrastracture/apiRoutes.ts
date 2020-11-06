@@ -19,4 +19,4 @@ api.get(authRoute, authorize, authInfoController)
 
 api.post(changeUserRoute, authorize, changeUserController)
 
-module.exports = api
+export default api

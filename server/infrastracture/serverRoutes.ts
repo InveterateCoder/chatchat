@@ -6,4 +6,4 @@ server.get('/avatar/:id', avatarController)
 
 server.use(renderController)
 
-module.exports = server
+export default server

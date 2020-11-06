@@ -1,4 +1,6 @@
-const errors = {
+const errors: {
+  [key: string]: String
+} = {
   user: 'User not found.',
   password: 'Wrong password.',
   noChange: 'No change is detected.',
@@ -6,4 +8,4 @@ const errors = {
   500: 'Something went terribly wrong. We apologize!',
 }
 
-module.exports = errors
+export default errors
