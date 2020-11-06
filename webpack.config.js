@@ -67,15 +67,19 @@ const serverConfig = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
+  resolve: {
+    extensions: ['.ts', '.js'],
+  },
   module: {
     rules: [
       {
-        test: /\.js/,
+        test: /\.ts/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: [
+              '@babel/preset-typescript',
               [
                 '@babel/preset-env',
                 {
