@@ -8,6 +8,8 @@ import { Picker } from 'emoji-mart'
 
 const useStyles = makeStyles(() => ({
   wrapper: {
+    position: 'absolute',
+    bottom: 47,
     '&:focus': {
       outline: 'none',
     },
@@ -31,12 +33,13 @@ function EmojiPicker({ open, onFocusLose }) {
     <Grow in={open} unmountOnExit>
       <div
         className={classes.wrapper}
-        style={{ alignSelf: isCenter ? 'center' : 'flex-end' }}
+        style={{ right: isCenter ? '50%' : 0 }}
         onBlur={onBlur}
         onKeyDown={({ key }) => (key === 'Escape') && onFocusLose()}
         tabIndex="-1"
       >
         <Picker
+          style={{ position: 'relative', right: isCenter ? '-50%' : 0 }}
           autoFocus
           native
           theme={dark ? 'dark' : 'light'}

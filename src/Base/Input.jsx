@@ -13,8 +13,6 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     left: 0,
     bottom: 0,
-    display: 'flex',
-    flexDirection: 'column',
   },
   textField: {
     backgroundColor: theme.palette.background.paper,
@@ -50,7 +48,6 @@ function Input() {
   }
   return (
     <div className={clsx(classes.root, alignBodyStyle)}>
-      <EmojiPicker open={emojiOpen} onFocusLose={() => setEmojiOpen(false)} />
       <TextField
         className={classes.textField}
         fullWidth
@@ -59,6 +56,11 @@ function Input() {
         multiline
         rowsMax={8}
         InputProps={{
+          startAdornment: (
+            <IconButton style={{ marginLeft: -10, marginRight: 5 }} className={classes.action}>
+              <AttachFile />
+            </IconButton>
+          ),
           endAdornment: (
             <>
               <IconButton
@@ -77,13 +79,9 @@ function Input() {
               </IconButton>
             </>
           ),
-          startAdornment: (
-            <IconButton style={{ marginLeft: -10, marginRight: 5 }} className={classes.action}>
-              <AttachFile />
-            </IconButton>
-          ),
         }}
       />
+      <EmojiPicker open={emojiOpen} onFocusLose={() => setEmojiOpen(false)} />
     </div>
   )
 }
