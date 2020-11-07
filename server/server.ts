@@ -1,4 +1,5 @@
-require('dotenv-expand')(require('dotenv').config())
+import dotenv from 'dotenv'
+import dotnevExpand from 'dotenv-expand'
 import path from 'path'
 import express from 'express'
 import helmet from 'helmet'
@@ -7,6 +8,8 @@ import { connectWS } from './ws/wsHub'
 import apiRoutes from './infrastracture/apiRoutes'
 import serverRoutes from './infrastracture/serverRoutes'
 import authenticate from './middleware/authenticateMiddleware'
+
+dotnevExpand(dotenv.config())
 
 async function server(val = express()) {
   const app = val
