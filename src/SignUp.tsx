@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core'
 import { Photo } from '@material-ui/icons'
 import { useDispatch } from 'react-redux'
-import withWait from './withWait.jsx'
+import withWait from './withWait'
 import { setSignUP, setError } from './store/actions'
 import { signup } from './store/apiActions'
 import { validateSignUpForm, validateImageType } from '../shared/validators'

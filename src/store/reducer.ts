@@ -6,7 +6,7 @@ import {
   SET_AUTH,
 } from './actions'
 import memory from './memory'
-import { themeType, dType } from './types'
+import { themeType, dType, Store, Action } from './types'
 
 function getDark() {
   if (memory.theme === themeType.auto) {
@@ -15,7 +15,7 @@ function getDark() {
   return memory.theme === themeType.dark
 }
 
-export default function reducer(state = initialData, action) {
+export default function reducer(state: Store = initialData, action: Action) {
   switch (action.type) {
     case SET_ERROR: {
       const error = { ...state.error, ...action.payload }

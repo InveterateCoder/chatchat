@@ -6,7 +6,7 @@ import { themeType } from './types'
 
 const store = createStore(reducer, applyMiddleware(thunk))
 
-const setAutoDark = ({ matches }) => {
+const setAutoDark = ({ matches }: { matches: boolean }) => {
   const { theme } = store.getState()
   if (theme === themeType.auto) {
     store.dispatch(setDark(matches))

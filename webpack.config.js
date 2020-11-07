@@ -12,15 +12,19 @@ const clientConfig = {
     path: path.resolve(__dirname, 'dist', 'public'),
     publicPath: '/',
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: [
+              '@babel/preset-typescript',
               [
                 '@babel/preset-env',
                 {

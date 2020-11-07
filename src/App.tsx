@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { ThemeProvider, CssBaseline } from '@material-ui/core'
 import { useSelector } from 'react-redux'
-import Routes from './Routes.jsx'
-import Error from './Error.jsx'
+import Routes from './Routes'
+import Error from './Error'
 import getTheme from './theme'
 
 function App() {

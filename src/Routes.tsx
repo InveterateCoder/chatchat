@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux'
 import Base from './Base'
 import Users from './Users'
 import Content from './Content'
-import SignIn from './SignIn.jsx'
-import SignUp from './SignUp.jsx'
-import Authorize from './Authorize.jsx'
+import SignIn from './SignIn'
+import SignUp from './SignUp'
+import Authorize from './Authorize'
 
 export default function Routes() {
   const token = useSelector((state) => state.token)
