@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { FocusEvent } from 'react'
 import { useSelector } from 'react-redux'
 import { Grow, makeStyles, useMediaQuery } from '@material-ui/core'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
+import { Store } from '../store/types'
 
 const useStyles = makeStyles(() => ({
   wrapper: {
@@ -16,15 +16,15 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-function EmojiPicker({ open, onFocusLose }) {
+function EmojiPicker({ open, onFocusLose }: { open: boolean, onFocusLose: () => void }) {
   const classes = useStyles()
-  const dark = useSelector((state) => state.dark)
+  const dark = useSelector((state: Store) => state.dark)
   const isCenter = useMediaQuery('(max-width:500px)')
   const isSmall = useMediaQuery('(max-width:345px)')
-  const onBlur = (ev) => {
+  const onBlur = (ev: FocusEvent<HTMLElement>) => {
     if (ev.currentTarget === ev.relatedTarget
-      || ev.currentTarget.contains(ev.relatedTarget)
-      || (ev.relatedTarget && ev.relatedTarget.id === 'emojbtn')) {
+      || ev.currentTarget.contains(ev.relatedTarget as Node)
+      || (ev.relatedTarget && (ev.relatedTarget as HTMLElement).id === 'emojbtn')) {
       return
     }
     onFocusLose()
@@ -36,7 +36,7 @@ function EmojiPicker({ open, onFocusLose }) {
         style={{ right: isCenter ? '50%' : 0 }}
         onBlur={onBlur}
         onKeyDown={({ key }) => (key === 'Escape') && onFocusLose()}
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Picker
           style={{ position: 'relative', right: isCenter ? '-50%' : 0 }}
@@ -44,15 +44,10 @@ function EmojiPicker({ open, onFocusLose }) {
           native
           theme={dark ? 'dark' : 'light'}
           perLine={isSmall ? 8 : 9}
-          onBlur={onBlur}
         />
       </div>
     </Grow>
   )
-}
-EmojiPicker.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onFocusLose: PropTypes.func.isRequired,
 }
 
 export default EmojiPicker

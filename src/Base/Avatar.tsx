@@ -2,9 +2,10 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dialog, DialogContent } from '@material-ui/core'
 import { setAvatar } from '../store/actions'
+import { Store } from '../store/types'
 
 function Avatar() {
-  const avatar = useSelector((state) => state.avatar)
+  const avatar = useSelector((state: Store) => state.avatar)
   const dispatch = useDispatch()
   return (
     <Dialog onClose={() => dispatch(setAvatar({ open: false }))} open={avatar.open}>

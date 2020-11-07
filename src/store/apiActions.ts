@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux'
 import {
   login, setError, refreshAvatar, openSettings, setAuth,
 } from './actions'
@@ -7,8 +8,9 @@ import {
   changeUser as changeUserRoute,
   auth as authRoute,
 } from '../../shared/apiRoutes'
+import { Store, iSignIn } from './types'
 
-export const signin = (load, data) => async (dispatch) => {
+export const signin = (load: (state: boolean) => void, data: iSignIn) => async (dispatch: Dispatch) => {
   try {
     load(true)
     const res = await fetch(signinRoute, {
@@ -34,7 +36,7 @@ export const signin = (load, data) => async (dispatch) => {
   }
 }
 
-export const signup = (load, form) => async (dispatch) => {
+export const signup = (load: (state: boolean) => void, form) => async (dispatch: Dispatch) => {
   try {
     load(true)
     const res = await fetch(signupRoute, {
@@ -57,7 +59,7 @@ export const signup = (load, form) => async (dispatch) => {
   }
 }
 
-export const changeUser = (setDisabled, form) => async (dispatch, getState) => {
+export const changeUser = (setDisabled: (state: boolean) => void, form) => async (dispatch: Dispatch, getState: () => Store) => {
   try {
     setDisabled(true)
     const { token } = getState()
@@ -90,7 +92,7 @@ export const changeUser = (setDisabled, form) => async (dispatch, getState) => {
   }
 }
 
-export const receiveAuth = () => async (dispatch, getState) => {
+export const receiveAuth = () => async (dispatch: Dispatch, getState: () => Store) => {
   try {
     const { token } = getState()
     const res = await fetch(authRoute, {

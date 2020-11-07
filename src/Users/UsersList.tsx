@@ -1,7 +1,7 @@
 import React from 'react'
 import { List } from '@material-ui/core'
-import Public from './Public.jsx'
-import User from './User.jsx'
+import Public from './Public'
+import User from './User'
 
 function UsersList() {
   return (

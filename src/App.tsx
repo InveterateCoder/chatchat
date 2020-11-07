@@ -4,11 +4,15 @@ import { useSelector } from 'react-redux'
 import Routes from './Routes'
 import Error from './Error'
 import getTheme from './theme'
+import { Store } from './store/types'
 
 function App() {
-  const dark = useSelector((state) => state.dark)
+  const dark = useSelector((state: Store) => state.dark)
   useEffect(() => {
-    document.head.querySelector('meta[name="theme-color"]').content = dark ? '#212121' : '#f5f5f5'
+    const style = document.head.querySelector('meta[name="theme-color"]')
+    if (style) {
+      style.setAttribute('content', dark ? '#212121' : '#f5f5f5')
+    }
   }, [dark])
   return (
     <ThemeProvider theme={getTheme(dark)}>

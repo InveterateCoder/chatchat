@@ -6,7 +6,7 @@ const nodeExternals = require('webpack-node-externals')
 
 const clientConfig = {
   mode: 'production',
-  entry: { app: ['./src/index.jsx'] },
+  entry: { app: ['./src/index.tsx'] },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist', 'public'),

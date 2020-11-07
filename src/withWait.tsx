@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react'
+import React, { useState, } from 'react'
 import { css } from '@emotion/core'
 import { DotLoader } from 'react-spinners'
 import { makeStyles } from '@material-ui/core'
@@ -20,12 +19,12 @@ const override = css`
 margin: auto;
 `
 
-const withWait = (Cmpnnt) => (props) => {
+const withWait = (Cmpnnt: any) => (props: any) => {
   const classes = useStyles()
   const [loading, setLoading] = useState(false)
-  const load = (state) => {
+  const load = (state: boolean) => {
     if (state) {
-      document.activeElement.blur()
+      (document.activeElement as HTMLElement)?.blur()
     }
     setLoading(state)
   }

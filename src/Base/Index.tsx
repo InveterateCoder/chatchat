@@ -1,10 +1,9 @@
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react'
 import { useSelector } from 'react-redux'
-import AppBar from './AppBar.jsx'
-import Input from './Input.jsx'
-import Avatar from './Avatar.jsx'
-import Settings from './Settings.jsx'
+import AppBar from './AppBar'
+import Input from './Input'
+import Avatar from './Avatar'
+import Settings from './Settings'
 
 function Home() {
   const sopen = useSelector((state) => state.sopen)

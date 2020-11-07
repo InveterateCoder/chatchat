@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { BaseSyntheticEvent, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   Dialog, DialogContent, DialogTitle, Grid, TextField,
@@ -9,6 +9,7 @@ import { Save as SaveIcon, Cancel as CancelIcon } from '@material-ui/icons'
 import { openSettings, setError } from '../store/actions'
 import { changeUser } from '../store/apiActions'
 import { validateChangeUserForm, validateImageType } from '../../shared/validators'
+import { Store } from '../store/types'
 
 const useStyles = makeStyles(() => ({
   fileInput: {
@@ -23,21 +24,21 @@ const useStyles = makeStyles(() => ({
 }))
 
 function Settings() {
-  const auth = useSelector((state) => state.auth)
-  const refava = useSelector((state) => state.refava)
+  const auth = useSelector((state: Store) => state.auth)
+  const refava = useSelector((state: Store) => state.refava)
   const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
   const [nickErr, setNickErr] = useState('')
   const [disabled, setDisabled] = useState(false)
   const classes = useStyles()
 
-  const onFileChange = ({ target }) => {
+  const onFileChange = ({ target }: { target: HTMLInputElement }) => {
+    if (!target.files) return
     const file = target.files[0]
     URL.revokeObjectURL(imageUrl)
     if (!validateImageType(file)) {
       setImageUrl(URL.createObjectURL(file))
     } else {
-      // eslint-disable-next-line no-param-reassign
       target.value = ''
       setImageUrl('')
       dispatch(setError({
@@ -56,16 +57,23 @@ function Settings() {
     dispatch(openSettings(false))
   }
 
-  const submit = (ev) => {
+  const submit = (ev: BaseSyntheticEvent) => {
     ev.preventDefault()
     const form = new FormData(ev.target)
-    const variables = {}
+    const variables: {
+      [key: string]: string | File | null,
+      nick: string,
+      image: File | null,
+    } = {
+      nick: '',
+      image: null,
+    }
     Array.from(form.entries()).forEach(([key, val]) => {
       variables[key] = val
     })
     const validity = validateChangeUserForm(variables)
     if (validity.valid) {
-      if (!variables.image.size) {
+      if (!variables.image?.size) {
         form.delete('image')
       }
       if (variables.nick === auth.nick) {

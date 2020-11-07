@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { BaseSyntheticEvent, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   Container, Avatar, TextField, FormControl,
   makeStyles, Typography, Button, Grid,
 } from '@material-ui/core'
 import { Lock } from '@material-ui/icons'
-import { validateSignInForm } from '../shared/validators'
+import { SignInErrors, validateSignInForm } from '../shared/validators'
 import { setSignUP } from './store/actions'
 import { signin } from './store/apiActions'
 import withWait from './withWait'
+import { iSignIn } from './store/types'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -24,26 +24,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function SignIn({ load }) {
+function SignIn({ load }: { load: (state: boolean) => void }) {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const [errors, setErrors] = useState({
+  const [errors, setErrors]: [errors: SignInErrors, setErrors: (s: SignInErrors) => void] = useState({
     nick: '',
     password: '',
   })
 
-  const onChange = ({ target: { name } }) => {
+  const onChange = ({ target: { name } }: { target: { name: string } }) => {
     if (errors[name]) {
       setErrors({ ...errors, [name]: '' })
     }
   }
 
-  const onSubmit = (ev) => {
+  const onSubmit = (ev: BaseSyntheticEvent) => {
     ev.preventDefault()
     const form = new FormData(ev.target)
-    const variables = {}
+    const variables: iSignIn = {
+      nick: '',
+      password: '',
+    }
     Array.from(form.entries()).forEach(([key, val]) => {
-      variables[key] = val
+      variables[key] = val.toString()
     })
     const validity = validateSignInForm(variables)
     if (validity.valid) {
@@ -96,8 +99,5 @@ function SignIn({ load }) {
       </FormControl>
     </Container>
   )
-}
-SignIn.propTypes = {
-  load: PropTypes.func.isRequired,
 }
 export default withWait(SignIn)

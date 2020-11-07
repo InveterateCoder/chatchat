@@ -1,4 +1,24 @@
-export function validateNick(nick) {
+export interface SignInErrors {
+  [key: string]: string,
+  nick: string,
+  password: string,
+}
+
+export interface SignUpErrors {
+  [key: string]: string,
+  nick: string,
+  password: string,
+  confirm: string,
+  image: string,
+}
+
+export interface ChangeUserErrors {
+  [key: string]: string,
+  nick: string,
+  image: string,
+}
+
+export function validateNick(nick: string) {
   if (nick.length < 3) {
     return 'Nickname must be at least 3 characters long.'
   }
@@ -8,7 +28,7 @@ export function validateNick(nick) {
   return ''
 }
 
-export function validatePassword(password) {
+export function validatePassword(password: string) {
   if (password.length < 6) {
     return 'Password must be at least 6 characters long.'
   }
@@ -18,14 +38,14 @@ export function validatePassword(password) {
   return ''
 }
 
-export function validateImageExist(image) {
+export function validateImageExist(image: File | null) {
   if (!image || !image.size) {
     return 'Avatar is required. Please select a picture.'
   }
   return ''
 }
 
-export function validateImageType(image) {
+export function validateImageType(image: File | null) {
   if (image && image.size && !['image/png', 'image/jpeg'].includes(image.type)) {
     return 'Wrong image type.'
   }
@@ -34,8 +54,8 @@ export function validateImageType(image) {
 
 export const validateSignUpForm = ({
   nick, password, confirm, image,
-}) => {
-  const errors = {
+}: { nick: string, password: string, confirm: string, image: File | null }) => {
+  const errors: SignUpErrors = {
     nick: '',
     password: '',
     confirm: '',
@@ -50,51 +70,36 @@ export const validateSignUpForm = ({
   errors.image = validateImageExist(image)
   if (!errors.image) errors.image = validateImageType(image)
 
-  if (errors.nick || errors.password || errors.confirm || errors.image) {
-    return {
-      valid: false,
-      errors,
-    }
-  }
   return {
-    valid: true,
+    valid: !(errors.nick || errors.password || errors.confirm || errors.image),
+    errors,
   }
 }
 
-export const validateSignInForm = ({ nick, password }) => {
-  const errors = {
+export const validateSignInForm = ({ nick, password }: SignInErrors) => {
+  const errors: SignInErrors = {
     nick: '',
     password: '',
   }
   errors.nick = validateNick(nick)
   errors.password = validatePassword(password)
 
-  if (errors.nick || errors.password) {
-    return {
-      valid: false,
-      errors,
-    }
-  }
   return {
-    valid: true,
+    valid: !(errors.nick || errors.password),
+    errors,
   }
 }
 
-export const validateChangeUserForm = ({ nick, image }) => {
-  const errors = {
+export const validateChangeUserForm = ({ nick, image }: { nick: string, image: File | null }) => {
+  const errors: ChangeUserErrors = {
     nick: '',
     image: '',
   }
   errors.nick = validateNick(nick)
   errors.image = validateImageType(image)
 
-  if (errors.nick || errors.image) {
-    return {
-      valid: false,
-      errors,
-    }
-  }
   return {
-    valid: true,
+    valid: !(errors.nick || errors.image),
+    errors,
   }
 }

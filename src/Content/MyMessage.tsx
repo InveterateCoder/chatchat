@@ -1,13 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { Avatar, makeStyles, Typography } from '@material-ui/core'
+import { yellow as color } from '@material-ui/core/colors'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     columnGap: theme.spacing(1),
     marginTop: theme.spacing(0.2),
+    justifyContent: 'flex-end',
   },
   newMargin: {
     marginTop: theme.spacing(2),
@@ -19,9 +20,10 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: `${theme.spacing(0.5)}px ${theme.spacing(2)}px`,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: color[900],
     boxShadow: theme.shadows[9],
-    borderRadius: '0 20px 20px 20px',
+    borderRadius: '20px 0 20px 20px',
+    textAlign: 'right',
   },
   bradContinue: {
     borderRadius: 20,
@@ -31,39 +33,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function PublicMessage({
-  id, nick, time, text,
-}) {
+function PublicMessage({ id, time, text }:
+  { id: string | null | undefined, time: string | null | undefined, text: string }) {
   const classes = useStyles()
   return (
     <div className={clsx(classes.root, { [classes.newMargin]: id })}>
-      {
-        id ? <Avatar src={`/avatar/${id}`} />
-          : <div className={classes.avaSpace} />
-      }
       <div className={classes.content}>
-        {
-          nick && <Typography color="textSecondary" variant="subtitle2">{nick}</Typography>
-        }
         <div className={clsx(classes.paper, { [classes.bradContinue]: !id })}>
           {
-            time && <Typography variant="caption" color="textSecondary">{time}</Typography>
+            time && <Typography variant="caption" color="inherit" style={{ opacity: 0.7 }}>{time}</Typography>
           }
           <Typography variant="body2" component="pre">{text}</Typography>
         </div>
       </div>
+      {
+        id ? <Avatar src={`/avatar/${id}`} />
+          : <div className={classes.avaSpace} />
+      }
     </div>
   )
 }
 PublicMessage.defaultProps = {
   id: null,
-  nick: null,
   time: null,
-}
-PublicMessage.propTypes = {
-  id: PropTypes.string,
-  nick: PropTypes.string,
-  time: PropTypes.string,
-  text: PropTypes.string.isRequired,
 }
 export default PublicMessage

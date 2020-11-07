@@ -5,7 +5,7 @@ import {
 import { EmojiEmotions, AttachFile, Send } from '@material-ui/icons'
 import clsx from 'clsx'
 import useAlignBodyStyle from '../hooks/useAlignBodyStyle'
-import EmojiPicker from './EmojiPicker.jsx'
+import EmojiPicker from './EmojiPicker'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,7 +67,7 @@ function Input() {
                 id="emojbtn"
                 className={classes.action}
                 onClick={toggleEmojies}
-                style={{ color: emojiOpen && '#fbd043' }}
+                style={{ color: emojiOpen ? '#fbd043' : '' }}
               >
                 <EmojiEmotions />
               </IconButton>

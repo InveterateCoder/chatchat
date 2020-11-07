@@ -1,15 +1,15 @@
-/* eslint-disable react/jsx-filename-extension */
 import React, { useEffect } from 'react'
 import {
   useMediaQuery, useTheme, SwipeableDrawer, makeStyles,
 } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import clsx from 'clsx'
-import UsersList from './UsersList.jsx'
+import UsersList from './UsersList'
 import { setDrawerType, setDrawerOpen } from '../store/actions'
-import { dType } from '../store/types'
+import { dType, Store } from '../store/types'
+import { MyTheme } from '../theme'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: MyTheme) => ({
   drawer: {
     maxWidth: theme.drawerMaxWidth,
     width: theme.drawerWidth,
@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function AppDrawer() {
-  const dtype = useSelector((state) => state.dtype)
-  const dopen = useSelector((state) => state.dopen)
+  const dtype = useSelector((state: Store) => state.dtype)
+  const dopen = useSelector((state: Store) => state.dopen)
   const dispatch = useDispatch()
   const theme = useTheme()
   const sm = useMediaQuery(theme.breakpoints.down('sm'))

@@ -18,7 +18,7 @@ import clsx from 'clsx'
 import {
   setTheme, setDrawerOpen, logout, openSettings,
 } from '../store/actions'
-import { dType, themeType } from '../store/types'
+import { dType, themeType, Store } from '../store/types'
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -47,11 +47,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function ChatAppBar() {
-  const theme = useSelector((state) => state.theme)
-  const dopen = useSelector((state) => state.dopen)
-  const dtype = useSelector((state) => state.dtype)
-  const auth = useSelector((state) => state.auth)
-  const refava = useSelector((state) => state.refava)
+  const theme = useSelector((state: Store) => state.theme)
+  const dopen = useSelector((state: Store) => state.dopen)
+  const dtype = useSelector((state: Store) => state.dtype)
+  const auth = useSelector((state: Store) => state.auth)
+  const refava = useSelector((state: Store) => state.refava)
   const dispatch = useDispatch()
   const [avaOpen, setAvaOpen] = useState(false)
   const classes = useStyles()
@@ -59,7 +59,7 @@ function ChatAppBar() {
   const avaUrl = `/avatar/${auth.id}?refava=${refava}`
 
   let BrightnessIcon = null
-  let nextBrightnessState
+  let nextBrightnessState: string
 
   if (theme === themeType.auto) {
     BrightnessIcon = AutoIcon

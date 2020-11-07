@@ -1,15 +1,18 @@
-import { createMuiTheme, ThemeOptions } from '@material-ui/core'
+import { createMuiTheme, Theme, ThemeOptions } from '@material-ui/core'
 
-interface MyTheme extends ThemeOptions {
-  drawerMaxWidth: string | number,
-  drawerWidth: string | number,
-  baseShiftTop: string | number,
-  baseShiftBottom: string | number,
+interface MyProps {
+  drawerMaxWidth: number,
+  drawerWidth: string,
+  baseShiftTop: number,
+  baseShiftBottom: number,
 }
 
+export interface MyTheme extends MyProps, Theme {}
+
+interface MyThemeOptions extends MyProps, ThemeOptions {}
 
 function getTheme(dark: boolean) {
-  const theme: MyTheme = {
+  const opts: MyThemeOptions = {
     palette: {
       type: dark ? 'dark' : 'light',
     },
@@ -18,7 +21,7 @@ function getTheme(dark: boolean) {
     baseShiftTop: 50,
     baseShiftBottom: 70,
   }
-  return createMuiTheme(theme)
+  return createMuiTheme(opts)
 }
 
 export default getTheme

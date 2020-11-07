@@ -1,6 +1,4 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { BaseSyntheticEvent, useState } from 'react'
 import {
   Container, Avatar, TextField, FormControl,
   makeStyles, Typography, Button, Grid, Badge, ButtonBase,
@@ -10,7 +8,7 @@ import { useDispatch } from 'react-redux'
 import withWait from './withWait'
 import { setSignUP, setError } from './store/actions'
 import { signup } from './store/apiActions'
-import { validateSignUpForm, validateImageType } from '../shared/validators'
+import { SignUpErrors, validateSignUpForm, validateImageType } from '../shared/validators'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -31,24 +29,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function SignUp({ load }) {
+function SignUp({ load }: { load: (state: boolean) => void }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
-  const [errors, setErrors] = useState({
+  const [errors, setErrors]: [errors: SignUpErrors, setErrors: (errors: SignUpErrors) => void] = useState({
     nick: '',
     password: '',
     confirm: '',
     image: '',
   })
-  const onFileChange = ({ target }) => {
+  const onFileChange = ({ target }: { target: HTMLInputElement }) => {
+    if (!target.files) return
     const file = target.files[0]
     URL.revokeObjectURL(imageUrl)
     if (!validateImageType(file)) {
       setImageUrl(URL.createObjectURL(file))
       setErrors({ ...errors, image: '' })
     } else {
-      // eslint-disable-next-line no-param-reassign
       target.value = ''
       setImageUrl('')
       dispatch(setError({
@@ -57,15 +55,26 @@ function SignUp({ load }) {
       }))
     }
   }
-  const onChange = ({ target: { name } }) => {
+  const onChange = ({ target: { name } }: { target: { name: string } }) => {
     if (errors[name]) {
       setErrors({ ...errors, [name]: '' })
     }
   }
-  const onSubmit = async (ev) => {
+  const onSubmit = async (ev: BaseSyntheticEvent) => {
     ev.preventDefault()
     const form = new FormData(ev.target)
-    const variables = {}
+    const variables: {
+      [key: string]: string | File | null,
+      nick: string,
+      password: string,
+      confirm: string,
+      image: File | null,
+    } = {
+      nick: '',
+      password: '',
+      confirm: '',
+      image: null,
+    }
     Array.from(form.entries()).forEach(([key, val]) => {
       variables[key] = val
     })
@@ -137,8 +146,5 @@ function SignUp({ load }) {
       </FormControl>
     </Container>
   )
-}
-SignUp.propTypes = {
-  load: PropTypes.func.isRequired,
 }
 export default withWait(SignUp)

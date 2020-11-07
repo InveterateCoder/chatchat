@@ -1,12 +1,12 @@
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react'
 import { makeStyles, Typography, Container } from '@material-ui/core'
 import clsx from 'clsx'
 import useAlignRightStyle from '../hooks/useAlignBodyStyle'
-import PublicMessage from './PublicMessage.jsx'
-import MyMessage from './MyMessage.jsx'
+import PublicMessage from './PublicMessage'
+import MyMessage from './MyMessage'
+import { MyTheme } from '../theme'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: MyTheme) => ({
   root: {
     marginTop: theme.baseShiftTop,
   },

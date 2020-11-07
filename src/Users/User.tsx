@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
   Avatar, makeStyles, ListItem, ListItemAvatar,
   ListItemText, ListItemSecondaryAction, IconButton,
@@ -8,6 +7,7 @@ import {
 import { Message, VolumeMute } from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAvatar } from '../store/actions'
+import { Store } from '../store/types'
 
 const useStyles = makeStyles(() => ({
   name: {
@@ -23,10 +23,10 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-function User({ id, name }) {
+function User({ id, name }: { id: string, name: string }) {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const refava = useSelector((state) => state.refava)
+  const refava = useSelector((state: Store) => state.refava)
   const avatarUrl = `/avatar/${id}?refava=${refava}`
 
   return (
@@ -61,9 +61,4 @@ function User({ id, name }) {
     </ListItem>
   )
 }
-User.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-}
-
 export default User

@@ -5,6 +5,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close'
 import { useDispatch, useSelector } from 'react-redux'
 import { setError } from './store/actions'
+import { Store } from './store/types'
 
 const useStyles = makeStyles((theme) => ({
   snackError: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Error() {
   const classes = useStyles()
-  const error = useSelector((state) => state.error)
+  const error = useSelector((state: Store) => state.error)
   const dispatch = useDispatch()
   return (
     <Snackbar
