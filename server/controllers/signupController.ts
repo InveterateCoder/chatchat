@@ -61,4 +61,4 @@ function signupController(req: Request, res: Response) {
   })
 }
 
-module.exports = signupController
+export default signupController

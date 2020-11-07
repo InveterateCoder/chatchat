@@ -1,14 +1,13 @@
 import path from 'path'
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import fs from 'fs'
 import Jimp from 'jimp'
 import User from '../models/UserModel'
-import { Req } from '../infrastracture/types'
 import errors from '../infrastracture/errors'
 const { validateImageExist, validateImageType } = require('../../shared/validators')
 const formidable = require('formidable')
 
-function changeUserController(req: Req, res: Response) {
+function changeUserController(req: Request, res: Response) {
   const form = formidable({ multiples: false, uploadDir: path.resolve(__dirname, 'tmp') })
   form.parse(req, async (err: any, fields: any, files: any) => {
     let clean = false
@@ -59,4 +58,4 @@ function changeUserController(req: Req, res: Response) {
   })
 }
 
-module.exports = changeUserController
+export default changeUserController

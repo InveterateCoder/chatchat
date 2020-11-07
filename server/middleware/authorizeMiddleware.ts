@@ -1,8 +1,7 @@
-import { Response, NextFunction } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import User from '../models/UserModel'
-import { Req } from '../infrastracture/types'
 
-async function authorizeMiddleware(req: Req, res: Response, next: NextFunction) {
+async function authorizeMiddleware(req: Request, res: Response, next: NextFunction) {
   try {
     if (!req.user) return res.status(403).end()
     const user = await User.findById(req.user.id, { nick: 1 }).exec()

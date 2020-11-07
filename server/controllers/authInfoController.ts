@@ -1,8 +1,7 @@
-import { Response } from 'express'
-import { Req } from '../infrastracture/types'
+import { Request, Response } from 'express'
 import errors from '../infrastracture/errors'
 
-function authInfoController(req: Req, res: Response) {
+function authInfoController(req: Request, res: Response) {
   try {
     res.json({ id: req.user.id, nick: req.user.nick })
   } catch (err) {

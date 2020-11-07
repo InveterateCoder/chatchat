@@ -1,6 +1,8 @@
-const server = require('express').Router()
-const avatarController = require('../controllers/avatarController')
-const renderController = require('../controllers/renderController')
+import { Router } from 'express'
+import avatarController from '../controllers/avatarController'
+import renderController from '../controllers/renderController'
+
+const server = Router()
 
 server.get('/avatar/:id', avatarController)
 

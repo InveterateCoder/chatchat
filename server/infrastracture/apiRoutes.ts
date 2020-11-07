@@ -1,15 +1,17 @@
-const api = require('express').Router()
-const {
-  signup: signupRoute,
-  signin: signinRoute,
-  changeUser: changeUserRoute,
-  auth: authRoute,
-} = require('../../shared/apiRoutes')
-const authorize = require('../middleware/authorizeMiddleware')
-const signinController = require('../controllers/signinController')
-const signupController = require('../controllers/signupController')
-const authInfoController = require('../controllers/authInfoController')
-const changeUserController = require('../controllers/changeUserController')
+import { Router } from 'express'
+import {
+  signup as signupRoute,
+  signin as signinRoute,
+  changeUser as changeUserRoute,
+  auth as authRoute,
+} from '../../shared/apiRoutes'
+import authorize from '../middleware/authorizeMiddleware'
+import signinController from '../controllers/signinController'
+import signupController from '../controllers/signupController'
+import authInfoController from '../controllers/authInfoController'
+import changeUserController from '../controllers/changeUserController'
+
+const api = Router()
 
 api.post(signupRoute, signupController)
 
