@@ -7,10 +7,8 @@ async function authenticateMiddleware(req: Request, res: Response, next: NextFun
     if (token) token = token.substring(7)
     else return next()
     const secret = process.env.jwtSecret || 'a very very hard secret phrase'
-    const data = <any>jwt.verify(token, secret)
-    if(data && data.id) {
-      req.user = { id: data.id }
-    }
+    const { data: { id } } = <any>jwt.verify(token, secret)
+    req.user = { id }
   } catch (err) {
     if (err.constructor !== jwt.JsonWebTokenError) {
       return next(err)
