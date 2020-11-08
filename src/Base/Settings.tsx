@@ -7,8 +7,8 @@ import {
 } from '@material-ui/core'
 import { Save as SaveIcon, Cancel as CancelIcon } from '@material-ui/icons'
 import { openSettings, setError } from '../store/actions'
-import { changeUser } from '../store/apiActions'
 import { validateChangeUserForm, validateImageType } from '../../shared/validators'
+import { Type, Package, ChangeUser } from '../../shared/types'
 import { Store } from '../store/types'
 
 const useStyles = makeStyles(() => ({
@@ -24,7 +24,8 @@ const useStyles = makeStyles(() => ({
 }))
 
 function Settings() {
-  const auth = useSelector((state: Store) => state.auth)
+  const id = useSelector((state: Store) => state.id)
+  const nick = useSelector((state: Store) => state.nick)
   const refava = useSelector((state: Store) => state.refava)
   const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
@@ -57,46 +58,73 @@ function Settings() {
     dispatch(openSettings(false))
   }
 
-  const submit = (ev: BaseSyntheticEvent) => {
-    ev.preventDefault()
-    const form = new FormData(ev.target)
-    const variables: {
-      [key: string]: string | File | null,
-      nick: string,
-      image: File | null,
-    } = {
-      nick: '',
-      image: null,
-    }
-    Array.from(form.entries()).forEach(([key, val]) => {
-      variables[key] = val
-    })
-    const validity = validateChangeUserForm(variables)
-    if (validity.valid) {
-      if (!variables.image?.size) {
-        form.delete('image')
+  const submit = async (ev: BaseSyntheticEvent) => {
+    try {
+      ev.preventDefault()
+      const form = new FormData(ev.target)
+      const variables: {
+        [key: string]: string | File | null | undefined,
+        nick?: string,
+        image?: File,
+      } = {}
+      Array.from(form.entries()).forEach(([key, val]) => {
+        variables[key] = val
+      })
+      const validity = validateChangeUserForm(variables)
+      if (validity.valid) {
+        let image
+        if (!variables.image?.size) {
+          delete variables.image
+        } else {
+          const reader = new FileReader()
+          await new Promise((resolve, reject) => {
+            reader.onload = (ev) => {
+              const binary = ev.target?.result
+              if (typeof binary === 'string')
+                image = btoa(binary)
+              resolve()
+            }
+            if (variables.image)
+              reader.readAsBinaryString(variables.image)
+            else reject('Something went wrong. Contact the administration.')
+          })
+        }
+        if (variables.nick === nick) {
+          delete variables.nick
+        }
+        if (Object.keys(variables).length > 0) {
+          setDisabled(true)
+          const data: Package<ChangeUser> = {
+            type: Type.CHANGE_USER,
+            payload: {
+              nick: variables.nick,
+              image: image,
+              imageType: variables.image?.type,
+            }
+          }
+          window._WS?.send(JSON.stringify(data))
+        } else {
+          dispatch(openSettings(false))
+        }
+        URL.revokeObjectURL(imageUrl)
+      } else {
+        if (validity.errors.nick) {
+          setNickErr(validity.errors.nick)
+        }
+        if (validity.errors.image) {
+          throw new Error(validity.errors.image)
+        }
       }
-      if (variables.nick === auth.nick) {
-        form.delete('nick')
-      }
-      if (Array.from(form.keys()).length > 0) {
-        dispatch(changeUser(setDisabled, form))
-      }
-      URL.revokeObjectURL(imageUrl)
-    } else {
-      if (validity.errors.nick) {
-        setNickErr(validity.errors.nick)
-      }
-      if (validity.errors.image) {
-        dispatch(setError({
-          message: validity.errors.image,
-          open: true,
-        }))
-      }
+    } catch (err) {
+      setDisabled(false)
+      dispatch(setError({
+        message: err.message,
+        open: true,
+      }))
     }
   }
 
-  const avaUrl = `/avatar/${auth.id}?refava=${refava}`
+  const avaUrl = `/avatar/${id}?refava=${refava}`
   return (
     <Dialog fullWidth maxWidth="sm" open>
       <DialogTitle>User settings</DialogTitle>
@@ -121,7 +149,7 @@ function Settings() {
               <TextField
                 fullWidth
                 label="Nickname"
-                defaultValue={auth.nick}
+                defaultValue={nick}
                 helperText={nickErr}
                 error={Boolean(nickErr)}
                 name="nick"

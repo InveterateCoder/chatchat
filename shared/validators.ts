@@ -18,8 +18,8 @@ export interface ChangeUserErrors {
   image: string,
 }
 
-export function validateNick(nick: string) {
-  if (nick.length < 3) {
+export function validateNick(nick?: string) {
+  if (!nick || nick.length < 3) {
     return 'Nickname must be at least 3 characters long.'
   }
   if (nick.length > 40) {
@@ -38,14 +38,14 @@ export function validatePassword(password: string) {
   return ''
 }
 
-export function validateImageExist(image: File | null) {
+export function validateImageExist(image?: File) {
   if (!image || !image.size) {
     return 'Avatar is required. Please select a picture.'
   }
   return ''
 }
 
-export function validateImageType(image: File | null) {
+export function validateImageType(image?: File) {
   if (image && image.size && !['image/png', 'image/jpeg'].includes(image.type)) {
     return 'Wrong image type.'
   }
@@ -54,7 +54,7 @@ export function validateImageType(image: File | null) {
 
 export const validateSignUpForm = ({
   nick, password, confirm, image,
-}: { nick: string, password: string, confirm: string, image: File | null }) => {
+}: { nick: string, password: string, confirm: string, image?: File }) => {
   const errors: SignUpErrors = {
     nick: '',
     password: '',
@@ -90,7 +90,7 @@ export const validateSignInForm = ({ nick, password }: SignInErrors) => {
   }
 }
 
-export const validateChangeUserForm = ({ nick, image }: { nick: string, image: File | null }) => {
+export const validateChangeUserForm = ({ nick, image}: { nick?: string, image?: File }) => {
   const errors: ChangeUserErrors = {
     nick: '',
     image: '',

@@ -9,6 +9,8 @@ function getDark() {
 }
 
 const initialData: Store = {
+  id: '',
+  nick: '',
   error: {
     message: '',
     open: false,
@@ -19,10 +21,6 @@ const initialData: Store = {
   dopen: true,
   signup: false,
   token: memory.token,
-  auth: {
-    id: '',
-    nick: '',
-  },
   sopen: false,
   avatar: {
     url: '',

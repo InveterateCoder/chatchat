@@ -52,9 +52,15 @@ export const logout = () => ({
 })
 
 export const SET_AUTH = 'set_auth'
-export const setWS = (ws: WS) => ({
+export const setAuth = (ws: WS) => ({
   type: SET_AUTH,
   payload: ws,
+})
+
+export const SET_NICK = 'set_nick'
+export const setNick = (nick: string) => ({
+  type: SET_NICK,
+  payload: nick
 })
 
 export const OPEN_SETTINGS = 'open_settings'

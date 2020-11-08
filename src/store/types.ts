@@ -25,16 +25,13 @@ export interface AppError {
 }
 
 export interface Avatar {
-  url: string,
+  url?: string,
   open: boolean,
 }
 
-export interface WS extends WebSocket {
-  id?: string,
-  nick?: string,
-}
-
 export interface Store {
+  id: string,
+  nick: string,
   error: AppError,
   theme: string, // dark mode
   dark: boolean, // drawer type
@@ -42,7 +39,6 @@ export interface Store {
   dopen: boolean, // drawer open state
   signup: boolean, // weather to sign up or in
   token: string, // user credentials
-  auth: Auth, // web socket to be used
   sopen: boolean, // settings open state
   avatar: Avatar,
   refava: string, // refresh avatars by appending random data to the URLs

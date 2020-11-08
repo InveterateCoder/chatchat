@@ -50,13 +50,14 @@ function ChatAppBar() {
   const theme = useSelector((state: Store) => state.theme)
   const dopen = useSelector((state: Store) => state.dopen)
   const dtype = useSelector((state: Store) => state.dtype)
-  const auth = useSelector((state: Store) => state.auth)
+  const id = useSelector((state: Store) => state.id)
+  const nick = useSelector((state: Store) => state.nick)
   const refava = useSelector((state: Store) => state.refava)
   const dispatch = useDispatch()
   const [avaOpen, setAvaOpen] = useState(false)
   const classes = useStyles()
 
-  const avaUrl = `/avatar/${auth?.id}?refava=${refava}`
+  const avaUrl = `/avatar/${id}?refava=${refava}`
 
   let BrightnessIcon = null
   let nextBrightnessState: string
@@ -91,7 +92,7 @@ function ChatAppBar() {
             <Avatar src={avaUrl} />
           </ButtonBase>
           <Typography variant="subtitle1" className={classes.nick}>
-            {auth.nick}
+            {nick}
           </Typography>
         </Box>
         <Tooltip title="Theme">

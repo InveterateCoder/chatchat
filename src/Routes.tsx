@@ -10,10 +10,10 @@ import { Store } from './store/types'
 
 export default function Routes() {
   const token = useSelector((state: Store) => state.token)
-  const { id, nick } = useSelector((state: Store) => state.auth)
+  const id = useSelector((state: Store) => state.id)
   const signup = useSelector((state: Store) => state.signup)
   if (token) {
-    if (!id || !nick) {
+    if (!id) {
       return <Connect token={token} />
     }
     return (

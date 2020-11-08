@@ -2,37 +2,36 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button, Container, Typography } from '@material-ui/core'
 import { BarLoader } from 'react-spinners'
-import { logout } from './store/actions'
-import { WS } from './store/types'
-import { Auth, Type, Package } from '../shared/types'
+import { logout, setAuth } from './store/actions'
+import { Type, Package } from '../shared/types'
 import messageProcessor from './messageProcessor'
 
 function Authorize({ token }: { token: string }) {
   const dispatch = useDispatch()
-  const [failed, setFailed] = useState(true)
+  const [failed, setFailed] = useState(false)
   const connectWS = () => {
     const loc = window.location
     let url = loc.protocol === 'https:' ? 'wss://' : 'ws://'
     url += loc.hostname
     url += `:${loc.port}/ws?token=` + token
-    const socket: WS = new window.WebSocket(url)
-    // todo delete this def
-    window._WS = socket
-    socket.onmessage = (ev) => messageProcessor(socket, ev)
-    socket.onopen = function (ev) {
-      const auth: Package<any> = {
-        type: Type.AUTH,
-        payload: undefined,
-      }
-      socket.send(JSON.stringify(auth))
+    const ws = new window.WebSocket(url)
+
+    ws.onopen = function () {
+      setTimeout(() => {
+        const auth: Package<any> = {
+          type: Type.AUTH,
+          payload: undefined,
+        }
+        ws.send(JSON.stringify(auth))
+      }, 350)
     }
-    socket.onerror = function (err) {
-      console.error(err)
-    }
-    socket.onclose = function (event) {
+    ws.onmessage = (ev) => messageProcessor(ws, ev)
+    ws.onclose = function (event) {
+      window._WS = undefined
       if (event.code === 4001) {
         dispatch(logout())
       } else {
+        dispatch(setAuth({ id: '', nick: '' }))
         setFailed(true)
       }
     }
@@ -55,7 +54,10 @@ function Authorize({ token }: { token: string }) {
           </Typography>
           <br />
           <div style={{ textAlign: 'center' }}>
-            <Button variant="outlined" color="primary" onClick={connectWS}>
+            <Button variant="outlined" color="primary" onClick={() => {
+              setFailed(false)
+              connectWS()
+            }}>
               Retry
             </Button>
           </div>

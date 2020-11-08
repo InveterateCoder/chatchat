@@ -1,9 +1,10 @@
+import { Reducer } from 'redux'
 import initialData from './initialData'
 import {
   SET_THEME, SET_DRAWER_TYPE, SET_DRAWER_OPEN,
   LOGIN, LOGOUT, OPEN_SETTINGS, REFRESH_AVATAR,
   SET_SIGNUP, SET_ERROR, SET_AVATAR, SET_DARK,
-  SET_AUTH,
+  SET_AUTH, SET_NICK
 } from './actions'
 import memory from './memory'
 import { themeType, dType, Store, Action } from './types'
@@ -15,7 +16,7 @@ function getDark() {
   return memory.theme === themeType.dark
 }
 
-export default function reducer(state: Store = initialData, action: Action) {
+const reducer: Reducer<Store, Action> = (state = initialData, action): Store => {
   switch (action.type) {
     case SET_ERROR: {
       const error = { ...state.error, ...action.payload }
@@ -41,15 +42,23 @@ export default function reducer(state: Store = initialData, action: Action) {
       memory.token = token
       return { ...state, token }
     }
-    case SET_AUTH:
-      return { ...state, auth: action.payload }
+    case SET_AUTH: {
+      const { id, nick } = action.payload
+      return { ...state, id, nick }
+    }
+    case SET_NICK: {
+      return { ...state, nick: action.payload }
+    }
     case LOGOUT:
       memory.token = null
       memory.theme = themeType.auto
+      window._WS?.close()
+      window._WS = undefined
       return {
         ...state,
-        token: null,
-        auth: null,
+        token: '',
+        id: '',
+        nick: '',
         theme: themeType.auto,
         signup: false,
         sopen: false,
@@ -64,3 +73,5 @@ export default function reducer(state: Store = initialData, action: Action) {
       return state
   }
 }
+
+export default reducer

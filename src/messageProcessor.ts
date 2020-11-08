@@ -1,15 +1,31 @@
-import WebSocket from 'ws'
-import { Type, Auth } from '../shared/types'
+import { Type, Auth, ChangeUser } from '../shared/types'
 import { dispatch } from './store'
-import { setWS } from './store/actions'
-import { WS } from './store/types'
+import { setAuth, setNick, refreshAvatar, setError, openSettings } from './store/actions'
 
-function messageProcessor(ws: WS, event: MessageEvent) {
-  const { type, payload }: { type: string, payload: any } = JSON.parse(event.data)
-  switch (type) {
-    case Type.AUTH:
-      const auth = payload as Auth
-      
+
+function messageProcessor(ws: any, event: MessageEvent) {
+  try {
+    const { type, payload }: { type: string, payload: any } = JSON.parse(event.data)
+    switch (type) {
+      case Type.AUTH: {
+        const auth = payload as Auth
+        window._WS = ws
+        dispatch(setAuth(auth))
+        break;
+      }
+      case Type.CHANGE_USER: {
+        const user = payload as ChangeUser
+        if (user.nick) {
+          dispatch(setNick(user.nick))
+        }
+        if (user.image) {
+          dispatch(refreshAvatar())
+        }
+        dispatch(openSettings(false))
+      }
+    }
+  } catch (err) {
+    dispatch(setError({ message: err.message, open: true }))
   }
 }
 export default messageProcessor

@@ -12,6 +12,5 @@ render(
 )
 
 if (module.hot) {
-  if(window._WS) window._WS.close()
   module.hot.accept()
 }
