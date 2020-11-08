@@ -16,9 +16,15 @@ export default function Routes() {
     const loc = window.location
     let url = loc.protocol === 'https:' ? 'wss://' : 'ws://'
     url += loc.hostname
-    url += `:${loc.port}?token=hello`
+    url += `:${loc.port}/ws?token=` + token
     const socket = new window.WebSocket(url)
+    socket.onerror = function (err) {
+      console.log(err)
+    }
     socket.onmessage = function (event) {
+      console.log(event)
+    }
+    socket.onclose = function (event) {
       console.log(event)
     }
   }
