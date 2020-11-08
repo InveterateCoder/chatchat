@@ -5,34 +5,17 @@ import Users from './Users/Index'
 import Content from './Content/Index'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
-import Authorize from './Authorize'
+import Connect from './Connect'
 import { Store } from './store/types'
 
 export default function Routes() {
   const token = useSelector((state: Store) => state.token)
-  const auth = useSelector((state: Store) => state.auth)
+  const { id, nick } = useSelector((state: Store) => state.auth)
   const signup = useSelector((state: Store) => state.signup)
-  const connect = () => {
-    const loc = window.location
-    let url = loc.protocol === 'https:' ? 'wss://' : 'ws://'
-    url += loc.hostname
-    url += `:${loc.port}/ws?token=` + token
-    const socket = new window.WebSocket(url)
-    socket.onerror = function (err) {
-      console.log(err)
-    }
-    socket.onmessage = function (event) {
-      console.log(event)
-    }
-    socket.onclose = function (event) {
-      console.log(event)
-    }
-  }
   if (token) {
-    if (!auth) {
-      return <Authorize />
+    if (!id || !nick) {
+      return <Connect token={token} />
     }
-    connect()
     return (
       <>
         <Users />

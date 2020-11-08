@@ -3,16 +3,13 @@ import { themeType } from './types'
 const names = {
   token: 'token',
   theme: 'theme',
-  auth: 'auth',
 }
 
 class Memory {
   __token
-  __auth
   __theme
   constructor() {
     this.__token = JSON.parse(localStorage.getItem(names.token) || 'null')
-    this.__auth = JSON.parse(sessionStorage.getItem(names.auth) || 'null')
     let theme = localStorage.getItem(names.theme)
     if (theme) {
       this.__theme = theme
@@ -34,19 +31,6 @@ class Memory {
       localStorage.setItem(names.token, JSON.stringify(token))
     }
     this.__token = token
-  }
-
-  get auth() {
-    return this.__auth
-  }
-
-  set auth(auth) {
-    if (!auth) {
-      sessionStorage.removeItem(names.auth)
-    } else {
-      sessionStorage.setItem(names.auth, JSON.stringify(auth))
-    }
-    this.__auth = auth
   }
 
   get theme() {

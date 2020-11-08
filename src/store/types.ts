@@ -1,4 +1,5 @@
 import { Action as ReduxAction } from 'redux'
+import { Auth } from '../../shared/types'
 
 // drawer type
 export const dType = {
@@ -19,18 +20,18 @@ export interface Action extends ReduxAction {
 }
 
 export interface AppError {
-  message: string,
+  message?: string,
   open: boolean,
-}
-
-export interface Auth {
-  id: string,
-  nick: string,
 }
 
 export interface Avatar {
   url: string,
   open: boolean,
+}
+
+export interface WS extends WebSocket {
+  id?: string,
+  nick?: string,
 }
 
 export interface Store {
@@ -41,7 +42,7 @@ export interface Store {
   dopen: boolean, // drawer open state
   signup: boolean, // weather to sign up or in
   token: string, // user credentials
-  auth: Auth, // user credentials, retrieved from ther server
+  auth: Auth, // web socket to be used
   sopen: boolean, // settings open state
   avatar: Avatar,
   refava: string, // refresh avatars by appending random data to the URLs

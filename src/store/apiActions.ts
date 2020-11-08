@@ -1,14 +1,12 @@
 import { Dispatch } from 'redux'
 import {
-  login, setError, refreshAvatar, openSettings, setAuth,
+  login, setError,
 } from './actions'
 import {
   signin as signinRoute,
   signup as signupRoute,
-  changeUser as changeUserRoute,
-  auth as authRoute,
 } from '../../shared/apiRoutes'
-import { Store, iSignIn } from './types'
+import { iSignIn } from './types'
 
 export const signin = (load: (state: boolean) => void, data: iSignIn) => async (dispatch: Dispatch) => {
   try {
@@ -21,9 +19,9 @@ export const signin = (load: (state: boolean) => void, data: iSignIn) => async (
       body: JSON.stringify(data),
     })
     if (res.status === 200) {
-      const creds = await res.json()
-      if (creds) {
-        dispatch(login(creds))
+      const token = await res.text()
+      if (token) {
+        dispatch(login(token))
       } else {
         throw new Error('Something went wrong, please try again.')
       }
@@ -36,7 +34,7 @@ export const signin = (load: (state: boolean) => void, data: iSignIn) => async (
   }
 }
 
-export const signup = (load: (state: boolean) => void, form) => async (dispatch: Dispatch) => {
+export const signup = (load: (state: boolean) => void, form: FormData) => async (dispatch: Dispatch) => {
   try {
     load(true)
     const res = await fetch(signupRoute, {
@@ -44,9 +42,9 @@ export const signup = (load: (state: boolean) => void, form) => async (dispatch:
       body: form,
     })
     if (res.status === 200) {
-      const creds = await res.json()
-      if (creds) {
-        dispatch(login(creds))
+      const token = await res.text()
+      if (token) {
+        dispatch(login(token))
       } else {
         throw new Error('Something went wrong, please try again.')
       }
@@ -59,57 +57,57 @@ export const signup = (load: (state: boolean) => void, form) => async (dispatch:
   }
 }
 
-export const changeUser = (setDisabled: (state: boolean) => void, form) => async (dispatch: Dispatch, getState: () => Store) => {
-  try {
-    setDisabled(true)
-    const { token } = getState()
-    const res = await fetch(changeUserRoute, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: form,
-    })
-    if (res.status === 401 || res.status === 403) {
-      dispatch(login({ token: null, auth: null }))
-      return
-    }
-    if (res.status !== 200) {
-      throw new Error(await res.text())
-    }
+// export const changeUser = (setDisabled: (state: boolean) => void, form) => async (dispatch: Dispatch, getState: () => Store) => {
+//   try {
+//     setDisabled(true)
+//     const { token } = getState()
+//     const res = await fetch(changeUserRoute, {
+//       method: 'POST',
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: form,
+//     })
+//     if (res.status === 401 || res.status === 403) {
+//       dispatch(login({ token: null, auth: null }))
+//       return
+//     }
+//     if (res.status !== 200) {
+//       throw new Error(await res.text())
+//     }
 
-    if (form.get('nick')) {
-      const { auth } = await res.json()
-      dispatch(setAuth(auth))
-    }
-    if (form.get('image')) {
-      dispatch(refreshAvatar())
-    }
-    dispatch(openSettings(false))
-  } catch (err) {
-    setDisabled(false)
-    dispatch(setError({ message: err.message, open: true }))
-  }
-}
+//     if (form.get('nick')) {
+//       const { auth } = await res.json()
+//       dispatch(setAuth(auth))
+//     }
+//     if (form.get('image')) {
+//       dispatch(refreshAvatar())
+//     }
+//     dispatch(openSettings(false))
+//   } catch (err) {
+//     setDisabled(false)
+//     dispatch(setError({ message: err.message, open: true }))
+//   }
+// }
 
-export const receiveAuth = () => async (dispatch: Dispatch, getState: () => Store) => {
-  try {
-    const { token } = getState()
-    const res = await fetch(authRoute, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    if (res.status === 401 || res.status === 403) {
-      dispatch(login({ token: null, auth: null }))
-      return
-    }
-    if (res.status !== 200) {
-      throw new Error(await res.text())
-    }
-    dispatch(setAuth(await res.json()))
-  } catch (err) {
-    dispatch(setError({ message: err.message, open: true }))
-  }
-}
+// export const receiveAuth = () => async (dispatch: Dispatch, getState: () => Store) => {
+//   try {
+//     const { token } = getState()
+//     const res = await fetch(authRoute, {
+//       method: 'GET',
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     })
+//     if (res.status === 401 || res.status === 403) {
+//       dispatch(login({ token: null, auth: null }))
+//       return
+//     }
+//     if (res.status !== 200) {
+//       throw new Error(await res.text())
+//     }
+//     dispatch(setAuth(await res.json()))
+//   } catch (err) {
+//     dispatch(setError({ message: err.message, open: true }))
+//   }
+// }

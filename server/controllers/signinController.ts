@@ -10,7 +10,7 @@ async function signinController(req: Request, res: Response) {
     return res.status(400).send(Object.values(validity.errors).filter((val) => val).join('\n'))
   }
   try {
-    const user = await User.findOne({ nick: req.body.nick }).exec()
+    const user = await User.findOne({ nick: req.body.nick }).select({ image: 0 }).exec()
     if (user) {
       if (user.comparePassword(req.body.password)) {
         const jwtSecret = process.env.jwtSecret || 'a very very hard secret phrase'
@@ -21,9 +21,7 @@ async function signinController(req: Request, res: Response) {
           jwtSecret,
           { expiresIn: 60 * 60 * 24 * 30 },
         )
-        if (token) {
-          return res.send({ token, auth: { id: user._id, nick: user.nick } })
-        }
+        return res.send(token)
       } else {
         return res.status(400).send(errors.password)
       }

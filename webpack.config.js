@@ -35,7 +35,7 @@ const clientConfig = {
               ],
               '@babel/preset-react',
             ],
-            plugins: ['emotion'],
+            plugins: ['emotion', '@babel/plugin-proposal-class-properties'],
           },
         },
       },
@@ -93,6 +93,9 @@ const serverConfig = {
                 },
               ],
             ],
+            plugins: [
+              '@babel/plugin-proposal-class-properties'
+            ]
           },
         },
       },

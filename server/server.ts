@@ -7,7 +7,6 @@ import { connect } from 'mongoose'
 import { connectWS } from './ws/wsHub'
 import apiRoutes from './infrastracture/apiRoutes'
 import serverRoutes from './infrastracture/serverRoutes'
-import authenticate from './middleware/authenticateMiddleware'
 
 dotnevExpand(dotenv.config())
 
@@ -26,7 +25,6 @@ async function server(val = express()) {
     .use(express.json())
     .use(express.urlencoded({ extended: true }))
     .use(helmet())
-    .use(authenticate)
     .use(apiRoutes)
     .use(serverRoutes)
 

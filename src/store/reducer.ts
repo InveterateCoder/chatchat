@@ -37,17 +37,14 @@ export default function reducer(state: Store = initialData, action: Action) {
     case SET_SIGNUP:
       return { ...state, signup: action.payload }
     case LOGIN: {
-      const { token, auth } = action.payload
+      const token = action.payload
       memory.token = token
-      memory.auth = auth
-      return { ...state, token, auth }
+      return { ...state, token }
     }
     case SET_AUTH:
-      memory.auth = action.payload
       return { ...state, auth: action.payload }
     case LOGOUT:
       memory.token = null
-      memory.auth = null
       memory.theme = themeType.auto
       return {
         ...state,
@@ -55,6 +52,7 @@ export default function reducer(state: Store = initialData, action: Action) {
         auth: null,
         theme: themeType.auto,
         signup: false,
+        sopen: false,
       }
     case OPEN_SETTINGS:
       return { ...state, sopen: action.payload }

@@ -45,9 +45,7 @@ function signupController(req: Request, res: Response) {
         jwtSecret,
         { expiresIn: 60 * 60 * 24 * 30 },
       )
-      if (token) {
-        return res.json({ token, auth: { id: doc._id, nick: doc.nick } })
-      }
+      return res.send(token)
     } catch (error) {
       if (error.errors) {
         return res.status(400).send(Object.entries(error.errors).map(([k, e]: [k: any, e: any]) => e.message).join('\n'))

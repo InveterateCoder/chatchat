@@ -56,7 +56,7 @@ function ChatAppBar() {
   const [avaOpen, setAvaOpen] = useState(false)
   const classes = useStyles()
 
-  const avaUrl = `/avatar/${auth.id}?refava=${refava}`
+  const avaUrl = `/avatar/${auth?.id}?refava=${refava}`
 
   let BrightnessIcon = null
   let nextBrightnessState: string

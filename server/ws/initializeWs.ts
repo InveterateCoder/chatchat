@@ -11,7 +11,7 @@ function initializeWs(wss: Server) {
     ws.on('error', (err) => {
       console.error(err.message)
     })
-    ws.on('message', handleMessage)
+    ws.on('message', (data) => handleMessage(ws, data))
   })
 }
 

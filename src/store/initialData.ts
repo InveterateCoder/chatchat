@@ -19,7 +19,10 @@ const initialData: Store = {
   dopen: true,
   signup: false,
   token: memory.token,
-  auth: memory.auth,
+  auth: {
+    id: '',
+    nick: '',
+  },
   sopen: false,
   avatar: {
     url: '',
