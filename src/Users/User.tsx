@@ -1,47 +1,21 @@
 import React from 'react'
 import {
-  Avatar, makeStyles, ListItem, ListItemAvatar,
+  Avatar, ListItem, ListItemAvatar,
   ListItemText, ListItemSecondaryAction, IconButton,
-  ButtonBase, Typography, Tooltip, Badge,
+  Typography, Tooltip, Badge,
 } from '@material-ui/core'
-import { Message, VolumeMute } from '@material-ui/icons'
-import { useDispatch, useSelector } from 'react-redux'
-import { setAvatar } from '../store/actions'
-import { Store } from '../../interfaces/storeTypes'
+import { VolumeMute } from '@material-ui/icons'
 
-const useStyles = makeStyles(() => ({
-  name: {
-    marginRight: '45px',
-    '& > span': {
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-    },
-  },
-  btn: {
-    borderRadius: 20,
-  },
-}))
-
-function User({ id, name }: { id: string, name: string }) {
-  const classes = useStyles()
-  const dispatch = useDispatch()
-  const refava = useSelector((state: Store) => state.refava)
-  const avatarUrl = `/avatar/${id}?refava=${refava}`
+function User({ url, name }: { url: string, name: string }) {
 
   return (
-    <ListItem>
+    <ListItem button>
       <ListItemAvatar>
-        <ButtonBase
-          disableRipple
-          className={classes.btn}
-          onClick={() => dispatch(setAvatar({ url: avatarUrl, open: true }))}
-        >
-          <Avatar src={avatarUrl} />
-        </ButtonBase>
+        <Badge badgeContent={10} color="secondary">
+          <Avatar src={url} />
+        </Badge>
       </ListItemAvatar>
       <ListItemText
-        className={classes.name}
         primary={(
           <Tooltip title={name}>
             <Typography variant="subtitle2">{name}</Typography>
@@ -51,11 +25,6 @@ function User({ id, name }: { id: string, name: string }) {
       <ListItemSecondaryAction>
         <IconButton edge="end">
           <VolumeMute />
-        </IconButton>
-        <IconButton edge="end">
-          <Badge badgeContent={10} color="secondary">
-            <Message />
-          </Badge>
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>

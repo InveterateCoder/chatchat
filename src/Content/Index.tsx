@@ -1,10 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { makeStyles, Typography, Container } from '@material-ui/core'
 import clsx from 'clsx'
 import useAlignRightStyle from '../hooks/useAlignBodyStyle'
 import PublicMessage from './PublicMessage'
 import MyMessage from './MyMessage'
 import { MyTheme } from '../infrastructure/theme'
+import { Store } from '../../interfaces/storeTypes'
 
 const useStyles = makeStyles((theme: MyTheme) => ({
   root: {
@@ -30,14 +32,15 @@ const useStyles = makeStyles((theme: MyTheme) => ({
 
 function Content() {
   const classes = useStyles()
+  const avaUrl = useSelector((state: Store) => state.url)
   const alignRightStyle = useAlignRightStyle()
 
   return (
     <main className={clsx(classes.root, alignRightStyle)}>
       <Container maxWidth="md" className={classes.content}>
         <PublicMessage
-          id="5fa148ea8665f17abe769d91"
-          nick="Setareh Grigoryan Shalmani"
+          nick="Setareh"
+          url="/avatar/5fa98a38315f37539594fd82?ref=1604946488213"
           time="2020-8-5 / 01:02"
           text="Hello there"
         />
@@ -45,7 +48,7 @@ function Content() {
           text="forgot to tell you"
         />
         <MyMessage
-          id="5fa14368d19c3c73cc7946e7"
+          url={avaUrl}
           time="13:40"
           text="Hello people"
         />
@@ -57,8 +60,8 @@ function Content() {
           text="shut up!"
         />
         <PublicMessage
-          id="5fa148ea8665f17abe769d91"
-          nick="Setareh Grigoryan Shalmani"
+          nick="Setareh"
+          url="/avatar/5fa98a38315f37539594fd82?ref=1604946488213"
           time="2020-8-5 / 01:02"
           text="Hello there"
         />

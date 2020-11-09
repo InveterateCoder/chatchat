@@ -2,7 +2,7 @@ import { Reducer } from 'redux'
 import initialData from './initialData'
 import {
   SET_THEME, SET_DRAWER_TYPE, SET_DRAWER_OPEN,
-  LOGIN, LOGOUT, OPEN_SETTINGS, REFRESH_AVATAR,
+  LOGIN, LOGOUT, OPEN_SETTINGS, SET_URL,
   SET_SIGNUP, SET_ERROR, SET_AVATAR, SET_DARK,
   SET_AUTH, SET_NICK, SET_CONNECTION_FAILED
 } from './actions'
@@ -45,17 +45,25 @@ const reducer: Reducer<Store, Action> = (state = initialData, action): Store => 
       return { ...state, token }
     }
     case SET_AUTH: {
-      const { id, nick } = action.payload
-      return { ...state, id, nick }
+      const { id, nick, url } = action.payload
+      return { ...state, id, nick, url }
     }
     case SET_NICK: {
       return { ...state, nick: action.payload }
     }
+    case SET_URL: {
+      return { ...state, url: action.payload }
+    }
     case LOGOUT:
       memory.token = null
       memory.theme = themeType.auto
-      window._WS?.close()
-      window._WS = undefined
+      if (window._WS) {
+        const state = window._WS.readyState
+        if (state !== window._WS.CLOSED && state !== window._WS.CLOSING) {
+          window._WS.close()
+        }
+        window._WS = undefined
+      }
       return {
         ...state,
         token: '',
@@ -70,8 +78,6 @@ const reducer: Reducer<Store, Action> = (state = initialData, action): Store => 
       return { ...state, sopen: action.payload }
     case SET_AVATAR:
       return { ...state, avatar: { ...state.avatar, ...action.payload } }
-    case REFRESH_AVATAR:
-      return { ...state, refava: action.payload }
     default:
       return state
   }

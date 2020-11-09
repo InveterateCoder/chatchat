@@ -50,14 +50,11 @@ function ChatAppBar() {
   const theme = useSelector((state: Store) => state.theme)
   const dopen = useSelector((state: Store) => state.dopen)
   const dtype = useSelector((state: Store) => state.dtype)
-  const id = useSelector((state: Store) => state.id)
   const nick = useSelector((state: Store) => state.nick)
-  const refava = useSelector((state: Store) => state.refava)
+  const avaUrl = useSelector((state: Store) => state.url)
   const dispatch = useDispatch()
   const [avaOpen, setAvaOpen] = useState(false)
   const classes = useStyles()
-
-  const avaUrl = `/avatar/${id}?refava=${refava}`
 
   let BrightnessIcon = null
   let nextBrightnessState: string

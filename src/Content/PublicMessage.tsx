@@ -1,6 +1,10 @@
 import React from 'react'
 import clsx from 'clsx'
-import { Avatar, makeStyles, Typography } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import {
+  Avatar, makeStyles, Typography, ButtonBase
+} from '@material-ui/core'
+import { setAvatar } from '../store/actions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,24 +34,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function PublicMessage({ id, nick, time, text }:{
-  id: string | null | undefined,
-  nick: string | null | undefined,
-  time: string | null | undefined,
+function PublicMessage({ nick, url, time, text }: {
+  nick?: string,
+  url?: string
+  time?: string,
   text: string,
 }) {
   const classes = useStyles()
+  const dispatch = useDispatch()
+
   return (
-    <div className={clsx(classes.root, { [classes.newMargin]: id })}>
+    <div className={clsx(classes.root, { [classes.newMargin]: url })}>
       {
-        id ? <Avatar src={`/avatar/${id}`} />
-          : <div className={classes.avaSpace} />
+        url
+          ?
+          <ButtonBase
+            style={{ alignSelf: 'flex-start', borderRadius: 20 }}
+            disableRipple
+            onClick={() => dispatch(setAvatar({ url, open: true }))}
+          >
+            <Avatar src={url} />
+          </ButtonBase>
+          :
+          <div className={classes.avaSpace} />
       }
       <div className={classes.content}>
         {
           nick && <Typography color="textSecondary" variant="subtitle2">{nick}</Typography>
         }
-        <div className={clsx(classes.paper, { [classes.bradContinue]: !id })}>
+        <div className={clsx(classes.paper, { [classes.bradContinue]: !url })}>
           {
             time && <Typography variant="caption" color="textSecondary">{time}</Typography>
           }

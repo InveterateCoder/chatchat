@@ -31,6 +31,7 @@ export interface Avatar {
 export interface Store {
   id: string,
   nick: string,
+  url: string, // url of the user's avatar
   error: AppError, // app error
   conFailed: boolean, // connection state
   theme: string, // dark mode
@@ -41,7 +42,6 @@ export interface Store {
   token: string, // user credentials
   sopen: boolean, // settings open state
   avatar: Avatar, // avatar to be shown
-  refava: string, // refresh avatars by appending random data to the URLs
 }
 
 export interface iSignIn {

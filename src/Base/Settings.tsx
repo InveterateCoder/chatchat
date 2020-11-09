@@ -5,7 +5,7 @@ import {
   Avatar, makeStyles, ButtonBase, DialogActions,
   FormControl, Tooltip, IconButton,
 } from '@material-ui/core'
-import { Save as SaveIcon, Cancel as CancelIcon } from '@material-ui/icons'
+import { Save as SaveIcon, Cancel as CancelIcon, Delete as DeleteIcon } from '@material-ui/icons'
 import { openSettings, setError } from '../store/actions'
 import { validateChangeUserForm, validateImageType } from '../../shared/validators'
 import { Type, Package, ChangeUser } from '../../interfaces/socketTypes'
@@ -24,9 +24,8 @@ const useStyles = makeStyles(() => ({
 }))
 
 function Settings() {
-  const id = useSelector((state: Store) => state.id)
   const nick = useSelector((state: Store) => state.nick)
-  const refava = useSelector((state: Store) => state.refava)
+  const avaUrl = useSelector((state: Store) => state.url)
   const dispatch = useDispatch()
   const [imageUrl, setImageUrl] = useState('')
   const [nickErr, setNickErr] = useState('')
@@ -124,7 +123,6 @@ function Settings() {
     }
   }
 
-  const avaUrl = `/avatar/${id}?refava=${refava}`
   return (
     <Dialog fullWidth maxWidth="sm" open>
       <DialogTitle>User settings</DialogTitle>
@@ -140,7 +138,7 @@ function Settings() {
             disabled={disabled}
           />
           <Grid container spacing={2} alignItems="flex-end">
-            <Grid item>
+            <Grid item style={{ margin: 'auto' }}>
               <ButtonBase component="label" htmlFor="image" className={classes.avaBtn}>
                 <Avatar src={imageUrl || avaUrl} />
               </ButtonBase>
@@ -155,6 +153,13 @@ function Settings() {
                 name="nick"
                 onChange={onChange}
                 disabled={disabled}
+                InputProps={{
+                  endAdornment: <IconButton
+                    color="secondary"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                }}
               />
             </Grid>
           </Grid>
@@ -162,7 +167,7 @@ function Settings() {
         <DialogActions>
           <Tooltip title="Cancel" placement="top">
             <IconButton
-              color="secondary"
+              color="inherit"
               onClick={cancel}
               disabled={disabled}
             >
@@ -171,7 +176,7 @@ function Settings() {
           </Tooltip>
           <Tooltip title="Save" placement="top">
             <IconButton
-              color="primary"
+              color="inherit"
               type="submit"
               disabled={disabled}
             >

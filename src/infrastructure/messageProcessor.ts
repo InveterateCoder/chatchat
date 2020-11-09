@@ -1,15 +1,14 @@
 import { Type, Auth, ChangeUser } from '../../interfaces/socketTypes'
 import { dispatch } from '../store'
-import { setAuth, setNick, refreshAvatar, setError, openSettings } from '../store/actions'
+import { setAuth, setNick, setError, openSettings, setURL } from '../store/actions'
 
 
-function messageProcessor(ws: any, event: MessageEvent) {
+function messageProcessor(event: MessageEvent) {
   try {
     const { type, payload }: { type: string, payload: any } = JSON.parse(event.data)
     switch (type) {
       case Type.AUTH: {
         const auth = payload as Auth
-        window._WS = ws
         dispatch(setAuth(auth))
         break;
       }
@@ -18,8 +17,8 @@ function messageProcessor(ws: any, event: MessageEvent) {
         if (user.nick) {
           dispatch(setNick(user.nick))
         }
-        if (user.image) {
-          dispatch(refreshAvatar())
+        if (user.url) {
+          dispatch(setURL(user.url))
         }
         dispatch(openSettings(false))
       }

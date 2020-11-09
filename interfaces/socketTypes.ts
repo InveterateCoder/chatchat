@@ -6,12 +6,14 @@ export enum Type {
 export type Auth = {
   id: string,
   nick: string,
+  url: string,
 }
 
 export type ChangeUser = {
   nick?: string,
   imageType?: string,
-  image?: string | boolean,
+  image?: string,
+  url?: string
 }
 
 export type Package<T> = {

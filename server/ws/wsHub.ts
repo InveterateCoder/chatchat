@@ -24,6 +24,7 @@ export function connectWS(server: Server) {
           if (!user) throw new Error('User not found')
           ws.id = user._id.toString()
           ws.nick = user.nick
+          ws.ava = user.url
           wss.emit('connection', ws)
         } catch (err) {
           ws.close(4001)

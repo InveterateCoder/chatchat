@@ -17,5 +17,6 @@ const mediaMatch = window.matchMedia('(prefers-color-scheme: dark)')
 mediaMatch.addEventListener('change', setAutoDark)
 
 export const dispatch = store.dispatch
+export const getState = store.getState
 
 export default store

@@ -25,6 +25,9 @@ const UserSchema = new Schema({
     type: Buffer,
     required: true,
   },
+  url: {
+    type: String,
+  }
 })
 
 export interface iUser extends Document {
@@ -32,6 +35,7 @@ export interface iUser extends Document {
   password: string
   imageType: string,
   image: Buffer,
+  url: string,
   comparePassword(candidatePassword: string): boolean
 }
 
@@ -46,6 +50,9 @@ UserSchema.pre<iUser>('save', async function () {
       throw new Error('Password\'s length exceeds 128 characters.')
     }
     this.password = await bcrypt.hash(this.password, SALT_WORK_FACTOR)
+  }
+  if (this.isModified('image')) {
+    this.url = `/avatar/${this._id}?ref=${Date.now()}`
   }
 })
 

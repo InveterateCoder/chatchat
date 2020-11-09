@@ -7,7 +7,7 @@ function UsersList() {
   return (
     <List>
       <Public />
-      <User id="5fa148ea8665f17abe769d91" name="Setareh Grigoryan Shalmani" />
+      <User url="/avatar/5fa98a38315f37539594fd82?ref=1604946488213" name="Setareh Grigoryan Shalmani" />
     </List>
   )
 }

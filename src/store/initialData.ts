@@ -11,6 +11,7 @@ function getDark() {
 const initialData: Store = {
   id: '',
   nick: '',
+  url: '',
   error: {
     message: '',
     open: false,
@@ -27,7 +28,6 @@ const initialData: Store = {
     url: '',
     open: false,
   },
-  refava: Math.random().toString(),
 }
 
 export default initialData

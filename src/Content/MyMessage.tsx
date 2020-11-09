@@ -33,13 +33,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function PublicMessage({ id, time, text }:
-  { id: string | null | undefined, time: string | null | undefined, text: string }) {
+function PublicMessage({ url, time, text }:
+  { url?: string, time?: string, text: string }) {
   const classes = useStyles()
   return (
-    <div className={clsx(classes.root, { [classes.newMargin]: id })}>
+    <div className={clsx(classes.root, { [classes.newMargin]: url })}>
       <div className={classes.content}>
-        <div className={clsx(classes.paper, { [classes.bradContinue]: !id })}>
+        <div className={clsx(classes.paper, { [classes.bradContinue]: !url })}>
           {
             time && <Typography variant="caption" color="inherit" style={{ opacity: 0.7 }}>{time}</Typography>
           }
@@ -47,7 +47,7 @@ function PublicMessage({ id, time, text }:
         </div>
       </div>
       {
-        id ? <Avatar src={`/avatar/${id}`} />
+        url ? <Avatar src={url} />
           : <div className={classes.avaSpace} />
       }
     </div>

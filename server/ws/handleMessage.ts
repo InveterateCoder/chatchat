@@ -12,6 +12,7 @@ async function handleMessage(ws: WebSocket, data: Data) {
         payload: {
           id: ws.id,
           nick: ws.nick,
+          url: ws.ava
         }
       }
       ws.send(JSON.stringify(auth))
@@ -22,7 +23,8 @@ async function handleMessage(ws: WebSocket, data: Data) {
       const update: {
         nick?: string,
         imageType?: string,
-        image?: Buffer
+        image?: Buffer,
+        url?: string,
       } = {}
       if (change.imageType && ['image/png', 'image/jpeg'].includes(change.imageType) && change.image && typeof change.image === 'string') {
         const image = Buffer.from(change.image, 'base64')
@@ -30,6 +32,7 @@ async function handleMessage(ws: WebSocket, data: Data) {
         update.image = await Jimp.read(image)
           .then((img) => img.cover(500, 500)
             .getBufferAsync(change.imageType || ''))
+        update.url = `/avatar/${ws.id}?ref=${Date.now()}`
       }
       if (change.nick) {
         update.nick = change.nick
@@ -38,8 +41,8 @@ async function handleMessage(ws: WebSocket, data: Data) {
       const pkg: Package<ChangeUser> = {
         type: Type.CHANGE_USER,
         payload: {
-          image: Boolean(update.image),
           nick: update.nick,
+          url: update.url
         }
       }
       ws.send(JSON.stringify(pkg))

@@ -70,6 +70,12 @@ export const setNick = (nick: string) => ({
   payload: nick
 })
 
+export const SET_URL = 'set_url'
+export const setURL = (url: string) => ({
+  type: SET_URL,
+  payload: url,
+})
+
 export const OPEN_SETTINGS = 'open_settings'
 export const openSettings = (state: boolean) => ({
   type: OPEN_SETTINGS,
@@ -80,10 +86,4 @@ export const SET_AVATAR = 'set_avatar'
 export const setAvatar = (avatar: Avatar) => ({
   type: SET_AVATAR,
   payload: avatar,
-})
-
-export const REFRESH_AVATAR = 'refresh_avatar'
-export const refreshAvatar = () => ({
-  type: REFRESH_AVATAR,
-  payload: Math.random().toString(),
 })
