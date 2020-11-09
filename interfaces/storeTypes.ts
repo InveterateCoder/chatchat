@@ -31,7 +31,8 @@ export interface Avatar {
 export interface Store {
   id: string,
   nick: string,
-  error: AppError,
+  error: AppError, // app error
+  conFailed: boolean, // connection state
   theme: string, // dark mode
   dark: boolean, // drawer type
   dtype: string, // drawer open state
@@ -39,7 +40,7 @@ export interface Store {
   signup: boolean, // weather to sign up or in
   token: string, // user credentials
   sopen: boolean, // settings open state
-  avatar: Avatar,
+  avatar: Avatar, // avatar to be shown
   refava: string, // refresh avatars by appending random data to the URLs
 }
 

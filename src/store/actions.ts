@@ -1,10 +1,16 @@
 import { dType, AppError, Avatar } from '../../interfaces/storeTypes'
 import { Auth } from '../../interfaces/socketTypes'
 
-export const SET_ERROR = 'set_error'
+export const SET_ERROR = 'error'
 export const setError = (err: AppError) => ({
   type: SET_ERROR,
   payload: err,
+})
+
+export const SET_CONNECTION_FAILED = 'set_con_failed'
+export const setConFailed = (state: boolean) => ({
+  type: SET_CONNECTION_FAILED,
+  payload: state,
 })
 
 export const SET_THEME = 'set_theme'

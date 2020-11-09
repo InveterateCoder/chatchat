@@ -15,6 +15,7 @@ const initialData: Store = {
     message: '',
     open: false,
   },
+  conFailed: false,
   theme: memory.theme,
   dark: getDark(),
   dtype: dType.temporary,

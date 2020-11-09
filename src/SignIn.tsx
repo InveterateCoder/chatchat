@@ -8,7 +8,7 @@ import { Lock } from '@material-ui/icons'
 import { SignInErrors, validateSignInForm } from '../shared/validators'
 import { setSignUP } from './store/actions'
 import { signin } from './store/apiActions'
-import withWait from './withWait'
+import withWait from './infrastructure/withWait'
 import { iSignIn } from '../interfaces/storeTypes'
 
 const useStyles = makeStyles((theme) => ({

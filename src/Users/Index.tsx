@@ -7,7 +7,7 @@ import clsx from 'clsx'
 import UsersList from './UsersList'
 import { setDrawerType, setDrawerOpen } from '../store/actions'
 import { dType, Store } from '../../interfaces/storeTypes'
-import { MyTheme } from '../theme'
+import { MyTheme } from '../infrastructure/theme'
 
 const useStyles = makeStyles((theme: MyTheme) => ({
   drawer: {

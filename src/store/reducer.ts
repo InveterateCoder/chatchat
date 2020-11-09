@@ -4,7 +4,7 @@ import {
   SET_THEME, SET_DRAWER_TYPE, SET_DRAWER_OPEN,
   LOGIN, LOGOUT, OPEN_SETTINGS, REFRESH_AVATAR,
   SET_SIGNUP, SET_ERROR, SET_AVATAR, SET_DARK,
-  SET_AUTH, SET_NICK
+  SET_AUTH, SET_NICK, SET_CONNECTION_FAILED
 } from './actions'
 import memory from './memory'
 import { themeType, dType, Store, Action } from '../../interfaces/storeTypes'
@@ -22,6 +22,8 @@ const reducer: Reducer<Store, Action> = (state = initialData, action): Store => 
       const error = { ...state.error, ...action.payload }
       return { ...state, error }
     }
+    case SET_CONNECTION_FAILED:
+      return { ...state, conFailed: action.payload }
     case SET_THEME:
       memory.theme = action.payload || themeType.auto
       return { ...state, theme: memory.theme, dark: getDark() }
@@ -62,6 +64,7 @@ const reducer: Reducer<Store, Action> = (state = initialData, action): Store => 
         theme: themeType.auto,
         signup: false,
         sopen: false,
+        conFailed: false,
       }
     case OPEN_SETTINGS:
       return { ...state, sopen: action.payload }

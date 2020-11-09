@@ -1,43 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button, Container, Typography } from '@material-ui/core'
 import { BarLoader } from 'react-spinners'
-import { logout, setAuth } from './store/actions'
-import { Type, Package } from '../interfaces/socketTypes'
-import messageProcessor from './messageProcessor'
+import connect from './infrastructure/connect'
+import { Store } from '../interfaces/storeTypes'
+import { setConFailed } from './store/actions'
 
-function Authorize({ token }: { token: string }) {
+function Connect({ token }: { token: string }) {
   const dispatch = useDispatch()
-  const [failed, setFailed] = useState(false)
-  const connectWS = () => {
-    const loc = window.location
-    let url = loc.protocol === 'https:' ? 'wss://' : 'ws://'
-    url += loc.hostname
-    url += `:${loc.port}/ws?token=` + token
-    const ws = new window.WebSocket(url)
-
-    ws.onopen = function () {
-      setTimeout(() => {
-        const auth: Package<any> = {
-          type: Type.AUTH,
-          payload: undefined,
-        }
-        ws.send(JSON.stringify(auth))
-      }, 350)
-    }
-    ws.onmessage = (ev) => messageProcessor(ws, ev)
-    ws.onclose = function (event) {
-      window._WS = undefined
-      if (event.code === 4001) {
-        dispatch(logout())
-      } else {
-        dispatch(setAuth({ id: '', nick: '' }))
-        setFailed(true)
-      }
-    }
-  }
+  const failed = useSelector((state: Store) => state.conFailed)
   useEffect(() => {
-    connectWS()
+    connect(token)
   }, [])
   return (
     <>
@@ -55,8 +28,8 @@ function Authorize({ token }: { token: string }) {
           <br />
           <div style={{ textAlign: 'center' }}>
             <Button variant="outlined" color="primary" onClick={() => {
-              setFailed(false)
-              connectWS()
+              dispatch(setConFailed(false))
+              connect(token)
             }}>
               Retry
             </Button>
@@ -66,4 +39,4 @@ function Authorize({ token }: { token: string }) {
     </>
   )
 }
-export default Authorize
+export default Connect

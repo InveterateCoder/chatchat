@@ -1,6 +1,6 @@
-import { Type, Auth, ChangeUser } from '../interfaces/socketTypes'
-import { dispatch } from './store'
-import { setAuth, setNick, refreshAvatar, setError, openSettings } from './store/actions'
+import { Type, Auth, ChangeUser } from '../../interfaces/socketTypes'
+import { dispatch } from '../store'
+import { setAuth, setNick, refreshAvatar, setError, openSettings } from '../store/actions'
 
 
 function messageProcessor(ws: any, event: MessageEvent) {

@@ -3,7 +3,7 @@ import { ThemeProvider, CssBaseline } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import Routes from './Routes'
 import Error from './Error'
-import getTheme from './theme'
+import getTheme from './infrastructure/theme'
 import { Store } from '../interfaces/storeTypes'
 
 function App() {

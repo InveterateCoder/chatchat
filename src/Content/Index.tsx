@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import useAlignRightStyle from '../hooks/useAlignBodyStyle'
 import PublicMessage from './PublicMessage'
 import MyMessage from './MyMessage'
-import { MyTheme } from '../theme'
+import { MyTheme } from '../infrastructure/theme'
 
 const useStyles = makeStyles((theme: MyTheme) => ({
   root: {

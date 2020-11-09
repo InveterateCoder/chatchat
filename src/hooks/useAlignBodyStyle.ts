@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core'
 import clsx from 'clsx'
-import { MyTheme } from '../theme'
+import { MyTheme } from '../infrastructure/theme'
 import { dType, Store } from '../../interfaces/storeTypes'
 
 const useStyles = makeStyles((theme: MyTheme) => ({
