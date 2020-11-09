@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import Routes from './Routes'
 import Error from './Error'
 import getTheme from './theme'
-import { Store } from './store/types'
+import { Store } from '../interfaces/storeTypes'
 
 function App() {
   const dark = useSelector((state: Store) => state.dark)

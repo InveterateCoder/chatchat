@@ -8,8 +8,8 @@ import {
 import { Save as SaveIcon, Cancel as CancelIcon } from '@material-ui/icons'
 import { openSettings, setError } from '../store/actions'
 import { validateChangeUserForm, validateImageType } from '../../shared/validators'
-import { Type, Package, ChangeUser } from '../../shared/types'
-import { Store } from '../store/types'
+import { Type, Package, ChangeUser } from '../../interfaces/socketTypes'
+import { Store } from '../../interfaces/storeTypes'
 
 const useStyles = makeStyles(() => ({
   fileInput: {

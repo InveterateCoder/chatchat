@@ -3,18 +3,18 @@ export enum Type {
   CHANGE_USER = 'change_user',
 }
 
-export interface Auth {
+export type Auth = {
   id: string,
   nick: string,
 }
 
-export interface ChangeUser {
+export type ChangeUser = {
   nick?: string,
   imageType?: string,
   image?: string | boolean,
 }
 
-export interface Package<T> {
+export type Package<T> = {
   type: Type,
   payload: T,
 }

@@ -1,4 +1,4 @@
-import { Type, Auth, ChangeUser } from '../shared/types'
+import { Type, Auth, ChangeUser } from '../interfaces/socketTypes'
 import { dispatch } from './store'
 import { setAuth, setNick, refreshAvatar, setError, openSettings } from './store/actions'
 

@@ -1,5 +1,4 @@
 import { Action as ReduxAction } from 'redux'
-import { Auth } from '../../shared/types'
 
 // drawer type
 export const dType = {

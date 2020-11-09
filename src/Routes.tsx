@@ -6,7 +6,7 @@ import Content from './Content/Index'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 import Connect from './Connect'
-import { Store } from './store/types'
+import { Store } from '../interfaces/storeTypes'
 
 export default function Routes() {
   const token = useSelector((state: Store) => state.token)

@@ -64,16 +64,15 @@ function SignUp({ load }: { load: (state: boolean) => void }) {
     ev.preventDefault()
     const form = new FormData(ev.target)
     const variables: {
-      [key: string]: string | File | null,
+      [key: string]: string | File | undefined,
       nick: string,
       password: string,
       confirm: string,
-      image: File | null,
+      image?: File,
     } = {
       nick: '',
       password: '',
-      confirm: '',
-      image: null,
+      confirm: ''
     }
     Array.from(form.entries()).forEach(([key, val]) => {
       variables[key] = val

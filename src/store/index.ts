@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import reducer from './reducer'
 import { setDark } from './actions'
-import { themeType } from './types'
+import { themeType } from '../../interfaces/storeTypes'
 
 const store = createStore(reducer, applyMiddleware(thunk))
 

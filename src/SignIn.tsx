@@ -9,7 +9,7 @@ import { SignInErrors, validateSignInForm } from '../shared/validators'
 import { setSignUP } from './store/actions'
 import { signin } from './store/apiActions'
 import withWait from './withWait'
-import { iSignIn } from './store/types'
+import { iSignIn } from '../interfaces/storeTypes'
 
 const useStyles = makeStyles((theme) => ({
   form: {

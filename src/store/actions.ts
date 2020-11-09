@@ -1,4 +1,5 @@
-import { dType, AppError, WS, Avatar } from './types'
+import { dType, AppError, Avatar } from '../../interfaces/storeTypes'
+import { Auth } from '../../interfaces/socketTypes'
 
 export const SET_ERROR = 'set_error'
 export const setError = (err: AppError) => ({
@@ -52,9 +53,9 @@ export const logout = () => ({
 })
 
 export const SET_AUTH = 'set_auth'
-export const setAuth = (ws: WS) => ({
+export const setAuth = (auth: Auth) => ({
   type: SET_AUTH,
-  payload: ws,
+  payload: auth,
 })
 
 export const SET_NICK = 'set_nick'

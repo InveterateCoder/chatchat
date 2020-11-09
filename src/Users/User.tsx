@@ -7,7 +7,7 @@ import {
 import { Message, VolumeMute } from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAvatar } from '../store/actions'
-import { Store } from '../store/types'
+import { Store } from '../../interfaces/storeTypes'
 
 const useStyles = makeStyles(() => ({
   name: {

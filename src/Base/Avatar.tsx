@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dialog, DialogContent } from '@material-ui/core'
 import { setAvatar } from '../store/actions'
-import { Store } from '../store/types'
+import { Store } from '../../interfaces/storeTypes'
 
 function Avatar() {
   const avatar = useSelector((state: Store) => state.avatar)

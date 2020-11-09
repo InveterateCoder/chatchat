@@ -1,5 +1,5 @@
 import memory from './memory'
-import { dType, themeType, Store} from './types'
+import { dType, themeType, Store} from '../../interfaces/storeTypes'
 
 function getDark() {
   if (memory.theme === themeType.auto) {

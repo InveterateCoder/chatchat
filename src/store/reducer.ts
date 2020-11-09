@@ -7,7 +7,7 @@ import {
   SET_AUTH, SET_NICK
 } from './actions'
 import memory from './memory'
-import { themeType, dType, Store, Action } from './types'
+import { themeType, dType, Store, Action } from '../../interfaces/storeTypes'
 
 function getDark() {
   if (memory.theme === themeType.auto) {

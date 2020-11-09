@@ -4,9 +4,10 @@ import AppBar from './AppBar'
 import Input from './Input'
 import Avatar from './Avatar'
 import Settings from './Settings'
+import { Store } from '../../interfaces/storeTypes'
 
 function Home() {
-  const sopen = useSelector((state) => state.sopen)
+  const sopen = useSelector((state: Store) => state.sopen)
   return (
     <>
       <AppBar />

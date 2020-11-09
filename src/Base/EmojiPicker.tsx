@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Grow, makeStyles, useMediaQuery } from '@material-ui/core'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
-import { Store } from '../store/types'
+import { Store } from '../../interfaces/storeTypes'
 
 const useStyles = makeStyles(() => ({
   wrapper: {

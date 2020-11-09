@@ -18,7 +18,7 @@ import clsx from 'clsx'
 import {
   setTheme, setDrawerOpen, logout, openSettings,
 } from '../store/actions'
-import { dType, themeType, Store } from '../store/types'
+import { dType, themeType, Store } from '../../interfaces/storeTypes'
 
 const useStyles = makeStyles((theme) => ({
   box: {

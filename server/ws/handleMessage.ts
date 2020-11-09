@@ -1,8 +1,7 @@
 import { Data, WebSocket } from 'ws'
 import Jimp from 'jimp'
 import User from '../models/UserModel'
-import state from '../state'
-import { Package, Type, Auth, ChangeUser } from '../../shared/types'
+import { Package, Type, Auth, ChangeUser } from '../../interfaces/socketTypes'
 
 async function handleMessage(ws: WebSocket, data: Data) {
   const { type, payload }: { type: Type, payload: any } = JSON.parse(data.toString('utf8'))

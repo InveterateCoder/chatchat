@@ -5,7 +5,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close'
 import { useDispatch, useSelector } from 'react-redux'
 import { setError } from './store/actions'
-import { Store } from './store/types'
+import { Store } from '../interfaces/storeTypes'
 
 const useStyles = makeStyles((theme) => ({
   snackError: {

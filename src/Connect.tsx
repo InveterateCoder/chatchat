@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Button, Container, Typography } from '@material-ui/core'
 import { BarLoader } from 'react-spinners'
 import { logout, setAuth } from './store/actions'
-import { Type, Package } from '../shared/types'
+import { Type, Package } from '../interfaces/socketTypes'
 import messageProcessor from './messageProcessor'
 
 function Authorize({ token }: { token: string }) {

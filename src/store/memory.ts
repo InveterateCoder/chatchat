@@ -1,4 +1,4 @@
-import { themeType } from './types'
+import { themeType } from '../../interfaces/storeTypes'
 
 const names = {
   token: 'token',
