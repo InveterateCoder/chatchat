@@ -4,7 +4,7 @@ import path from 'path'
 import express from 'express'
 import helmet from 'helmet'
 import { connect } from 'mongoose'
-import { connectWS } from './ws/wsHub'
+import wsHub from './wsHub'
 import apiRoutes from './infrastracture/apiRoutes'
 import serverRoutes from './infrastracture/serverRoutes'
 
@@ -30,7 +30,7 @@ async function server(val = express()) {
 
   const port = process.env.PORT || 8000
   const servr = app.listen(port, () => console.log(`server started on port ${port}`))
-  connectWS(servr)
+  wsHub(servr)
 }
 
 export default server

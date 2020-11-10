@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Container, Typography } from '@material-ui/core'
 import { BarLoader } from 'react-spinners'
-import connect from './infrastructure/connect'
+import connect from './wsHub/connect'
 import { Store } from '../interfaces/storeTypes'
 import { setConFailed } from './store/actions'
 

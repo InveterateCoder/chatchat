@@ -1,4 +1,4 @@
-import { WebSocket } from '../ws/types'
+import { WebSocket } from 'ws'
 
 interface Connections {
   [key: string]: Array<WebSocket>

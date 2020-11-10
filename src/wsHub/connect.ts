@@ -1,7 +1,7 @@
 import { dispatch } from '../store'
 import { logout, setAuth, setConFailed } from '../store/actions'
 import { Type, Package } from '../../interfaces/socketTypes'
-import messageProcessor from '../infrastructure/messageProcessor'
+import messageHub from './messageHub'
 
 const connect = (token: string) => {
   if (window._WS && (window._WS.readyState === window._WS.OPEN || window._WS.readyState === window._WS.CONNECTING)) {
@@ -25,7 +25,7 @@ const connect = (token: string) => {
       }
     }, 350)
   }
-  ws.onmessage = messageProcessor
+  ws.onmessage = messageHub
   ws.onclose = function (event) {
     if (event.code === 4001) {
       dispatch(logout())

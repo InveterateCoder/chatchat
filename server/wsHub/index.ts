@@ -3,13 +3,23 @@ import { Socket, Server } from 'net'
 import WebSocket from 'ws'
 import jwt from 'jsonwebtoken'
 import User from '../models/UserModel'
-import initializeWs from './initializeWs'
+import state from '../state'
+import messageHub from './messageHub'
 
 export const wss = new WebSocket.Server({ noServer: true })
 
-initializeWs(wss)
+wss.on('connection', (ws) => {
+  state.connections.add(ws)
+  ws.on('close', () => {
+    state.connections.remove(ws)
+  })
+  ws.on('error', (err) => {
+    console.error(err.message)
+  })
+  ws.on('message', messageHub)
+})
 
-export function connectWS(server: Server) {
+function wsHub(server: Server) {
   server.on('upgrade', async (req: Request, socket: Socket, head: any) => {
     try {
       const [url, token] = req.url.split('?token=')
@@ -36,3 +46,5 @@ export function connectWS(server: Server) {
     }
   })
 }
+
+export default wsHub

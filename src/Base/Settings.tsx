@@ -156,6 +156,7 @@ function Settings() {
                 InputProps={{
                   endAdornment: <IconButton
                     color="secondary"
+                    disabled={disabled}
                   >
                     <DeleteIcon />
                   </IconButton>
