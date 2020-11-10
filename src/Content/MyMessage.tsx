@@ -1,7 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
 import { Avatar, makeStyles, Typography } from '@material-ui/core'
-import { yellow as color } from '@material-ui/core/colors'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: `${theme.spacing(0.5)}px ${theme.spacing(2)}px`,
-    backgroundColor: color[900],
+    backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[9],
     borderRadius: '20px 0 20px 20px',
     textAlign: 'right',
